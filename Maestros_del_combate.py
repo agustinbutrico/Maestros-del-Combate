@@ -24,12 +24,16 @@ gym1 = False
 gym2 = False
 gym3 = False
 gym4 = False
-map = False
 rock_gym = None
 water_gym = None
 electric_gym = None
 fighting_gym = None
-gyms = []
+hospital_limiter = False
+hospital_1 = None
+hospital_2 = None
+hospital_listing = 0
+locations = []
+
 ## pokemon
 p = "Pikachu"; pu = "Pikachu uses"
 pikachu_damage = random.randint(10, 12)
@@ -76,6 +80,7 @@ HITMOCHAN_LVL_BASED_HP = hitmonchan_base_hp + hitmonchan_lvl*3 # for each lvl 3+
 hitmonchan_hp = HITMOCHAN_LVL_BASED_HP
 hitmonchan_health_bar = int(hitmonchan_hp * 30 / HITMOCHAN_LVL_BASED_HP)
 hitmonchan_health_bar_print = "[{}{}]".format("#" * hitmonchan_health_bar, " " * (30 - hitmonchan_health_bar))
+
 # Pikachu Attacks    # forward you will find a chance, the odds range from 200 to "x", value of 200 for 100% acurracy of the attack.
 p_n = "Nuzlle"; nuzzle = int(pikachu_damage * 2); nuzzle_odd = 210 # 95% acurracy
 p_ts = "Thunder Shock"; thunder_shock = int(pikachu_damage * 4.5); thunder_shock_odd = 340 # 65% acurracy, this one has extra odds for critical
@@ -134,32 +139,41 @@ while obstacle_column_limiter < MAP_HEIGHT: # random map generator
 obstacle_colocation = [list(row) for row in obstacle_colocation.split(".")]
 while not gym1: # rock gym position
     new_gym = [random.randint(0, MAP_WIDTH -1), random.randint(0, MAP_HEIGHT -1)]
-    if new_gym not in gyms and new_gym != my_position and obstacle_colocation[new_gym[POS_Y]][new_gym[POS_X]] != ",":
-        gyms.append(new_gym)
+    if new_gym not in locations and new_gym != my_position and obstacle_colocation[new_gym[POS_Y]][new_gym[POS_X]] != ",":
+        locations.append(new_gym)
         rock_gym = new_gym
         gym1 = True
 while not gym2: # water gym position
     new_gym = [random.randint(0, MAP_WIDTH -1), random.randint(0, MAP_HEIGHT -1)]
-    if new_gym not in gyms and new_gym != my_position and obstacle_colocation[new_gym[POS_Y]][new_gym[POS_X]] != ",":
-        gyms.append(new_gym)
+    if new_gym not in locations and new_gym != my_position and obstacle_colocation[new_gym[POS_Y]][new_gym[POS_X]] != ",":
+        locations.append(new_gym)
         water_gym = new_gym
         gym2 = True
 while not gym3: # electric gym position
     new_gym = [random.randint(0, MAP_WIDTH -1), random.randint(0, MAP_HEIGHT -1)]
-    if new_gym not in gyms and new_gym != my_position and obstacle_colocation[new_gym[POS_Y]][new_gym[POS_X]] != ",":
-        gyms.append(new_gym)
+    if new_gym not in locations and new_gym != my_position and obstacle_colocation[new_gym[POS_Y]][new_gym[POS_X]] != ",":
+        locations.append(new_gym)
         electric_gym = new_gym
         gym3 = True
 while not gym4: # fighting gym position
     new_gym = [random.randint(0, MAP_WIDTH -1), random.randint(0, MAP_HEIGHT -1)]
-    if new_gym not in gyms and new_gym != my_position and obstacle_colocation[new_gym[POS_Y]][new_gym[POS_X]] != ",":
-        gyms.append(new_gym)
+    if new_gym not in locations and new_gym != my_position and obstacle_colocation[new_gym[POS_Y]][new_gym[POS_X]] != ",":
+        locations.append(new_gym)
         fighting_gym = new_gym
         gym4 = True
+while hospital_listing != 2: # hospital position
+    new_hospital = [random.randint(0, MAP_WIDTH -1), random.randint(0, MAP_HEIGHT -1)]
+    if new_hospital not in  locations and new_hospital != my_position and obstacle_colocation[new_hospital[POS_Y]][new_hospital[POS_X]] != ",":
+        locations.append(new_hospital)
+        if hospital_listing == 0:
+            hospital_1 = new_hospital
+        if hospital_listing == 1:
+            hospital_2 = new_hospital
+        hospital_listing += 1
 
 # Intro giving info to the player
-os.system("cls"); print("Pikachu's lvl:", pikachu_lvl, "\n"); print(p, pikachu_hp, "HP\n", pikachu_health_bar_print, "\n")
-print(p, "know 4 movements\nNuzlle, Thunder Shock, Quick Attack and Feint"); time.sleep(3); os.system("cls")
+os.system("cls"); print("Pikachu's lvl:", pikachu_lvl, "\n"); time.sleep(1); print(p, pikachu_hp, "HP\n", pikachu_health_bar_print, "\n"); time.sleep(1)
+print(p, "know 4 movements\nNuzlle, Thunder Shock, Quick Attack and Feint\n");time.sleep(3); print("Hospitals [H] restores HP"); time.sleep(2); os.system("cls")
 
 # game starts
 os.system("cls"); print("\nWASD to move"); time.sleep(1)
@@ -169,10 +183,10 @@ while not all_done:
     # draw map start
     print("-"* (MAP_WIDTH* 2 + 3)) # top
 
-    for coordinate_y in range(MAP_HEIGHT): # Y
+    for coordinate_y in range(MAP_HEIGHT): # Map and fights
         print("|", end="") # left side
 
-        for coordinate_x in range(MAP_WIDTH): # X
+        for coordinate_x in range(MAP_WIDTH):
             char_to_draw = "  "
 
             if rock_gym[POS_X] == coordinate_x and rock_gym[POS_Y] == coordinate_y: # rock gym print
@@ -183,6 +197,10 @@ while not all_done:
                 char_to_draw = " E"
             if fighting_gym[POS_X] == coordinate_x and fighting_gym[POS_Y] == coordinate_y: # fighting gym print
                 char_to_draw = " F"
+            if hospital_1[POS_X] == coordinate_x and hospital_1[POS_Y] == coordinate_y: # hospital 1 print
+                char_to_draw = " H"
+            if hospital_2[POS_X] == coordinate_x and hospital_2[POS_Y] == coordinate_y: # hospital 2 print
+                char_to_draw = " H"
 
             if obstacle_colocation[coordinate_y][coordinate_x] == ",": # walls
                 if obstacle_colocation[my_position[POS_Y]][my_position[POS_X]] != ",": # walls print
@@ -372,8 +390,6 @@ while not all_done:
                                 rock_done = True
                                 rock_lose = True
 
-                        lairon_hp = LAIRON_LVL_BASED_HP
-                        pikachu_hp = PIKACHU_LVL_BASED_HP
                         pikachu_lvl += random.randint(1, 2)
                         pikachu_critical += 0.1
                         rock_limiter = False
@@ -558,8 +574,6 @@ while not all_done:
                                 water_done = True
                                 water_lose = True
 
-                        squirtle_hp = SQUIRTLE_LVL_BASED_HP
-                        pikachu_hp = PIKACHU_LVL_BASED_HP
                         pikachu_lvl += random.randint(1, 2)
                         pikachu_critical += 0.1
                         water_limiter = False
@@ -744,8 +758,6 @@ while not all_done:
                                 electric_done = True
                                 electric_lose = True
 
-                        zapdos_hp = ZAPDOS_LVL_BASED_HP
-                        pikachu_hp = PIKACHU_LVL_BASED_HP
                         pikachu_lvl += random.randint(1, 3)
                         pikachu_critical += 0.1
                         electric_limiter = False
@@ -930,11 +942,13 @@ while not all_done:
                                 fighting_done = True
                                 fighting_lose = True
 
-                        hitmonchan_hp = HITMOCHAN_LVL_BASED_HP
-                        pikachu_hp = PIKACHU_LVL_BASED_HP
                         pikachu_lvl += random.randint(2, 3)
                         pikachu_critical += 0.1
                         fighting_limiter = False
+                if hospital_1[POS_X] == coordinate_x and hospital_1[POS_Y] == coordinate_y: # enter hospital 1
+                    hospital_limiter = True
+                if hospital_2[POS_X] == coordinate_x and hospital_2[POS_Y] == coordinate_y: # enter hospital 2
+                    hospital_limiter = True
 
             print("{}".format(char_to_draw), end="") # printer
         print(" |") # right side
@@ -954,6 +968,10 @@ while not all_done:
     if rock_done and water_done and electric_done and fighting_done: # win conditions
         os.system("cls"); print("You win all battles, congratulations!")
         all_done = True
+    if hospital_limiter: # pikachu restoration
+        pikachu_hp = PIKACHU_LVL_BASED_HP
+        print(); os.system("cls"); print("Pikachu's HP Restored\nMove to Continue")
+        hospital_limiter = False
 
     direction = readchar.readchar() # where he/she want to move
     new_position = None
