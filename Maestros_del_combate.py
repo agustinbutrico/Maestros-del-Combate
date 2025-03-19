@@ -70,7 +70,7 @@ lairon_headbutt = "Headbutt"; headbutt = int(lairon_damage * 7) # damage (70, 84
 headbutt_range = 200; headbutt_posibility = 200 # 100% acurracy    20% critical
 lairon_rock_slide = "Rock Slide"; rock_slide = int(lairon_damage * 7.5) # damage (75, 90) 
 rock_slide_range = 222; rock_slide_posibility = 200 # 90% acurracy    18% critical
-lairon_iron_tail = "Iron Tail"; iron_tail = int(lairon_damage * 10) # damage (100, 120)
+lairon_iron_tail = "Iron Tail"; iron_tail = int(lairon_damage * 8) # damage (80, 96)
 iron_tail_range = 268; iron_tail_posibility = 200 # 75% acurracy    15% critical
 
 # Squirtle
@@ -138,17 +138,17 @@ input1 = ("Select your attack\n"
           "3.Quick Attack\n    {} damage\n    75 acurracy\n    20 critical chance\n\n4.Feint\n    {} damage\n    85 acurracy \n    26 critical chance\n\n"
           "").format(nuzzle, thunder_shock, quick_attack, feint)
 
-input2 = int(input ("Where you are coming from:\n1. North\n2. South\n3. East\n4. West\n")); system ("cls")
+input2 = input ("Where you are coming from:\n1. North\n2. South\n3. East\n4. West\n"); system ("cls")
 
 while not true_0: # my_position
-    if   input2 == 1:
-        my_position = [random.randint(0, MAP_WIDTH -1), random.randint(0, MAP_HEIGHT - (MAP_HEIGHT/2))]; true_0 = True
-    elif input2 == 2:
-        my_position = [random.randint(0, MAP_WIDTH -1), random.randint(MAP_HEIGHT/2, MAP_HEIGHT -1)]; true_0 = True
-    elif input2 == 3:
-        my_position = [random.randint(MAP_WIDTH/2, MAP_WIDTH -1), random.randint(0, MAP_HEIGHT -1)]; true_0 = True
-    elif input2 == 4:
-        my_position = [random.randint(0, MAP_WIDTH - (MAP_WIDTH/2)), random.randint(0, MAP_HEIGHT -1)]; true_0 = True
+    if   input2 == "1":
+        my_position = [random.randint(0, MAP_WIDTH -1), random.randint(0, round (MAP_HEIGHT - ((MAP_HEIGHT - 1)/1.5)) )]; true_0 = True
+    elif input2 == "2":
+        my_position = [random.randint(0, MAP_WIDTH -1), random.randint(round ((MAP_HEIGHT + 1)/1.5), MAP_HEIGHT -1)]; true_0 = True
+    elif input2 == "3":
+        my_position = [random.randint(round ((MAP_WIDTH + 1)/1.5), MAP_WIDTH -1), random.randint(0, MAP_HEIGHT -1)]; true_0 = True
+    elif input2 == "4":
+        my_position = [random.randint(0, round (MAP_WIDTH - ((MAP_WIDTH - 1)/1.5)) ), random.randint(0, MAP_HEIGHT -1)]; true_0 = True
 true_0 = False
 
 def life_indicator (pokemon_hp, pokemon_LVL_BASED_HP): # Health Bar
@@ -197,11 +197,10 @@ def time_battle_end ():
     sleep (2)
 
 def start (): # intro
-    print ("Your Pikachu's lvl is:", pikachu_lvl); input ()
-    print (pikachu, pikachu_hp, "HP\n", life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP)); input ()
-    print (pikachu, "know 4 movements\nNuzlle, Thunder Shock, Quick Attack and Feint"); input ()
-    print ("Hospitals [H] restores HP"); input (); system ("cls")
-    print ("\nWASD to move"); input ()
+    print (pikachu, "-", pikachu_hp, "HP - LVL", pikachu_lvl, "\n", life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP)); input ()
+    print (pikachu, "know 4 movements\nNuzlle              Thunder Shock\nQuick Attack        Feint\n"); input ()
+    print ("(i) Hospitals [H] restores HP"); input ()
+    print ("(i) WASD to move"); input ()
 
 obstacles = obstacles_creation ()
 
@@ -312,8 +311,9 @@ while not true_0:
                                 true_3 = True
                                 rock_done = True
 
-                        pikachu_lvl += random.randint(1, 2)
-                        pikachu_critical += 0.1
+                        pikachu_hp += random.randint(8, 12)
+                        pikachu_critical += round (0.1)
+
 
                 if not water_done: # enter the water gym
 
@@ -359,8 +359,8 @@ while not true_0:
                                 true_3 = True
                                 water_done = True
 
-                        pikachu_lvl += random.randint(1, 2)
-                        pikachu_critical += 0.1
+                        pikachu_hp += random.randint(10, 15)
+                        pikachu_critical += round (0.1)
 
                 if not electric_done: # enter the electric gym
 
@@ -406,8 +406,8 @@ while not true_0:
                                 true_3 = True
                                 electric_done = True
 
-                        pikachu_lvl += random.randint(1, 3)
-                        pikachu_critical += 0.1
+                        pikachu_hp += random.randint(10, 20)
+                        pikachu_critical += round (0.1)
 
                 if not fighting_done: # enter the fighting
 
@@ -453,8 +453,8 @@ while not true_0:
                                 true_3 = True
                                 fighting_done = True
 
-                        pikachu_lvl += random.randint(2, 3)
-                        pikachu_critical += 0.1
+                        pikachu_hp += random.randint(15, 20)
+                        pikachu_critical += round (0.1)
 
             if obstacles[coordinate_y][coordinate_x] == ",": # walls
                 if obstacles[my_position[POS_Y]][my_position[POS_X]] == ",": # don't draw walls on you
