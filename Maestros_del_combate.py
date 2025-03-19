@@ -33,7 +33,6 @@ MAP_WIDTH = 20
 MAP_HEIGHT = random.randint(MAP_WIDTH -5, MAP_WIDTH +10)
 POS_X = 0 # pos 1* of list
 POS_Y = 1 # pos 2* of list
-my_position = [random.randint(0, MAP_WIDTH -1), random.randint(0, MAP_HEIGHT -1)]
 k = " "; odds = [",,,", ",,", k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k]
 
 # Pikachu
@@ -139,6 +138,19 @@ input1 = ("Select your attack\n"
           "3.Quick Attack\n    {} damage\n    75 acurracy\n    20 critical chance\n\n4.Feint\n    {} damage\n    85 acurracy \n    26 critical chance\n\n"
           "").format(nuzzle, thunder_shock, quick_attack, feint)
 
+input2 = int(input ("Where you are coming from:\n1. North\n2. South\n3. East\n4. West\n")); system ("cls")
+
+while not true_0: # my_position
+    if   input2 == 1:
+        my_position = [random.randint(0, MAP_WIDTH -1), random.randint(0, MAP_HEIGHT - (MAP_HEIGHT/2))]; true_0 = True
+    elif input2 == 2:
+        my_position = [random.randint(0, MAP_WIDTH -1), random.randint(MAP_HEIGHT/2, MAP_HEIGHT -1)]; true_0 = True
+    elif input2 == 3:
+        my_position = [random.randint(MAP_WIDTH/2, MAP_WIDTH -1), random.randint(0, MAP_HEIGHT -1)]; true_0 = True
+    elif input2 == 4:
+        my_position = [random.randint(0, MAP_WIDTH - (MAP_WIDTH/2)), random.randint(0, MAP_HEIGHT -1)]; true_0 = True
+true_0 = False
+
 def life_indicator (pokemon_hp, pokemon_LVL_BASED_HP): # Health Bar
     health_bar = int(pokemon_hp * 30 / pokemon_LVL_BASED_HP)
     health_bar_print = "[{}{}]".format("#" * health_bar, " " * (30 - health_bar))
@@ -185,11 +197,11 @@ def time_battle_end ():
     sleep (2)
 
 def start (): # intro
-    print ("Pikachu's lvl:", pikachu_lvl, "\n"); sleep (1)
-    print (pikachu, pikachu_hp, "HP\n", life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP), "\n"); sleep (1)
-    print (pikachu, "know 4 movements\nNuzlle, Thunder Shock, Quick Attack and Feint\n");sleep (2)
-    print ("Hospitals [H] restores HP\n"); sleep (2); system ("cls")
-    print ("\nWASD to move\n"); sleep (1)
+    print ("Your Pikachu's lvl is:", pikachu_lvl); input ()
+    print (pikachu, pikachu_hp, "HP\n", life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP)); input ()
+    print (pikachu, "know 4 movements\nNuzlle, Thunder Shock, Quick Attack and Feint"); input ()
+    print ("Hospitals [H] restores HP"); input (); system ("cls")
+    print ("\nWASD to move"); input ()
 
 obstacles = obstacles_creation ()
 
@@ -221,7 +233,6 @@ while not true_0: # Locations creation
             true_0 = True
 true_0 = False; true_1 = False; true_2 = False; true_3 = False; true_4 = False; true_5 = False; true_6 = False; limiter = 0
 
-# Intro giving info to the player
 start()
 
 while not true_0:
