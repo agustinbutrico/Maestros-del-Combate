@@ -25,6 +25,28 @@ fighting_gym = None
 hospital_1 = None
 hospital_2 = None
 locations = []
+
+def pikachu_life_indicator (pikachu_hp_life_indicator, PIKACHU_LVL_BASED_HP_life_indicator):
+    pikachu_health_bar = int(pikachu_hp_life_indicator * 30 / PIKACHU_LVL_BASED_HP_life_indicator)
+    pikachu_health_bar_print = "[{}{}]".format("#" * pikachu_health_bar, " " * (30 - pikachu_health_bar))
+    return pikachu_health_bar_print
+def squirtle_life_indicator (squirtle_hp_life_indicator):
+    squirtle_health_bar = int(squirtle_hp_life_indicator * 30 / SQUIRTLE_LVL_BASED_HP)
+    squirtle_health_bar_print = "[{}{}]".format("#" * squirtle_health_bar, " " * (30 - squirtle_health_bar))
+    return squirtle_health_bar_print
+def lairon_life_indicator (lairon_hp_life_indicator):
+    lairon_health_bar = int(lairon_hp_life_indicator * 30 / LAIRON_LVL_BASED_HP)
+    lairon_health_bar_print = "[{}{}]".format("#" * lairon_health_bar, " " * (30 - lairon_health_bar))
+    return lairon_health_bar_print
+def zapdos_life_indicator (zapdos_hp_life_indicator):
+    zapdos_health_bar = int(zapdos_hp_life_indicator * 30 / ZAPDOS_LVL_BASED_HP)
+    zapdos_health_bar_print = "[{}{}]".format("#" * zapdos_health_bar, " " * (30 - zapdos_health_bar))
+    return zapdos_health_bar_print
+def hitmonchan_life_indicator (hitmonchan_hp_life_indicator):
+    hitmonchan_health_bar = int(hitmonchan_hp_life_indicator * 30 / HITMOCHAN_LVL_BASED_HP)
+    hitmonchan_health_bar_print = "[{}{}]".format("#" * hitmonchan_health_bar, " " * (30 - hitmonchan_health_bar))
+    return hitmonchan_health_bar_print
+
 ## pokemon
 p = "Pikachu"; pu = "Pikachu uses"
 pikachu_damage = random.randint(10, 12)
@@ -33,8 +55,6 @@ pikachu_critical = (random.randint(14, 20))/10
 pikachu_lvl = random.randint(30, 32)
 PIKACHU_LVL_BASED_HP = pikachu_base_hp + pikachu_lvl*3 # for each lvl 3+ hp
 pikachu_hp = PIKACHU_LVL_BASED_HP
-pikachu_health_bar = int(pikachu_hp * 30 / PIKACHU_LVL_BASED_HP)
-pikachu_health_bar_print = "[{}{}]".format("#" * pikachu_health_bar, " " * (30 - pikachu_health_bar))
 s = "Squirtle"; su = "Squirtle uses"
 squirtle_damage = random.randint(10, 12)
 squirtle_base_hp = 68
@@ -42,8 +62,6 @@ squirtle_critical = (random.randint(11, 15))/10
 squirtle_lvl = random.randint(26, 30)
 SQUIRTLE_LVL_BASED_HP = squirtle_base_hp + squirtle_lvl*3 # for each lvl 3+ hp
 squirtle_hp = SQUIRTLE_LVL_BASED_HP
-squirtle_health_bar = int(squirtle_hp * 30 / SQUIRTLE_LVL_BASED_HP)
-squirtle_health_bar_print = "[{}{}]".format("#" * squirtle_health_bar, " " * (30 - squirtle_health_bar))
 l = "Lairon"; lu = "Lairon uses"
 lairon_damage = random.randint(10, 12)
 lairon_base_hp = 78
@@ -51,8 +69,6 @@ lairon_critical = (random.randint(11, 14))/10
 lairon_lvl = random.randint(29, 32)
 LAIRON_LVL_BASED_HP = lairon_base_hp + lairon_lvl*3 # for each lvl 3+ hp
 lairon_hp = LAIRON_LVL_BASED_HP
-lairon_health_bar = int(lairon_hp * 30 / LAIRON_LVL_BASED_HP)
-lairon_health_bar_print = "[{}{}]".format("#" * lairon_health_bar, " " * (30 - lairon_health_bar))
 z = "Zapdos"; zu = "Zapdos uses"
 zapdos_damage = random.randint(10, 12)
 zapdos_base_hp = 60
@@ -60,8 +76,6 @@ zapdos_critical = (random.randint(11, 12))/10
 zapdos_lvl = random.randint(32, 34)
 ZAPDOS_LVL_BASED_HP = zapdos_base_hp + zapdos_lvl*3 # for each lvl 3+ hp
 zapdos_hp = ZAPDOS_LVL_BASED_HP
-zapdos_health_bar = int(zapdos_hp * 30 / ZAPDOS_LVL_BASED_HP)
-zapdos_health_bar_print = "[{}{}]".format("#" * zapdos_health_bar, " " * (30 - zapdos_health_bar))
 h = "Hitmonchan"; hu = "Hitmonchan uses"
 hitmonchan_damage = random.randint(10, 12)
 hitmonchan_base_hp = 48
@@ -69,8 +83,6 @@ hitmonchan_critical = (random.randint(11, 13))/10
 hitmonchan_lvl = 36
 HITMOCHAN_LVL_BASED_HP = hitmonchan_base_hp + hitmonchan_lvl*3 # for each lvl 3+ hp
 hitmonchan_hp = HITMOCHAN_LVL_BASED_HP
-hitmonchan_health_bar = int(hitmonchan_hp * 30 / HITMOCHAN_LVL_BASED_HP)
-hitmonchan_health_bar_print = "[{}{}]".format("#" * hitmonchan_health_bar, " " * (30 - hitmonchan_health_bar))
 # Pikachu Attacks    # forward you will find a chance, the odds range from 200 to "x", value of 200 for 100% acurracy of the attack.
 p_n = "Nuzlle"; nuzzle = int(pikachu_damage * 2); nuzzle_odd = 210 # 95% acurracy
 p_ts = "Thunder Shock"; thunder_shock = int(pikachu_damage * 4.5); thunder_shock_odd = 340 # 65% acurracy, this one has extra odds for critical
@@ -161,7 +173,7 @@ while limiter != 2: # hospital position
 limiter = 0
 
 # Intro giving info to the player
-system("cls"); print("Pikachu's lvl:", pikachu_lvl, "\n"); sleep(1); print(p, pikachu_hp, "HP\n", pikachu_health_bar_print, "\n"); sleep(1)
+system("cls"); print("Pikachu's lvl:", pikachu_lvl, "\n"); sleep(1); print(p, pikachu_hp, "HP\n", pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP), "\n"); sleep(1)
 print(p, "know 4 movements\nNuzlle, Thunder Shock, Quick Attack and Feint\n");sleep(3); print("Hospitals [H] restores HP"); sleep(2); system("cls")
 
 # game starts
@@ -210,8 +222,7 @@ while not true_0:
                         while not rock_done: # rock gym fight
                             if pikachu_hp > 0 :
                                 print(l, lairon_hp, "HP")
-                                lairon_health_bar = int(lairon_hp * 30 / LAIRON_LVL_BASED_HP)
-                                print("[{}{}]".format("#" * lairon_health_bar, " " * (30 - lairon_health_bar)))
+                                lairon_life_indicator (lairon_hp)
                                 print("\nPikachu's Critical: [", pikachu_critical, "]\n")
                                 pikachus_turn = None
                                 while pikachus_turn != "1" and pikachus_turn != "2" and pikachus_turn != "3" and pikachus_turn != "4" :
@@ -232,8 +243,7 @@ while not true_0:
                                         lairon_hp -= 0
                                         print("\nmiss___")
                                     print("\n", l, lairon_hp, "HP")
-                                    lairon_health_bar = int(lairon_hp * 30 / LAIRON_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * lairon_health_bar, " " * (30 - lairon_health_bar)))
+                                    lairon_life_indicator (lairon_hp)
 
                                 elif pikachus_turn == "2" :
                                     print(pu, p_ts)
@@ -249,8 +259,7 @@ while not true_0:
                                         lairon_hp -= 0
                                         print("\nmiss___")
                                     print("\n", l, lairon_hp, "HP")
-                                    lairon_health_bar = int(lairon_hp * 30 / LAIRON_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * lairon_health_bar, " " * (30 - lairon_health_bar)))
+                                    lairon_life_indicator (lairon_hp)
 
                                 elif pikachus_turn == "3" :
                                     print(pu, p_qa)
@@ -266,8 +275,7 @@ while not true_0:
                                         lairon_hp -= 0
                                         print("\nmiss___")
                                     print("\n", l, lairon_hp, "HP")
-                                    lairon_health_bar = int(lairon_hp * 30 / LAIRON_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * lairon_health_bar, " " * (30 - lairon_health_bar)))
+                                    lairon_life_indicator (lairon_hp)
                                 
                                 elif pikachus_turn == "4" :
                                     print(pu, p_f)
@@ -283,8 +291,7 @@ while not true_0:
                                         lairon_hp -= 0
                                         print("\nmiss___")
                                     print("\n", l, lairon_hp, "HP")
-                                    lairon_health_bar = int(lairon_hp * 30 / LAIRON_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * lairon_health_bar, " " * (30 - lairon_health_bar)))
+                                    lairon_life_indicator (lairon_hp)
                             sleep(3)
                             system("cls")
 
@@ -305,8 +312,7 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    pikachu_health_bar = int(pikachu_hp * 30 / PIKACHU_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * pikachu_health_bar, " " * (30 - pikachu_health_bar)))
+                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
 
                                 elif lairon_turn == 2 :
                                     print(lu, l_rt)
@@ -322,8 +328,7 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    pikachu_health_bar = int(pikachu_hp * 30 / PIKACHU_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * pikachu_health_bar, " " * (30 - pikachu_health_bar)))
+                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
 
                                 elif lairon_turn == 3 :
                                     print(lu, l_hb)
@@ -339,8 +344,7 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    pikachu_health_bar = int(pikachu_hp * 30 / PIKACHU_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * pikachu_health_bar, " " * (30 - pikachu_health_bar)))
+                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
 
                                 elif lairon_turn == 4 :
                                     print(lu, l_rs)
@@ -356,8 +360,7 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    pikachu_health_bar = int(pikachu_hp * 30 / PIKACHU_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * pikachu_health_bar, " " * (30 - pikachu_health_bar)))
+                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
 
                                 elif lairon_turn == 5 :
                                     print(lu, l_it)
@@ -373,8 +376,7 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    pikachu_health_bar = int(pikachu_hp * 30 / PIKACHU_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * pikachu_health_bar, " " * (30 - pikachu_health_bar)))
+                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
                             sleep(3); system("cls")
 
                             if lairon_hp < 1:
@@ -395,8 +397,7 @@ while not true_0:
                         while not water_done: # water gym fight
                             if pikachu_hp > 0 :
                                 print(s, squirtle_hp, "HP")
-                                squirtle_health_bar = int(squirtle_hp * 30 / SQUIRTLE_LVL_BASED_HP)
-                                print("[{}{}]".format("#" * squirtle_health_bar, " " * (30 - squirtle_health_bar)))
+                                squirtle_life_indicator (squirtle_hp)
                                 print("\nPikachu's Critical: [", pikachu_critical, "]\n")
                                 pikachus_turn = None
                                 while pikachus_turn != "1" and pikachus_turn != "2" and pikachus_turn != "3" and pikachus_turn != "4" :
@@ -417,8 +418,7 @@ while not true_0:
                                         squirtle_hp -= 0
                                         print("\nmiss___")
                                     print("\n", s, squirtle_hp, "HP")
-                                    squirtle_health_bar = int(squirtle_hp * 30 / SQUIRTLE_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * squirtle_health_bar, " " * (30 - squirtle_health_bar)))
+                                    squirtle_life_indicator (squirtle_hp)
 
                                 elif pikachus_turn == "2" :
                                     print(pu, p_ts)
@@ -434,8 +434,7 @@ while not true_0:
                                         squirtle_hp -= 0
                                         print("\nmiss___")
                                     print("\n", s, squirtle_hp, "HP")
-                                    squirtle_health_bar = int(squirtle_hp * 30 / SQUIRTLE_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * squirtle_health_bar, " " * (30 - squirtle_health_bar)))
+                                    squirtle_life_indicator (squirtle_hp)
 
                                 elif pikachus_turn == "3" :
                                     print(pu, p_qa)
@@ -451,8 +450,7 @@ while not true_0:
                                         squirtle_hp -= 0
                                         print("\nmiss___")
                                     print("\n", s, squirtle_hp, "HP")
-                                    squirtle_health_bar = int(squirtle_hp * 30 / SQUIRTLE_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * squirtle_health_bar, " " * (30 - squirtle_health_bar)))
+                                    squirtle_life_indicator (squirtle_hp)
                                 
                                 elif pikachus_turn == "4" :
                                     print(pu, p_f)
@@ -468,8 +466,7 @@ while not true_0:
                                         squirtle_hp -= 0
                                         print("\nmiss___")
                                     print("\n", s, squirtle_hp, "HP")
-                                    squirtle_health_bar = int(squirtle_hp * 30 / SQUIRTLE_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * squirtle_health_bar, " " * (30 - squirtle_health_bar)))
+                                    squirtle_life_indicator (squirtle_hp)
                             sleep(3)
                             system("cls")
 
@@ -490,8 +487,7 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    pikachu_health_bar = int(pikachu_hp * 30 / PIKACHU_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * pikachu_health_bar, " " * (30 - pikachu_health_bar)))
+                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
 
                                 elif squirtle_turn == 2 :
                                     print(su, s_wg)
@@ -507,8 +503,7 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    pikachu_health_bar = int(pikachu_hp * 30 / PIKACHU_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * pikachu_health_bar, " " * (30 - pikachu_health_bar)))
+                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
 
                                 elif squirtle_turn == 3 :
                                     print(su, s_rs)
@@ -524,8 +519,7 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    pikachu_health_bar = int(pikachu_hp * 30 / PIKACHU_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * pikachu_health_bar, " " * (30 - pikachu_health_bar)))
+                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
 
                                 elif squirtle_turn == 4 :
                                     print(su, s_b)
@@ -541,8 +535,7 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    pikachu_health_bar = int(pikachu_hp * 30 / PIKACHU_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * pikachu_health_bar, " " * (30 - pikachu_health_bar)))
+                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
 
                                 elif squirtle_turn == 5 :
                                     print(su, s_wp)
@@ -558,8 +551,7 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    pikachu_health_bar = int(pikachu_hp * 30 / PIKACHU_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * pikachu_health_bar, " " * (30 - pikachu_health_bar)))
+                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
                             sleep(3); system("cls")
 
                             if squirtle_hp < 1:
@@ -580,8 +572,7 @@ while not true_0:
                         while not electric_done: # electric gym fight
                             if pikachu_hp > 0 :
                                 print(z, zapdos_hp, "HP")
-                                zapdos_health_bar = int(zapdos_hp * 30 / ZAPDOS_LVL_BASED_HP)
-                                print("[{}{}]".format("#" * zapdos_health_bar, " " * (30 - zapdos_health_bar)))
+                                zapdos_life_indicator (zapdos_hp)
                                 print("\nPikachu's Critical: [", pikachu_critical, "]\n")
                                 pikachus_turn = None
                                 while pikachus_turn != "1" and pikachus_turn != "2" and pikachus_turn != "3" and pikachus_turn != "4" :
@@ -602,8 +593,7 @@ while not true_0:
                                         zapdos_hp -= 0
                                         print("\nmiss___")
                                     print("\n", z, zapdos_hp, "HP")
-                                    zapdos_health_bar = int(zapdos_hp * 30 / ZAPDOS_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * zapdos_health_bar, " " * (30 - zapdos_health_bar)))
+                                    zapdos_life_indicator (zapdos_hp)
 
                                 elif pikachus_turn == "2" :
                                     print(pu, p_ts)
@@ -619,8 +609,7 @@ while not true_0:
                                         zapdos_hp -= 0
                                         print("\nmiss___")
                                     print("\n", z, zapdos_hp, "HP")
-                                    zapdos_health_bar = int(zapdos_hp * 30 / ZAPDOS_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * zapdos_health_bar, " " * (30 - zapdos_health_bar)))
+                                    zapdos_life_indicator (zapdos_hp)
 
                                 elif pikachus_turn == "3" :
                                     print(pu, p_qa)
@@ -636,8 +625,7 @@ while not true_0:
                                         zapdos_hp -= 0
                                         print("\nmiss___")
                                     print("\n", z, zapdos_hp, "HP")
-                                    zapdos_health_bar = int(zapdos_hp * 30 / ZAPDOS_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * zapdos_health_bar, " " * (30 - zapdos_health_bar)))
+                                    zapdos_life_indicator (zapdos_hp)
                                 
                                 elif pikachus_turn == "4" :
                                     print(pu, p_f)
@@ -653,8 +641,7 @@ while not true_0:
                                         zapdos_hp -= 0
                                         print("\nmiss___")
                                     print("\n", z, zapdos_hp, "HP")
-                                    zapdos_health_bar = int(zapdos_hp * 30 / ZAPDOS_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * zapdos_health_bar, " " * (30 - zapdos_health_bar)))
+                                    zapdos_life_indicator (zapdos_hp)
                             sleep(3)
                             system("cls")
 
@@ -675,8 +662,7 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    pikachu_health_bar = int(pikachu_hp * 30 / PIKACHU_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * pikachu_health_bar, " " * (30 - pikachu_health_bar)))
+                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
 
                                 elif zapdos_turn == 2 :
                                     print(zu, z_pl)
@@ -692,8 +678,7 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    pikachu_health_bar = int(pikachu_hp * 30 / PIKACHU_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * pikachu_health_bar, " " * (30 - pikachu_health_bar)))
+                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
 
                                 elif zapdos_turn == 3 :
                                     print(zu, z_ap)
@@ -709,8 +694,7 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    pikachu_health_bar = int(pikachu_hp * 30 / PIKACHU_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * pikachu_health_bar, " " * (30 - pikachu_health_bar)))
+                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
 
                                 elif zapdos_turn == 4 :
                                     print(zu, z_t)
@@ -726,8 +710,7 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    pikachu_health_bar = int(pikachu_hp * 30 / PIKACHU_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * pikachu_health_bar, " " * (30 - pikachu_health_bar)))
+                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
 
                                 elif zapdos_turn == 5 :
                                     print(zu, z_zc)
@@ -743,8 +726,7 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    pikachu_health_bar = int(pikachu_hp * 30 / PIKACHU_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * pikachu_health_bar, " " * (30 - pikachu_health_bar)))
+                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
                             sleep(3); system("cls")
 
                             if zapdos_hp < 1:
@@ -765,8 +747,7 @@ while not true_0:
                         while not fighting_done: # fighting gym fight
                             if pikachu_hp > 0 :
                                 print(h, hitmonchan_hp, "HP")
-                                hitmonchan_health_bar = int(hitmonchan_hp * 30 / HITMOCHAN_LVL_BASED_HP)
-                                print("[{}{}]".format("#" * hitmonchan_health_bar, " " * (30 - hitmonchan_health_bar)))
+                                hitmonchan_life_indicator (hitmonchan_hp)
                                 print("\nPikachu's Critical: [", pikachu_critical, "]\n")
                                 pikachus_turn = None
                                 while pikachus_turn != "1" and pikachus_turn != "2" and pikachus_turn != "3" and pikachus_turn != "4" :
@@ -787,8 +768,7 @@ while not true_0:
                                         hitmonchan_hp -= 0
                                         print("\nmiss___")
                                     print("\n", h, hitmonchan_hp, "HP")
-                                    hitmonchan_health_bar = int(hitmonchan_hp * 30 / HITMOCHAN_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * hitmonchan_health_bar, " " * (30 - hitmonchan_health_bar)))
+                                    hitmonchan_life_indicator (hitmonchan_hp)
 
                                 elif pikachus_turn == "2" :
                                     print(pu, p_ts)
@@ -804,8 +784,7 @@ while not true_0:
                                         hitmonchan_hp -= 0
                                         print("\nmiss___")
                                     print("\n", h, hitmonchan_hp, "HP")
-                                    hitmonchan_health_bar = int(hitmonchan_hp * 30 / HITMOCHAN_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * hitmonchan_health_bar, " " * (30 - hitmonchan_health_bar)))
+                                    hitmonchan_life_indicator (hitmonchan_hp)
 
                                 elif pikachus_turn == "3" :
                                     print(pu, p_qa)
@@ -821,8 +800,7 @@ while not true_0:
                                         hitmonchan_hp -= 0
                                         print("\nmiss___")
                                     print("\n", h, hitmonchan_hp, "HP")
-                                    hitmonchan_health_bar = int(hitmonchan_hp * 30 / HITMOCHAN_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * hitmonchan_health_bar, " " * (30 - hitmonchan_health_bar)))
+                                    hitmonchan_life_indicator (hitmonchan_hp)
                                 
                                 elif pikachus_turn == "4" :
                                     print(pu, p_f)
@@ -838,8 +816,7 @@ while not true_0:
                                         hitmonchan_hp -= 0
                                         print("\nmiss___")
                                     print("\n", h, hitmonchan_hp, "HP")
-                                    hitmonchan_health_bar = int(hitmonchan_hp * 30 / HITMOCHAN_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * hitmonchan_health_bar, " " * (30 - hitmonchan_health_bar)))
+                                    hitmonchan_life_indicator (hitmonchan_hp)
                             sleep(3)
                             system("cls")
 
@@ -860,8 +837,7 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    pikachu_health_bar = int(pikachu_hp * 30 / PIKACHU_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * pikachu_health_bar, " " * (30 - pikachu_health_bar)))
+                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
 
                                 elif hitmonchan_turn == 2 :
                                     print(hu, h_php)
@@ -877,8 +853,7 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    pikachu_health_bar = int(pikachu_hp * 30 / PIKACHU_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * pikachu_health_bar, " " * (30 - pikachu_health_bar)))
+                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
 
                                 elif hitmonchan_turn == 3 :
                                     print(hu, h_fip)
@@ -894,8 +869,7 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    pikachu_health_bar = int(pikachu_hp * 30 / PIKACHU_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * pikachu_health_bar, " " * (30 - pikachu_health_bar)))
+                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
 
                                 elif hitmonchan_turn == 4 :
                                     print(hu, h_mp)
@@ -911,8 +885,7 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    pikachu_health_bar = int(pikachu_hp * 30 / PIKACHU_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * pikachu_health_bar, " " * (30 - pikachu_health_bar)))
+                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
 
                                 elif hitmonchan_turn == 5 :
                                     print(hu, h_fop)
@@ -928,8 +901,7 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    pikachu_health_bar = int(pikachu_hp * 30 / PIKACHU_LVL_BASED_HP)
-                                    print("[{}{}]".format("#" * pikachu_health_bar, " " * (30 - pikachu_health_bar)))
+                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
                             sleep(3); system("cls")
 
                             if hitmonchan_hp < 1:
