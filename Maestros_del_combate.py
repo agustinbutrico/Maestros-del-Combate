@@ -26,8 +26,8 @@ hospital_1 = None
 hospital_2 = None
 locations = []
 
-def pikachu_life_indicator (pikachu_hp_life_indicator, PIKACHU_LVL_BASED_HP_life_indicator):
-    pikachu_health_bar = int(pikachu_hp_life_indicator * 30 / PIKACHU_LVL_BASED_HP_life_indicator)
+def pikachu_life_indicator (pikachu_hp_life_indicator):
+    pikachu_health_bar = int(pikachu_hp_life_indicator * 30 / PIKACHU_LVL_BASED_HP)
     pikachu_health_bar_print = "[{}{}]".format("#" * pikachu_health_bar, " " * (30 - pikachu_health_bar))
     return pikachu_health_bar_print
 def squirtle_life_indicator (squirtle_hp_life_indicator):
@@ -47,42 +47,47 @@ def hitmonchan_life_indicator (hitmonchan_hp_life_indicator):
     hitmonchan_health_bar_print = "[{}{}]".format("#" * hitmonchan_health_bar, " " * (30 - hitmonchan_health_bar))
     return hitmonchan_health_bar_print
 
+def time_battle ():
+    sleep(1)
+def time_battle_end ():
+    sleep(2)
+
 ## pokemon
 p = "Pikachu"; pu = "Pikachu uses"
 pikachu_damage = random.randint(10, 12)
-pikachu_base_hp = 50
 pikachu_critical = (random.randint(14, 20))/10
+pikachu_base_hp = 50
 pikachu_lvl = random.randint(30, 32)
-PIKACHU_LVL_BASED_HP = pikachu_base_hp + pikachu_lvl*3 # for each lvl 3+ hp
-pikachu_hp = PIKACHU_LVL_BASED_HP
-s = "Squirtle"; su = "Squirtle uses"
-squirtle_damage = random.randint(10, 12)
-squirtle_base_hp = 68
-squirtle_critical = (random.randint(11, 15))/10
-squirtle_lvl = random.randint(26, 30)
-SQUIRTLE_LVL_BASED_HP = squirtle_base_hp + squirtle_lvl*3 # for each lvl 3+ hp
-squirtle_hp = SQUIRTLE_LVL_BASED_HP
+pikachu_hp = pikachu_base_hp + pikachu_lvl*3 # for each lvl 3+ hp
+PIKACHU_LVL_BASED_HP = pikachu_hp
 l = "Lairon"; lu = "Lairon uses"
 lairon_damage = random.randint(10, 12)
-lairon_base_hp = 78
 lairon_critical = (random.randint(11, 14))/10
+lairon_base_hp = 78
 lairon_lvl = random.randint(29, 32)
-LAIRON_LVL_BASED_HP = lairon_base_hp + lairon_lvl*3 # for each lvl 3+ hp
-lairon_hp = LAIRON_LVL_BASED_HP
+lairon_hp = lairon_base_hp + lairon_lvl*3 # for each lvl 3+ hp
+LAIRON_LVL_BASED_HP = lairon_hp
+s = "Squirtle"; su = "Squirtle uses"
+squirtle_damage = random.randint(10, 12)
+squirtle_critical = (random.randint(11, 15))/10
+squirtle_base_hp = 68
+squirtle_lvl = random.randint(26, 30)
+squirtle_hp = squirtle_base_hp + squirtle_lvl*3 # for each lvl 3+ hp
+SQUIRTLE_LVL_BASED_HP = squirtle_hp
 z = "Zapdos"; zu = "Zapdos uses"
 zapdos_damage = random.randint(10, 12)
-zapdos_base_hp = 60
 zapdos_critical = (random.randint(11, 12))/10
+zapdos_base_hp = 60
 zapdos_lvl = random.randint(32, 34)
-ZAPDOS_LVL_BASED_HP = zapdos_base_hp + zapdos_lvl*3 # for each lvl 3+ hp
-zapdos_hp = ZAPDOS_LVL_BASED_HP
+zapdos_hp = zapdos_base_hp + zapdos_lvl*3 # for each lvl 3+ hp
+ZAPDOS_LVL_BASED_HP = zapdos_hp
 h = "Hitmonchan"; hu = "Hitmonchan uses"
 hitmonchan_damage = random.randint(10, 12)
-hitmonchan_base_hp = 48
 hitmonchan_critical = (random.randint(11, 13))/10
+hitmonchan_base_hp = 48
 hitmonchan_lvl = 36
-HITMOCHAN_LVL_BASED_HP = hitmonchan_base_hp + hitmonchan_lvl*3 # for each lvl 3+ hp
-hitmonchan_hp = HITMOCHAN_LVL_BASED_HP
+hitmonchan_hp = hitmonchan_base_hp + hitmonchan_lvl*3 # for each lvl 3+ hp
+HITMOCHAN_LVL_BASED_HP = hitmonchan_hp
 # Pikachu Attacks    # forward you will find a chance, the odds range from 200 to "x", value of 200 for 100% acurracy of the attack.
 p_n = "Nuzlle"; nuzzle = int(pikachu_damage * 2); nuzzle_odd = 210 # 95% acurracy
 p_ts = "Thunder Shock"; thunder_shock = int(pikachu_damage * 4.5); thunder_shock_odd = 340 # 65% acurracy, this one has extra odds for critical
@@ -173,8 +178,8 @@ while limiter != 2: # hospital position
 limiter = 0
 
 # Intro giving info to the player
-system("cls"); print("Pikachu's lvl:", pikachu_lvl, "\n"); sleep(1); print(p, pikachu_hp, "HP\n", pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP), "\n"); sleep(1)
-print(p, "know 4 movements\nNuzlle, Thunder Shock, Quick Attack and Feint\n");sleep(3); print("Hospitals [H] restores HP"); sleep(2); system("cls")
+system("cls"); print("Pikachu's lvl:", pikachu_lvl, "\n"); sleep(1); print(p, pikachu_hp, "HP\n", pikachu_life_indicator (pikachu_hp), "\n"); sleep(1)
+print(p, "know 4 movements\nNuzlle, Thunder Shock, Quick Attack and Feint\n");sleep(2); print("Hospitals [H] restores HP"); sleep(2); system("cls")
 
 # game starts
 system("cls"); print("\nWASD to move"); sleep(1)
@@ -222,7 +227,7 @@ while not true_0:
                         while not rock_done: # rock gym fight
                             if pikachu_hp > 0 :
                                 print(l, lairon_hp, "HP")
-                                lairon_life_indicator (lairon_hp)
+                                print (lairon_life_indicator (lairon_hp))
                                 print("\nPikachu's Critical: [", pikachu_critical, "]\n")
                                 pikachus_turn = None
                                 while pikachus_turn != "1" and pikachus_turn != "2" and pikachus_turn != "3" and pikachus_turn != "4" :
@@ -232,7 +237,7 @@ while not true_0:
                                 if pikachus_turn == "1" :
                                     print(pu, p_n)
                                     critical_odds = random.randint(1, nuzzle_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         lairon_hp -= nuzzle
                                         print("\n-{}".format(nuzzle))
@@ -243,12 +248,12 @@ while not true_0:
                                         lairon_hp -= 0
                                         print("\nmiss___")
                                     print("\n", l, lairon_hp, "HP")
-                                    lairon_life_indicator (lairon_hp)
+                                    print (lairon_life_indicator (lairon_hp))
 
                                 elif pikachus_turn == "2" :
                                     print(pu, p_ts)
                                     critical_odds = random.randint(1, thunder_shock_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         lairon_hp -= thunder_shock
                                         print("\n-{}".format(thunder_shock))
@@ -259,12 +264,12 @@ while not true_0:
                                         lairon_hp -= 0
                                         print("\nmiss___")
                                     print("\n", l, lairon_hp, "HP")
-                                    lairon_life_indicator (lairon_hp)
+                                    print (lairon_life_indicator (lairon_hp))
 
                                 elif pikachus_turn == "3" :
                                     print(pu, p_qa)
                                     critical_odds = random.randint(1, quick_attack_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         lairon_hp -= quick_attack
                                         print("\n-{}".format(quick_attack))
@@ -275,12 +280,12 @@ while not true_0:
                                         lairon_hp -= 0
                                         print("\nmiss___")
                                     print("\n", l, lairon_hp, "HP")
-                                    lairon_life_indicator (lairon_hp)
+                                    print (lairon_life_indicator (lairon_hp))
                                 
                                 elif pikachus_turn == "4" :
                                     print(pu, p_f)
                                     critical_odds = random.randint(1, feint_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         lairon_hp -= feint
                                         print("\n-{}".format(feint))
@@ -291,8 +296,8 @@ while not true_0:
                                         lairon_hp -= 0
                                         print("\nmiss___")
                                     print("\n", l, lairon_hp, "HP")
-                                    lairon_life_indicator (lairon_hp)
-                            sleep(3)
+                                    print (lairon_life_indicator (lairon_hp))
+                            time_battle_end ()
                             system("cls")
 
                             if lairon_hp > 0 :
@@ -301,7 +306,7 @@ while not true_0:
                                 if lairon_turn == 1 :
                                     print(lu, l_mc)
                                     critical_odds = random.randint(1, metal_claw_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         pikachu_hp -= metal_claw
                                         print("\n-{}".format(metal_claw))
@@ -312,12 +317,12 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
+                                    print (pikachu_life_indicator (pikachu_hp))
 
                                 elif lairon_turn == 2 :
                                     print(lu, l_rt)
                                     critical_odds = random.randint(1, rock_tomb_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         pikachu_hp -= rock_tomb
                                         print("\n-{}".format(rock_tomb))
@@ -328,12 +333,12 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
+                                    print (pikachu_life_indicator (pikachu_hp))
 
                                 elif lairon_turn == 3 :
                                     print(lu, l_hb)
                                     critical_odds = random.randint(1, headbutt_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         pikachu_hp -= headbutt
                                         print("\n-{}".format(headbutt))
@@ -344,12 +349,12 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
+                                    print (pikachu_life_indicator (pikachu_hp))
 
                                 elif lairon_turn == 4 :
                                     print(lu, l_rs)
                                     critical_odds = random.randint(1, rock_slide_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         pikachu_hp -= rock_slide
                                         print("\n-{}".format(rock_slide))
@@ -360,12 +365,12 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
+                                    print (pikachu_life_indicator (pikachu_hp))
 
                                 elif lairon_turn == 5 :
                                     print(lu, l_it)
                                     critical_odds = random.randint(1, iron_tail_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         pikachu_hp -= iron_tail
                                         print("\n-{}".format(iron_tail))
@@ -376,8 +381,8 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
-                            sleep(3); system("cls")
+                                    print (pikachu_life_indicator (pikachu_hp))
+                            time_battle_end (); system("cls")
 
                             if lairon_hp < 1:
                                 rock_done = True
@@ -397,7 +402,7 @@ while not true_0:
                         while not water_done: # water gym fight
                             if pikachu_hp > 0 :
                                 print(s, squirtle_hp, "HP")
-                                squirtle_life_indicator (squirtle_hp)
+                                print (squirtle_life_indicator (squirtle_hp))
                                 print("\nPikachu's Critical: [", pikachu_critical, "]\n")
                                 pikachus_turn = None
                                 while pikachus_turn != "1" and pikachus_turn != "2" and pikachus_turn != "3" and pikachus_turn != "4" :
@@ -407,7 +412,7 @@ while not true_0:
                                 if pikachus_turn == "1" :
                                     print(pu, p_n)
                                     critical_odds = random.randint(1, nuzzle_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         squirtle_hp -= nuzzle
                                         print("\n-{}".format(nuzzle))
@@ -418,12 +423,12 @@ while not true_0:
                                         squirtle_hp -= 0
                                         print("\nmiss___")
                                     print("\n", s, squirtle_hp, "HP")
-                                    squirtle_life_indicator (squirtle_hp)
+                                    print (squirtle_life_indicator (squirtle_hp))
 
                                 elif pikachus_turn == "2" :
                                     print(pu, p_ts)
                                     critical_odds = random.randint(1, thunder_shock_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         squirtle_hp -= thunder_shock
                                         print("\n-{}".format(thunder_shock))
@@ -434,12 +439,12 @@ while not true_0:
                                         squirtle_hp -= 0
                                         print("\nmiss___")
                                     print("\n", s, squirtle_hp, "HP")
-                                    squirtle_life_indicator (squirtle_hp)
+                                    print (squirtle_life_indicator (squirtle_hp))
 
                                 elif pikachus_turn == "3" :
                                     print(pu, p_qa)
                                     critical_odds = random.randint(1, quick_attack_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         squirtle_hp -= quick_attack
                                         print("\n-{}".format(quick_attack))
@@ -450,12 +455,12 @@ while not true_0:
                                         squirtle_hp -= 0
                                         print("\nmiss___")
                                     print("\n", s, squirtle_hp, "HP")
-                                    squirtle_life_indicator (squirtle_hp)
+                                    print (squirtle_life_indicator (squirtle_hp))
                                 
                                 elif pikachus_turn == "4" :
                                     print(pu, p_f)
                                     critical_odds = random.randint(1, feint_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         squirtle_hp -= feint
                                         print("\n-{}".format(feint))
@@ -466,8 +471,8 @@ while not true_0:
                                         squirtle_hp -= 0
                                         print("\nmiss___")
                                     print("\n", s, squirtle_hp, "HP")
-                                    squirtle_life_indicator (squirtle_hp)
-                            sleep(3)
+                                    print (squirtle_life_indicator (squirtle_hp))
+                            time_battle_end ()
                             system("cls")
 
                             if squirtle_hp > 0 :
@@ -476,7 +481,7 @@ while not true_0:
                                 if squirtle_turn == 1 :
                                     print(su, s_t)
                                     critical_odds = random.randint(1, tackle_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         pikachu_hp -= tackle
                                         print("\n-{}".format(tackle))
@@ -487,12 +492,12 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
+                                    print (pikachu_life_indicator (pikachu_hp))
 
                                 elif squirtle_turn == 2 :
                                     print(su, s_wg)
                                     critical_odds = random.randint(1, water_gun_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         pikachu_hp -= water_gun
                                         print("\n-{}".format(water_gun))
@@ -503,12 +508,12 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
+                                    print (pikachu_life_indicator (pikachu_hp))
 
                                 elif squirtle_turn == 3 :
                                     print(su, s_rs)
                                     critical_odds = random.randint(1, rapid_spin_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         pikachu_hp -= rapid_spin
                                         print("\n-{}".format(rapid_spin))
@@ -519,12 +524,12 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
+                                    print (pikachu_life_indicator (pikachu_hp))
 
                                 elif squirtle_turn == 4 :
                                     print(su, s_b)
                                     critical_odds = random.randint(1, bite_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         pikachu_hp -= bite
                                         print("\n-{}".format(bite))
@@ -535,12 +540,12 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
+                                    print (pikachu_life_indicator (pikachu_hp))
 
                                 elif squirtle_turn == 5 :
                                     print(su, s_wp)
                                     critical_odds = random.randint(1, water_pulse_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         pikachu_hp -= water_pulse
                                         print("\n-{}".format(water_pulse))
@@ -551,8 +556,8 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
-                            sleep(3); system("cls")
+                                    print (pikachu_life_indicator (pikachu_hp))
+                            time_battle_end (); system("cls")
 
                             if squirtle_hp < 1:
                                 water_done = True
@@ -572,7 +577,7 @@ while not true_0:
                         while not electric_done: # electric gym fight
                             if pikachu_hp > 0 :
                                 print(z, zapdos_hp, "HP")
-                                zapdos_life_indicator (zapdos_hp)
+                                print (zapdos_life_indicator (zapdos_hp))
                                 print("\nPikachu's Critical: [", pikachu_critical, "]\n")
                                 pikachus_turn = None
                                 while pikachus_turn != "1" and pikachus_turn != "2" and pikachus_turn != "3" and pikachus_turn != "4" :
@@ -582,7 +587,7 @@ while not true_0:
                                 if pikachus_turn == "1" :
                                     print(pu, p_n)
                                     critical_odds = random.randint(1, nuzzle_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         zapdos_hp -= nuzzle
                                         print("\n-{}".format(nuzzle))
@@ -593,12 +598,12 @@ while not true_0:
                                         zapdos_hp -= 0
                                         print("\nmiss___")
                                     print("\n", z, zapdos_hp, "HP")
-                                    zapdos_life_indicator (zapdos_hp)
+                                    print (zapdos_life_indicator (zapdos_hp))
 
                                 elif pikachus_turn == "2" :
                                     print(pu, p_ts)
                                     critical_odds = random.randint(1, thunder_shock_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         zapdos_hp -= thunder_shock
                                         print("\n-{}".format(thunder_shock))
@@ -609,12 +614,12 @@ while not true_0:
                                         zapdos_hp -= 0
                                         print("\nmiss___")
                                     print("\n", z, zapdos_hp, "HP")
-                                    zapdos_life_indicator (zapdos_hp)
+                                    print (zapdos_life_indicator (zapdos_hp))
 
                                 elif pikachus_turn == "3" :
                                     print(pu, p_qa)
                                     critical_odds = random.randint(1, quick_attack_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         zapdos_hp -= quick_attack
                                         print("\n-{}".format(quick_attack))
@@ -625,12 +630,12 @@ while not true_0:
                                         zapdos_hp -= 0
                                         print("\nmiss___")
                                     print("\n", z, zapdos_hp, "HP")
-                                    zapdos_life_indicator (zapdos_hp)
+                                    print (zapdos_life_indicator (zapdos_hp))
                                 
                                 elif pikachus_turn == "4" :
                                     print(pu, p_f)
                                     critical_odds = random.randint(1, feint_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         zapdos_hp -= feint
                                         print("\n-{}".format(feint))
@@ -641,8 +646,8 @@ while not true_0:
                                         zapdos_hp -= 0
                                         print("\nmiss___")
                                     print("\n", z, zapdos_hp, "HP")
-                                    zapdos_life_indicator (zapdos_hp)
-                            sleep(3)
+                                    print (zapdos_life_indicator (zapdos_hp))
+                            time_battle_end ()
                             system("cls")
 
                             if zapdos_hp > 0 :
@@ -651,7 +656,7 @@ while not true_0:
                                 if zapdos_turn == 1 :
                                     print(zu, z_pe)
                                     critical_odds = random.randint(1, peck_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         pikachu_hp -= peck
                                         print("\n-{}".format(peck))
@@ -662,12 +667,12 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
+                                    print (pikachu_life_indicator (pikachu_hp))
 
                                 elif zapdos_turn == 2 :
                                     print(zu, z_pl)
                                     critical_odds = random.randint(1, pluck_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         pikachu_hp -= pluck
                                         print("\n-{}".format(pluck))
@@ -678,12 +683,12 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
+                                    print (pikachu_life_indicator (pikachu_hp))
 
                                 elif zapdos_turn == 3 :
                                     print(zu, z_ap)
                                     critical_odds = random.randint(1, ancient_power_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         pikachu_hp -= ancient_power
                                         print("\n-{}".format(ancient_power))
@@ -694,12 +699,12 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
+                                    print (pikachu_life_indicator (pikachu_hp))
 
                                 elif zapdos_turn == 4 :
                                     print(zu, z_t)
                                     critical_odds = random.randint(1, thunder_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         pikachu_hp -= thunder
                                         print("\n-{}".format(thunder))
@@ -710,12 +715,12 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
+                                    print (pikachu_life_indicator (pikachu_hp))
 
                                 elif zapdos_turn == 5 :
                                     print(zu, z_zc)
                                     critical_odds = random.randint(1, zap_cannon_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         pikachu_hp -= zap_cannon
                                         print("\n-{}".format(zap_cannon))
@@ -726,8 +731,8 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
-                            sleep(3); system("cls")
+                                    print (pikachu_life_indicator (pikachu_hp))
+                            time_battle_end (); system("cls")
 
                             if zapdos_hp < 1:
                                 electric_done = True
@@ -747,7 +752,7 @@ while not true_0:
                         while not fighting_done: # fighting gym fight
                             if pikachu_hp > 0 :
                                 print(h, hitmonchan_hp, "HP")
-                                hitmonchan_life_indicator (hitmonchan_hp)
+                                print (hitmonchan_life_indicator (hitmonchan_hp))
                                 print("\nPikachu's Critical: [", pikachu_critical, "]\n")
                                 pikachus_turn = None
                                 while pikachus_turn != "1" and pikachus_turn != "2" and pikachus_turn != "3" and pikachus_turn != "4" :
@@ -757,7 +762,7 @@ while not true_0:
                                 if pikachus_turn == "1" :
                                     print(pu, p_n)
                                     critical_odds = random.randint(1, nuzzle_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         hitmonchan_hp -= nuzzle
                                         print("\n-{}".format(nuzzle))
@@ -768,12 +773,12 @@ while not true_0:
                                         hitmonchan_hp -= 0
                                         print("\nmiss___")
                                     print("\n", h, hitmonchan_hp, "HP")
-                                    hitmonchan_life_indicator (hitmonchan_hp)
+                                    print (hitmonchan_life_indicator (hitmonchan_hp))
 
                                 elif pikachus_turn == "2" :
                                     print(pu, p_ts)
                                     critical_odds = random.randint(1, thunder_shock_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         hitmonchan_hp -= thunder_shock
                                         print("\n-{}".format(thunder_shock))
@@ -784,12 +789,12 @@ while not true_0:
                                         hitmonchan_hp -= 0
                                         print("\nmiss___")
                                     print("\n", h, hitmonchan_hp, "HP")
-                                    hitmonchan_life_indicator (hitmonchan_hp)
+                                    print (hitmonchan_life_indicator (hitmonchan_hp))
 
                                 elif pikachus_turn == "3" :
                                     print(pu, p_qa)
                                     critical_odds = random.randint(1, quick_attack_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         hitmonchan_hp -= quick_attack
                                         print("\n-{}".format(quick_attack))
@@ -800,12 +805,12 @@ while not true_0:
                                         hitmonchan_hp -= 0
                                         print("\nmiss___")
                                     print("\n", h, hitmonchan_hp, "HP")
-                                    hitmonchan_life_indicator (hitmonchan_hp)
+                                    print (hitmonchan_life_indicator (hitmonchan_hp))
                                 
                                 elif pikachus_turn == "4" :
                                     print(pu, p_f)
                                     critical_odds = random.randint(1, feint_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         hitmonchan_hp -= feint
                                         print("\n-{}".format(feint))
@@ -816,8 +821,8 @@ while not true_0:
                                         hitmonchan_hp -= 0
                                         print("\nmiss___")
                                     print("\n", h, hitmonchan_hp, "HP")
-                                    hitmonchan_life_indicator (hitmonchan_hp)
-                            sleep(3)
+                                    print (hitmonchan_life_indicator (hitmonchan_hp))
+                            time_battle_end ()
                             system("cls")
 
                             if hitmonchan_hp > 0 :
@@ -826,7 +831,7 @@ while not true_0:
                                 if hitmonchan_turn == 1 :
                                     print(hu, h_dp)
                                     critical_odds = random.randint(1, drain_punch_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         pikachu_hp -= drain_punch
                                         print("\n-{}".format(drain_punch))
@@ -837,12 +842,12 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
+                                    print (pikachu_life_indicator (pikachu_hp))
 
                                 elif hitmonchan_turn == 2 :
                                     print(hu, h_php)
                                     critical_odds = random.randint(1, power_up_punch_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         pikachu_hp -= power_up_punch
                                         print("\n-{}".format(power_up_punch))
@@ -853,12 +858,12 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
+                                    print (pikachu_life_indicator (pikachu_hp))
 
                                 elif hitmonchan_turn == 3 :
                                     print(hu, h_fip)
                                     critical_odds = random.randint(1, fire_punch_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         pikachu_hp -= fire_punch
                                         print("\n-{}".format(fire_punch))
@@ -869,12 +874,12 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
+                                    print (pikachu_life_indicator (pikachu_hp))
 
                                 elif hitmonchan_turn == 4 :
                                     print(hu, h_mp)
                                     critical_odds = random.randint(1, mega_punch_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         pikachu_hp -= mega_punch
                                         print("\n-{}".format(mega_punch))
@@ -885,12 +890,12 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
+                                    print (pikachu_life_indicator (pikachu_hp))
 
                                 elif hitmonchan_turn == 5 :
                                     print(hu, h_fop)
                                     critical_odds = random.randint(1, focus_punch_odd)
-                                    sleep(1)
+                                    time_battle ()
                                     if critical_odds < 160:
                                         pikachu_hp -= focus_punch
                                         print("\n-{}".format(focus_punch))
@@ -901,8 +906,8 @@ while not true_0:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
                                     print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
-                            sleep(3); system("cls")
+                                    print (pikachu_life_indicator (pikachu_hp))
+                            time_battle_end (); system("cls")
 
                             if hitmonchan_hp < 1:
                                 fighting_done = True
