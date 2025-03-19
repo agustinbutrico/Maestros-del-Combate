@@ -144,6 +144,26 @@ def life_indicator (pokemon_hp, pokemon_LVL_BASED_HP): # Health Bar
     health_bar_print = "[{}{}]".format("#" * health_bar, " " * (30 - health_bar))
     return health_bar_print
 
+def battle_starts (enemy_pokemon, enemy_pokemon_hp, enemy_LVL_BASED_HP):
+    print (enemy_pokemon, enemy_pokemon_hp, "HP\n", life_indicator (enemy_pokemon_hp, enemy_LVL_BASED_HP), "\n")
+    print (pikachu, pikachu_hp, "HP\n", life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP), "\n")
+    print ("Pikachu's Critical: [", pikachu_critical, "]\n")
+
+def damages (pokemon_attack, attack_range, attack_posibility, pokemon_critical, pokemon_uses, pokemon_text_attack, enemy_pokemon, enemy_pokemon_hp, enemy_LVL_BASED_HP):
+    print (pokemon_uses, pokemon_text_attack) # 'Pokemon uses attack'
+    attack = random.randint(0, attack_range); sleep (1)
+    if   attack <= 160:
+        enemy_pokemon_hp -= pokemon_attack # normal damage
+        print ("\n-{}".format(pokemon_attack))
+    elif 160 < attack <= attack_posibility:
+        enemy_pokemon_hp -= int(pokemon_attack * pokemon_critical) # special damage
+        print ("\ncritical___-", int(pokemon_attack * pokemon_critical))
+    elif attack_posibility < attack :
+        enemy_pokemon_hp -= 0 # miss
+        print ("\nmiss___")
+    print ("\n", enemy_pokemon, enemy_pokemon_hp, "HP\n", life_indicator (enemy_pokemon_hp, enemy_LVL_BASED_HP))
+    return enemy_pokemon_hp
+
 def obstacles_creation (): # Obstacle Colocation
     obstacles = ""; obstacle = 0; limiter_h = 0; limiter_w = 0
     while limiter_h < MAP_HEIGHT: # random map generator
@@ -161,21 +181,6 @@ def obstacles_creation (): # Obstacle Colocation
     obstacles = [list(row) for row in obstacles.split(".")]
     return obstacles
 
-def damages (pokemon_attack, attack_range, attack_posibility, pokemon_critical, pokemon_uses, pokemon_text_attack, enemy_pokemon, enemy_pokemon_hp, enemy_LVL_BASED_HP):
-    print (pokemon_uses, pokemon_text_attack) # 'Pokemon uses attack'
-    attack = random.randint(0, attack_range); sleep (1)
-    if   attack <= 160:
-        enemy_pokemon_hp -= pokemon_attack # normal damage
-        print ("\n-{}".format(pokemon_attack))
-    elif 160 < attack <= attack_posibility:
-        enemy_pokemon_hp -= int(pokemon_attack * pokemon_critical) # special damage
-        print ("\ncritical___-", int(pokemon_attack * pokemon_critical))
-    elif attack_posibility < attack :
-        enemy_pokemon_hp -= 0 # miss
-        print ("\nmiss___")
-    print ("\n", enemy_pokemon, enemy_pokemon_hp, "HP\n", life_indicator (enemy_pokemon_hp, enemy_LVL_BASED_HP))
-    return enemy_pokemon_hp
-
 def time_battle_end ():
     sleep (2)
 
@@ -183,8 +188,8 @@ def start (): # intro
     print ("Pikachu's lvl:", pikachu_lvl, "\n"); sleep (1)
     print (pikachu, pikachu_hp, "HP\n", life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP), "\n"); sleep (1)
     print (pikachu, "know 4 movements\nNuzlle, Thunder Shock, Quick Attack and Feint\n");sleep (2)
-    print ("Hospitals [H] restores HP"); sleep (2); system ("cls")
-    print ("\nWASD to move"); sleep (1)
+    print ("Hospitals [H] restores HP\n"); sleep (2); system ("cls")
+    print ("\nWASD to move\n"); sleep (1)
 
 obstacles = obstacles_creation ()
 
@@ -214,7 +219,6 @@ while not true_0: # Locations creation
             limiter += 1
         if true_1 and true_2 and true_3 and true_4 and true_5 and true_6:
             true_0 = True
-
 true_0 = False; true_1 = False; true_2 = False; true_3 = False; true_4 = False; true_5 = False; true_6 = False; limiter = 0
 
 # Intro giving info to the player
@@ -245,10 +249,6 @@ while not true_0:
             if hospital_2[POS_X] == coordinate_x and hospital_2[POS_Y] == coordinate_y: # hospital 2 print
                 char_to_draw = " H"
 
-            if obstacles[coordinate_y][coordinate_x] == ",": # walls
-                if obstacles[my_position[POS_Y]][my_position[POS_X]] != ",": # walls print
-                    char_to_draw = " #"
-
             if my_position[POS_X] == coordinate_x and my_position[POS_Y] == coordinate_y: # your position
                 char_to_draw = " @" # you
 
@@ -265,9 +265,7 @@ while not true_0:
                         while not rock_done: # rock gym fight
 
                             if pikachu_hp > 0 :
-                                print (lairon, lairon_hp, "HP\n", life_indicator (lairon_hp, LAIRON_LVL_BASED_HP))
-                                print ("\nPikachu's Critical: [", pikachu_critical, "]\n")
-                                my_turn = None
+                                battle_starts (lairon, lairon_hp, LAIRON_LVL_BASED_HP); my_turn = None
                                 while my_turn != "1" and my_turn != "2" and my_turn != "3" and my_turn != "4" :
                                     my_turn = input(input1); system ("cls")
 
@@ -314,9 +312,7 @@ while not true_0:
                         while not water_done: # water gym fight
 
                             if pikachu_hp > 0 :
-                                print (squirtle, squirtle_hp, "HP\n", life_indicator (squirtle_hp, SQUIRTLE_LVL_BASED_HP))
-                                print ("\nPikachu's Critical: [", pikachu_critical, "]\n")
-                                my_turn = None
+                                battle_starts (squirtle, squirtle_hp, SQUIRTLE_LVL_BASED_HP); my_turn = None
                                 while my_turn != "1" and my_turn != "2" and my_turn != "3" and my_turn != "4" :
                                     my_turn = input(input1); system ("cls")
 
@@ -363,9 +359,7 @@ while not true_0:
                         while not electric_done: # electric gym fight
 
                             if pikachu_hp > 0 :
-                                print (zapdos, zapdos_hp, "HP\n", life_indicator (zapdos_hp, ZAPDOS_LVL_BASED_HP))
-                                print ("\nPikachu's Critical: [", pikachu_critical, "]\n")
-                                my_turn = None
+                                battle_starts (zapdos, zapdos_hp, ZAPDOS_LVL_BASED_HP); my_turn = None
                                 while my_turn != "1" and my_turn != "2" and my_turn != "3" and my_turn != "4" :
                                     my_turn = input(input1); system ("cls")
 
@@ -412,9 +406,7 @@ while not true_0:
                         while not fighting_done: # fighting gym fight
 
                             if pikachu_hp > 0 :
-                                print (hitmonchan, hitmonchan_hp, "HP\n", life_indicator (hitmonchan_hp, HITMONCHAN_LVL_BASED_HP))
-                                print ("\nPikachu's Critical: [", pikachu_critical, "]\n")
-                                my_turn = None
+                                battle_starts (hitmonchan, hitmonchan_hp, HITMONCHAN_LVL_BASED_HP); my_turn = None
                                 while my_turn != "1" and my_turn != "2" and my_turn != "3" and my_turn != "4" :
                                     my_turn = input(input1); system ("cls")
 
@@ -453,6 +445,12 @@ while not true_0:
                         pikachu_lvl += random.randint(2, 3)
                         pikachu_critical += 0.1
 
+            if obstacles[coordinate_y][coordinate_x] == ",": # walls
+                if obstacles[my_position[POS_Y]][my_position[POS_X]] == ",": # don't draw walls on you
+                    obstacles[my_position[POS_Y]][my_position[POS_X]] = " "
+                if obstacles[my_position[POS_Y]][my_position[POS_X]] != ",": # walls print
+                    char_to_draw = " #"
+
             print ("{}".format(char_to_draw), end="") # printer
         print (" |") # right side
 
@@ -467,7 +465,7 @@ while not true_0:
         print (); system ("cls"); print ("Pikachu's HP Restored\nMove to Continue")
         true_2 = False
     if true_3: # Gym lost
-        system ("cls"); print ("\nGym Fight Losed\n\nYou Lose")
+        system ("cls"); print ("\nGym Fight Losed\n\nYou Lose\n")
         true_0 = True
     if rock_done and water_done and electric_done and fighting_done: # win conditions
         system ("cls"); print ("You win all battles, congratulations!")
