@@ -3,11 +3,13 @@ from time import sleep
 from os import system
 from readchar import readchar
 
+system("cls")
+
 rock_done = False
 water_done = False
 electric_done = False
 fighting_done = False
-true_start = False
+gym_battle_done = False
 true_0 = False
 true_1 = False
 true_2 = False
@@ -26,45 +28,47 @@ hospital_1 = None
 hospital_2 = None
 locations = []
 
+def time_battle ():
+    sleep(1)
+def time_battle_end ():
+    sleep(2)
+
+def start (): # intro
+    print("Pikachu's lvl:", pikachu_lvl, "\n"); sleep(1)
+    print(pikachu, pikachu_hp, "HP\n", life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP), "\n"); sleep(1)
+    print(pikachu, "know 4 movements\nNuzlle, Thunder Shock, Quick Attack and Feint\n");sleep(2)
+    print("Hospitals [H] restores HP"); sleep(2); system("cls")
+    print("\nWASD to move"); sleep(1)
+
+def life_indicator (pokemon_hp, pokemon_LVL_BASED_HP): # Health Bar
+    health_bar = int(pokemon_hp * 30 / pokemon_LVL_BASED_HP)
+    health_bar_print = "[{}{}]".format("#" * health_bar, " " * (30 - health_bar))
+    return health_bar_print
+
+def obstacles_creation (): # Obstacle Colocation
+    obstacles = ""; obstacle = 0; limiter_h = 0; limiter_w = 0
+    while limiter_h < MAP_HEIGHT: # random map generator
+        while limiter_w < MAP_WIDTH:
+            obstacle = random.choice(odds)
+            if obstacle == " ":
+                limiter_w += 1
+            elif obstacle == ",,":
+                limiter_w += 2
+            elif obstacle == ",,,":
+                limiter_w += 3
+            obstacles += obstacle
+        obstacles += "."
+        limiter_h += 1; limiter_w = 0
+    obstacles = [list(row) for row in obstacles.split(".")]
+    return obstacles
+
 ## snake
 MAP_WIDTH = 20
 MAP_HEIGHT = random.randint(MAP_WIDTH -5, MAP_WIDTH +10)
 POS_X = 0 # pos 1* of list
 POS_Y = 1 # pos 2* of list
 my_position = [random.randint(0, MAP_WIDTH -1), random.randint(0, MAP_HEIGHT -1)]
-obstacle_colocation = ""
 k = " "; odds = [",,,", ",,", k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k]
-
-def pikachu_life_indicator (pikachu_hp_life_indicator):
-    pikachu_health_bar = int(pikachu_hp_life_indicator * 30 / PIKACHU_LVL_BASED_HP)
-    pikachu_health_bar_print = "[{}{}]".format("#" * pikachu_health_bar, " " * (30 - pikachu_health_bar))
-    return pikachu_health_bar_print
-def lairon_life_indicator (lairon_hp_life_indicator):
-    lairon_health_bar = int(lairon_hp_life_indicator * 30 / LAIRON_LVL_BASED_HP)
-    lairon_health_bar_print = "[{}{}]".format("#" * lairon_health_bar, " " * (30 - lairon_health_bar))
-    return lairon_health_bar_print
-def squirtle_life_indicator (squirtle_hp_life_indicator):
-    squirtle_health_bar = int(squirtle_hp_life_indicator * 30 / SQUIRTLE_LVL_BASED_HP)
-    squirtle_health_bar_print = "[{}{}]".format("#" * squirtle_health_bar, " " * (30 - squirtle_health_bar))
-    return squirtle_health_bar_print
-def zapdos_life_indicator (zapdos_hp_life_indicator):
-    zapdos_health_bar = int(zapdos_hp_life_indicator * 30 / ZAPDOS_LVL_BASED_HP)
-    zapdos_health_bar_print = "[{}{}]".format("#" * zapdos_health_bar, " " * (30 - zapdos_health_bar))
-    return zapdos_health_bar_print
-def hitmonchan_life_indicator (hitmonchan_hp_life_indicator):
-    hitmonchan_health_bar = int(hitmonchan_hp_life_indicator * 30 / HITMOCHAN_LVL_BASED_HP)
-    hitmonchan_health_bar_print = "[{}{}]".format("#" * hitmonchan_health_bar, " " * (30 - hitmonchan_health_bar))
-    return hitmonchan_health_bar_print
-
-def life_indicator (pokemon_hp, pokemon_LVL_BASED_HP):
-    health_bar = int(pokemon_hp * 30 / pokemon_LVL_BASED_HP)
-    health_bar_print = "[{}{}]".format("#" * health_bar, " " * (30 - health_bar))
-    return health_bar_print
-
-def time_battle ():
-    sleep(1)
-def time_battle_end ():
-    sleep(2)
 
 # forward you will find a chance, the odds range from 200 to "x", value of 200 for 100% acurracy of the attack.
 # Pikachu
@@ -132,65 +136,41 @@ hitmonchan_fire_punch = "Fire Punch"; fire_punch = int(hitmonchan_damage * 7.5);
 hitmonchan_mega_punch = "Mega Punch"; mega_punch = int(hitmonchan_damage * 8); mega_punch_odd = 235 # 85% acurracy
 hitmonchan_focus_punch = "Focus_Punch"; focus_punch = int(hitmonchan_damage * 12); focus_punch_odd = 500 # 40% acurracy
 
-
 input1 = ("Select your attack\n1.Nuzzle ({} damage)\n    95 acurracy\n2.Thunder Shock ({} damage)\n  "
          "  65 acurracy\n3.Quick Attack ({} damage)\n    75 acurracy\n4.Feint ({} damage)\n    85 acurracy\n").format(nuzzle, thunder_shock, quick_attack, feint)
 
-while limiter_1 < MAP_HEIGHT: # random map generator
-    while limiter_2 < MAP_WIDTH:
-        limiter = random.choice(odds)
-        if limiter == " ":
-            limiter_2 += 1
-        elif limiter == ",,":
-            limiter_2 += 2
-        elif limiter == ",,,":
-            limiter_2 += 3
-        obstacle_colocation += limiter
-    obstacle_colocation += "."
-    limiter_1 += 1
-    limiter_2 = 0
-obstacle_colocation = [list(row) for row in obstacle_colocation.split(".")]
-limiter = 0; limiter_1 = 0; limiter_2 = 0
+obstacles = obstacles_creation ()
 
-while not true_0: # rock gym position
-    while 0 <= limiter < 4: 
-        new_gym = [random.randint(0, MAP_WIDTH -1), random.randint(0, MAP_HEIGHT -1)]
-        if new_gym not in locations and new_gym != my_position and obstacle_colocation[new_gym[POS_Y]][new_gym[POS_X]] != ",":
-            locations.append(new_gym)
-            if   limiter == 0:
-                rock_gym = new_gym
+while not true_0: # Locations creation
+    while 0 <= limiter <= 5: 
+        new_location = [random.randint(0, MAP_WIDTH -1), random.randint(0, MAP_HEIGHT -1)]
+        if new_location not in locations and new_location != my_position and obstacles[new_location[POS_Y]][new_location[POS_X]] != ",":
+            locations.append(new_location)
+            if   limiter == 0: # Rock Gym
+                rock_gym = new_location
                 true_1 = True
-            elif limiter == 1:
-                water_gym = new_gym
+            elif limiter == 1: # Water Gym
+                water_gym = new_location
                 true_2 = True
-            elif limiter == 2:
-                electric_gym = new_gym
+            elif limiter == 2: # Electric Gym
+                electric_gym = new_location
                 true_3 = True
-            elif limiter == 3:
-                fighting_gym = new_gym
+            elif limiter == 3: # Fighting Gym
+                fighting_gym = new_location
                 true_4 = True
+            elif limiter == 4: # Hospital 1
+                hospital_1 = new_location
+                true_5 = True
+            elif limiter == 5: # Hospital 2
+                hospital_2 = new_location
+                true_6 = True
             limiter += 1
-        if true_1 and true_2 and true_3 and true_4:
+        if true_1 and true_2 and true_3 and true_4 and true_5 and true_6:
             true_0 = True
-limiter = 0; true_0 = False; true_1 = False; true_2 = False; true_3 = False; true_4 = False
-
-while limiter != 2: # hospital position
-    new_hospital = [random.randint(0, MAP_WIDTH -1), random.randint(0, MAP_HEIGHT -1)]
-    if new_hospital not in  locations and new_hospital != my_position and obstacle_colocation[new_hospital[POS_Y]][new_hospital[POS_X]] != ",":
-        locations.append(new_hospital)
-        if limiter == 0:
-            hospital_1 = new_hospital
-        if limiter == 1:
-            hospital_2 = new_hospital
-        limiter += 1
-limiter = 0
+true_0 = False; true_1 = False; true_2 = False; true_3 = False; true_4 = False; true_5 = False; true_6 = False; limiter = 0
 
 # Intro giving info to the player
-system("cls"); print("Pikachu's lvl:", pikachu_lvl, "\n"); sleep(1); print(pikachu, pikachu_hp, "HP\n", pikachu_life_indicator (pikachu_hp), "\n"); sleep(1)
-print(pikachu, "know 4 movements\nNuzlle, Thunder Shock, Quick Attack and Feint\n");sleep(2); print("Hospitals [H] restores HP"); sleep(2); system("cls")
-
-# game starts
-system("cls"); print("\nWASD to move"); sleep(1)
+start()
 
 while not true_0:
     system("cls")
@@ -216,8 +196,8 @@ while not true_0:
             if hospital_2[POS_X] == coordinate_x and hospital_2[POS_Y] == coordinate_y: # hospital 2 print
                 char_to_draw = " H"
 
-            if obstacle_colocation[coordinate_y][coordinate_x] == ",": # walls
-                if obstacle_colocation[my_position[POS_Y]][my_position[POS_X]] != ",": # walls print
+            if obstacles[coordinate_y][coordinate_x] == ",": # walls
+                if obstacles[my_position[POS_Y]][my_position[POS_X]] != ",": # walls print
                     char_to_draw = " #"
 
             if my_position[POS_X] == coordinate_x and my_position[POS_Y] == coordinate_y: # your position
@@ -228,14 +208,14 @@ while not true_0:
                 if hospital_2[POS_X] == coordinate_x and hospital_2[POS_Y] == coordinate_y: # enter hospital 2
                     true_6 = True
 
-                if not true_start:# enter the rock gym
+                if not gym_battle_done:# enter the rock gym
                     if rock_gym[POS_X] == coordinate_x and rock_gym[POS_Y] == coordinate_y:
                         print(); system("cls"); print("You entered -Pewter Rock Gym-\n")
 
                         while not rock_done: # rock gym fight
                             if pikachu_hp > 0 :
                                 print(lairon, lairon_hp, "HP")
-                                print (lairon_life_indicator (lairon_hp))
+                                print (life_indicator (lairon_hp, LAIRON_LVL_BASED_HP))
                                 print("\nPikachu's Critical: [", pikachu_critical, "]\n")
                                 pikachus_turn = None
                                 while pikachus_turn != "1" and pikachus_turn != "2" and pikachus_turn != "3" and pikachus_turn != "4" :
@@ -255,8 +235,8 @@ while not true_0:
                                     elif 200 < critical_odds <= nuzzle_odd:
                                         lairon_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", l, lairon_hp, "HP")
-                                    print (lairon_life_indicator (lairon_hp))
+                                    print("\n", lairon, lairon_hp, "HP")
+                                    print (life_indicator (lairon_hp, LAIRON_LVL_BASED_HP))
 
                                 elif pikachus_turn == "2" :
                                     print(pikachu_uses, pikachu_thunder_shock)
@@ -271,8 +251,8 @@ while not true_0:
                                     elif 220 < critical_odds <= thunder_shock_odd:
                                         lairon_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", l, lairon_hp, "HP")
-                                    print (lairon_life_indicator (lairon_hp))
+                                    print("\n", lairon, lairon_hp, "HP")
+                                    print (life_indicator (lairon_hp, LAIRON_LVL_BASED_HP))
 
                                 elif pikachus_turn == "3" :
                                     print(pikachu_uses, pikachu_quick_attack)
@@ -287,9 +267,9 @@ while not true_0:
                                     elif 200 < critical_odds <= quick_attack_odd:
                                         lairon_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", l, lairon_hp, "HP")
-                                    print (lairon_life_indicator (lairon_hp))
-                                
+                                    print("\n", lairon, lairon_hp, "HP")
+                                    print (life_indicator (lairon_hp, LAIRON_LVL_BASED_HP))
+
                                 elif pikachus_turn == "4" :
                                     print(pikachu_uses, pikachu_feint)
                                     critical_odds = random.randint(1, feint_odd)
@@ -303,8 +283,8 @@ while not true_0:
                                     elif 200 < critical_odds <= feint_odd:
                                         lairon_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", l, lairon_hp, "HP")
-                                    print (lairon_life_indicator (lairon_hp))
+                                    print("\n", lairon, lairon_hp, "HP")
+                                    print (life_indicator (lairon_hp, LAIRON_LVL_BASED_HP))
                             time_battle_end ()
                             system("cls")
 
@@ -324,8 +304,8 @@ while not true_0:
                                     elif 200 < critical_odds <= metal_claw_odd:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp))
+                                    print("\n", pikachu, pikachu_hp, "HP")
+                                    print (life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
 
                                 elif lairon_turn == 2 :
                                     print(lairon_uses, lairon_rock_tomb)
@@ -340,8 +320,8 @@ while not true_0:
                                     elif 200 < critical_odds <= rock_tomb_odd:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp))
+                                    print("\n", pikachu, pikachu_hp, "HP")
+                                    print (life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
 
                                 elif lairon_turn == 3 :
                                     print(lairon_uses, lairon_headbutt)
@@ -356,8 +336,8 @@ while not true_0:
                                     elif 200 < critical_odds <= headbutt_odd:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp))
+                                    print("\n", pikachu, pikachu_hp, "HP")
+                                    print (life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
 
                                 elif lairon_turn == 4 :
                                     print(lairon_uses, lairon_rock_slide)
@@ -372,8 +352,8 @@ while not true_0:
                                     elif 200 < critical_odds <= rock_slide_odd:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp))
+                                    print("\n", pikachu, pikachu_hp, "HP")
+                                    print (life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
 
                                 elif lairon_turn == 5 :
                                     print(lairon_uses, lairon_iron_tail)
@@ -388,8 +368,8 @@ while not true_0:
                                     elif 200 < critical_odds <= iron_tail_odd:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp))
+                                    print("\n", pikachu, pikachu_hp, "HP")
+                                    print (life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
                             time_battle_end (); system("cls")
 
                             if lairon_hp < 1:
@@ -401,16 +381,16 @@ while not true_0:
 
                         pikachu_lvl += random.randint(1, 2)
                         pikachu_critical += 0.1
-                        true_6 = False
+                        gym_battle_done = True
 
-                if not true_start: # enter the water gym
+                if not gym_battle_done: # enter the water gym
                     if water_gym[POS_X] == coordinate_x and water_gym[POS_Y] == coordinate_y:
                         print(); system("cls"); print("You entered -Cerulean Water Gym-\n")
 
                         while not water_done: # water gym fight
                             if pikachu_hp > 0 :
                                 print(squirtle, squirtle_hp, "HP")
-                                print (squirtle_life_indicator (squirtle_hp))
+                                print (life_indicator (squirtle_hp, SQUIRTLE_LVL_BASED_HP))
                                 print("\nPikachu's Critical: [", pikachu_critical, "]\n")
                                 pikachus_turn = None
                                 while pikachus_turn != "1" and pikachus_turn != "2" and pikachus_turn != "3" and pikachus_turn != "4" :
@@ -430,8 +410,8 @@ while not true_0:
                                     elif 200 < critical_odds <= nuzzle_odd:
                                         squirtle_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", s, squirtle_hp, "HP")
-                                    print (squirtle_life_indicator (squirtle_hp))
+                                    print("\n", squirtle, squirtle_hp, "HP")
+                                    print (life_indicator (squirtle_hp, SQUIRTLE_LVL_BASED_HP))
 
                                 elif pikachus_turn == "2" :
                                     print(pikachu_uses, pikachu_thunder_shock)
@@ -446,8 +426,8 @@ while not true_0:
                                     elif 220 < critical_odds <= thunder_shock_odd:
                                         squirtle_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", s, squirtle_hp, "HP")
-                                    print (squirtle_life_indicator (squirtle_hp))
+                                    print("\n", squirtle, squirtle_hp, "HP")
+                                    print (life_indicator (squirtle_hp, SQUIRTLE_LVL_BASED_HP))
 
                                 elif pikachus_turn == "3" :
                                     print(pikachu_uses, pikachu_quick_attack)
@@ -462,8 +442,8 @@ while not true_0:
                                     elif 200 < critical_odds <= quick_attack_odd:
                                         squirtle_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", s, squirtle_hp, "HP")
-                                    print (squirtle_life_indicator (squirtle_hp))
+                                    print("\n", squirtle, squirtle_hp, "HP")
+                                    print (life_indicator (squirtle_hp, SQUIRTLE_LVL_BASED_HP))
                                 
                                 elif pikachus_turn == "4" :
                                     print(pikachu_uses, pikachu_feint)
@@ -478,8 +458,8 @@ while not true_0:
                                     elif 200 < critical_odds <= feint_odd:
                                         squirtle_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", s, squirtle_hp, "HP")
-                                    print (squirtle_life_indicator (squirtle_hp))
+                                    print("\n", squirtle, squirtle_hp, "HP")
+                                    print (life_indicator (squirtle_hp, SQUIRTLE_LVL_BASED_HP))
                             time_battle_end ()
                             system("cls")
 
@@ -499,8 +479,8 @@ while not true_0:
                                     elif 200 < critical_odds <= tackle_odd:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp))
+                                    print("\n", pikachu, pikachu_hp, "HP")
+                                    print (life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
 
                                 elif squirtle_turn == 2 :
                                     print(squirtle_uses, squirtle_water_gun)
@@ -515,8 +495,8 @@ while not true_0:
                                     elif 200 < critical_odds <= water_gun_odd:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp))
+                                    print("\n", pikachu, pikachu_hp, "HP")
+                                    print (life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
 
                                 elif squirtle_turn == 3 :
                                     print(squirtle_uses, squirtle_rapid_spin)
@@ -531,8 +511,8 @@ while not true_0:
                                     elif 200 < critical_odds <= rapid_spin_odd:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp))
+                                    print("\n", pikachu, pikachu_hp, "HP")
+                                    print (life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
 
                                 elif squirtle_turn == 4 :
                                     print(squirtle_uses, squirtle_bite)
@@ -547,8 +527,8 @@ while not true_0:
                                     elif 200 < critical_odds <= bite_odd:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp))
+                                    print("\n", pikachu, pikachu_hp, "HP")
+                                    print (life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
 
                                 elif squirtle_turn == 5 :
                                     print(squirtle_uses, squirtle_water_pulse)
@@ -563,8 +543,8 @@ while not true_0:
                                     elif 200 < critical_odds <= water_pulse_odd:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp))
+                                    print("\n", pikachu, pikachu_hp, "HP")
+                                    print (life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
                             time_battle_end (); system("cls")
 
                             if squirtle_hp < 1:
@@ -576,16 +556,16 @@ while not true_0:
 
                         pikachu_lvl += random.randint(1, 2)
                         pikachu_critical += 0.1
-                        true_start = False
+                        gym_battle_done = True
 
-                if not true_start: # enter the electric gym
+                if not gym_battle_done: # enter the electric gym
                     if electric_gym[POS_X] == coordinate_x and electric_gym[POS_Y] == coordinate_y:
                         print(); system("cls"); print("You entered -Vermilion Electric Gym-\n")
 
                         while not electric_done: # electric gym fight
                             if pikachu_hp > 0 :
                                 print(zapdos, zapdos_hp, "HP")
-                                print (zapdos_life_indicator (zapdos_hp))
+                                print (life_indicator (zapdos_hp, ZAPDOS_LVL_BASED_HP))
                                 print("\nPikachu's Critical: [", pikachu_critical, "]\n")
                                 pikachus_turn = None
                                 while pikachus_turn != "1" and pikachus_turn != "2" and pikachus_turn != "3" and pikachus_turn != "4" :
@@ -605,8 +585,8 @@ while not true_0:
                                     elif 200 < critical_odds <= nuzzle_odd:
                                         zapdos_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", z, zapdos_hp, "HP")
-                                    print (zapdos_life_indicator (zapdos_hp))
+                                    print("\n", zapdos, zapdos_hp, "HP")
+                                    print (life_indicator (zapdos_hp, ZAPDOS_LVL_BASED_HP))
 
                                 elif pikachus_turn == "2" :
                                     print(pikachu_uses, pikachu_thunder_shock)
@@ -621,8 +601,8 @@ while not true_0:
                                     elif 220 < critical_odds <= thunder_shock_odd:
                                         zapdos_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", z, zapdos_hp, "HP")
-                                    print (zapdos_life_indicator (zapdos_hp))
+                                    print("\n", zapdos, zapdos_hp, "HP")
+                                    print (life_indicator (zapdos_hp, ZAPDOS_LVL_BASED_HP))
 
                                 elif pikachus_turn == "3" :
                                     print(pikachu_uses, pikachu_quick_attack)
@@ -637,8 +617,8 @@ while not true_0:
                                     elif 200 < critical_odds <= quick_attack_odd:
                                         zapdos_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", z, zapdos_hp, "HP")
-                                    print (zapdos_life_indicator (zapdos_hp))
+                                    print("\n", zapdos, zapdos_hp, "HP")
+                                    print (life_indicator (zapdos_hp, ZAPDOS_LVL_BASED_HP))
                                 
                                 elif pikachus_turn == "4" :
                                     print(pikachu_uses, pikachu_feint)
@@ -653,8 +633,8 @@ while not true_0:
                                     elif 200 < critical_odds <= feint_odd:
                                         zapdos_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", z, zapdos_hp, "HP")
-                                    print (zapdos_life_indicator (zapdos_hp))
+                                    print("\n", zapdos, zapdos_hp, "HP")
+                                    print (life_indicator (zapdos_hp, ZAPDOS_LVL_BASED_HP))
                             time_battle_end ()
                             system("cls")
 
@@ -674,8 +654,8 @@ while not true_0:
                                     elif 200 < critical_odds <= peck_odd:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp))
+                                    print("\n", pikachu, pikachu_hp, "HP")
+                                    print (life_indicator (pikachu_hp, ZAPDOS_LVL_BASED_HP))
 
                                 elif zapdos_turn == 2 :
                                     print(zapdos_uses, zapdos_pluck)
@@ -690,8 +670,8 @@ while not true_0:
                                     elif 200 < critical_odds <= pluck_odd:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp))
+                                    print("\n", pikachu, pikachu_hp, "HP")
+                                    print (life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
 
                                 elif zapdos_turn == 3 :
                                     print(zapdos_uses, zapdos_ancient_power)
@@ -706,8 +686,8 @@ while not true_0:
                                     elif 200 < critical_odds <= ancient_power_odd:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp))
+                                    print("\n", pikachu, pikachu_hp, "HP")
+                                    print (life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
 
                                 elif zapdos_turn == 4 :
                                     print(zapdos_uses, zapdos_thunder)
@@ -722,8 +702,8 @@ while not true_0:
                                     elif 200 < critical_odds <= thunder_odd:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp))
+                                    print("\n", pikachu, pikachu_hp, "HP")
+                                    print (life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
 
                                 elif zapdos_turn == 5 :
                                     print(zapdos_uses, zapdos_zap_cannon)
@@ -738,8 +718,8 @@ while not true_0:
                                     elif 200 < critical_odds <= zap_cannon_odd:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp))
+                                    print("\n", pikachu, pikachu_hp, "HP")
+                                    print (life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
                             time_battle_end (); system("cls")
 
                             if zapdos_hp < 1:
@@ -751,16 +731,16 @@ while not true_0:
 
                         pikachu_lvl += random.randint(1, 3)
                         pikachu_critical += 0.1
-                        true_start = False
+                        gym_battle_done = True
 
-                if not true_start: # enter the fighting
+                if not gym_battle_done: # enter the fighting
                     if fighting_gym[POS_X] == coordinate_x and fighting_gym[POS_Y] == coordinate_y:
                         print(); system("cls"); print("You entered -Cianwood Fighting Gym\n")
 
                         while not fighting_done: # fighting gym fight
                             if pikachu_hp > 0 :
                                 print(hitmonchan, hitmonchan_hp, "HP")
-                                print (hitmonchan_life_indicator (hitmonchan_hp))
+                                print (life_indicator (hitmonchan_hp, HITMOCHAN_LVL_BASED_HP))
                                 print("\nPikachu's Critical: [", pikachu_critical, "]\n")
                                 pikachus_turn = None
                                 while pikachus_turn != "1" and pikachus_turn != "2" and pikachus_turn != "3" and pikachus_turn != "4" :
@@ -780,8 +760,8 @@ while not true_0:
                                     elif 200 < critical_odds <= nuzzle_odd:
                                         hitmonchan_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", h, hitmonchan_hp, "HP")
-                                    print (hitmonchan_life_indicator (hitmonchan_hp))
+                                    print("\n", hitmonchan, hitmonchan_hp, "HP")
+                                    print (life_indicator (hitmonchan_hp, HITMOCHAN_LVL_BASED_HP))
 
                                 elif pikachus_turn == "2" :
                                     print(pikachu_uses, pikachu_thunder_shock)
@@ -796,8 +776,8 @@ while not true_0:
                                     elif 220 < critical_odds <= thunder_shock_odd:
                                         hitmonchan_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", h, hitmonchan_hp, "HP")
-                                    print (hitmonchan_life_indicator (hitmonchan_hp))
+                                    print("\n", hitmonchan, hitmonchan_hp, "HP")
+                                    print (life_indicator (hitmonchan_hp, HITMOCHAN_LVL_BASED_HP))
 
                                 elif pikachus_turn == "3" :
                                     print(pikachu_uses, pikachu_quick_attack)
@@ -812,8 +792,8 @@ while not true_0:
                                     elif 200 < critical_odds <= quick_attack_odd:
                                         hitmonchan_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", h, hitmonchan_hp, "HP")
-                                    print (hitmonchan_life_indicator (hitmonchan_hp))
+                                    print("\n", hitmonchan, hitmonchan_hp, "HP")
+                                    print (life_indicator (hitmonchan_hp, HITMOCHAN_LVL_BASED_HP))
                                 
                                 elif pikachus_turn == "4" :
                                     print(pikachu_uses, pikachu_feint)
@@ -828,8 +808,8 @@ while not true_0:
                                     elif 200 < critical_odds <= feint_odd:
                                         hitmonchan_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", h, hitmonchan_hp, "HP")
-                                    print (hitmonchan_life_indicator (hitmonchan_hp))
+                                    print("\n", hitmonchan, hitmonchan_hp, "HP")
+                                    print (life_indicator (hitmonchan_hp, HITMOCHAN_LVL_BASED_HP))
                             time_battle_end ()
                             system("cls")
 
@@ -849,8 +829,8 @@ while not true_0:
                                     elif 200 < critical_odds <= drain_punch_odd:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp))
+                                    print("\n", pikachu, pikachu_hp, "HP")
+                                    print (life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
 
                                 elif hitmonchan_turn == 2 :
                                     print(hitmonchan_uses, hitmonchan_powerup_punch)
@@ -865,8 +845,8 @@ while not true_0:
                                     elif 200 < critical_odds <= power_up_punch_odd:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp))
+                                    print("\n", pikachu, pikachu_hp, "HP")
+                                    print (life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
 
                                 elif hitmonchan_turn == 3 :
                                     print(hitmonchan_uses, hitmonchan_fire_punch)
@@ -881,8 +861,8 @@ while not true_0:
                                     elif 200 < critical_odds <= fire_punch_odd:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp))
+                                    print("\n", pikachu, pikachu_hp, "HP")
+                                    print (life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
 
                                 elif hitmonchan_turn == 4 :
                                     print(hitmonchan_uses, hitmonchan_mega_punch)
@@ -897,8 +877,8 @@ while not true_0:
                                     elif 200 < critical_odds <= mega_punch_odd:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp))
+                                    print("\n", pikachu, pikachu_hp, "HP")
+                                    print (life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
 
                                 elif hitmonchan_turn == 5 :
                                     print(hitmonchan_uses, hitmonchan_focus_punch)
@@ -913,8 +893,8 @@ while not true_0:
                                     elif 200 < critical_odds <= focus_punch_odd:
                                         pikachu_hp -= 0
                                         print("\nmiss___")
-                                    print("\n", p, pikachu_hp, "HP")
-                                    print (pikachu_life_indicator (pikachu_hp))
+                                    print("\n", pikachu, pikachu_hp, "HP")
+                                    print (life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP))
                             time_battle_end (); system("cls")
 
                             if hitmonchan_hp < 1:
@@ -926,7 +906,7 @@ while not true_0:
 
                         pikachu_lvl += random.randint(2, 3)
                         pikachu_critical += 0.1
-                        true_start = False
+                        gym_battle_done = True
 
 
 
@@ -971,5 +951,5 @@ while not true_0:
             new_position[POS_X] = 0
 
     if new_position: # in-game movement
-        if obstacle_colocation[new_position[POS_Y]][new_position[POS_X]] != ",":
+        if obstacles[new_position[POS_Y]][new_position[POS_X]] != ",":
             my_position = new_position
