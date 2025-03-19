@@ -32,7 +32,7 @@ MAP_WIDTH = 20
 MAP_HEIGHT = random.randint(MAP_WIDTH -5, MAP_WIDTH +10)
 POS_X = 0 # pos 1* of list
 POS_Y = 1 # pos 2* of list
-k = " "; odds = [",,,", ",,", k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k]
+odds = [",,,", ",,", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
 
 pikachu_damage = random.randint(10, 13)
 pikachu_critical =(random.randint(14, 20))/10
@@ -201,6 +201,7 @@ while not locations_true: # Locations creation
     true_1 = False; true_2 = False; true_3 = False; true_4 = False; true_5 = False; true_6 = False; limiter = 0
 
 while not game_true:
+    system("cls")
     # DRAW MAP >
     print("-"*(MAP_WIDTH* 2 + 3)) # Top
 
