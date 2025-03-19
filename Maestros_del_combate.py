@@ -179,14 +179,12 @@ def damages (pokemon_attack, attack_range, attack_posibility, pokemon_critical, 
 def time_battle_end ():
     sleep (2)
 
-
 def start (): # intro
     print ("Pikachu's lvl:", pikachu_lvl, "\n"); sleep (1)
     print (pikachu, pikachu_hp, "HP\n", life_indicator (pikachu_hp, PIKACHU_LVL_BASED_HP), "\n"); sleep (1)
     print (pikachu, "know 4 movements\nNuzlle, Thunder Shock, Quick Attack and Feint\n");sleep (2)
     print ("Hospitals [H] restores HP"); sleep (2); system ("cls")
     print ("\nWASD to move"); sleep (1)
-
 
 obstacles = obstacles_creation ()
 
@@ -255,11 +253,11 @@ while not true_0:
                 char_to_draw = " @" # you
 
                 if hospital_1[POS_X] == coordinate_x and hospital_1[POS_Y] == coordinate_y: # enter hospital 1
-                    true_5 = True
+                    true_2 = True
                 if hospital_2[POS_X] == coordinate_x and hospital_2[POS_Y] == coordinate_y: # enter hospital 2
-                    true_5 = True
+                    true_2 = True
 
-                if not gym_battle_done:# enter the rock gym
+                if not rock_done:# enter the rock gym
 
                     if rock_gym[POS_X] == coordinate_x and rock_gym[POS_Y] == coordinate_y:
                         print (); system ("cls"); print ("You entered -Pewter Rock Gym-\n")
@@ -299,17 +297,17 @@ while not true_0:
                                 time_battle_end (); system ("cls")
 
                             if   lairon_hp < 1:
-                                rock_done = True
                                 true_1 = True
-                            elif pikachu_hp < 1:
                                 rock_done = True
-                                true_6 = True
+                            elif pikachu_hp < 1:
+                                true_3 = True
+                                rock_done = True
 
                         pikachu_lvl += random.randint(1, 2)
                         pikachu_critical += 0.1
-                        gym_battle_done = True
 
-                if not gym_battle_done: # enter the water gym
+                if not water_done: # enter the water gym
+
                     if water_gym[POS_X] == coordinate_x and water_gym[POS_Y] == coordinate_y:
                         print (); system ("cls"); print ("You entered -Cerulean Water Gym-\n")
 
@@ -348,17 +346,17 @@ while not true_0:
                                 time_battle_end (); system ("cls")
 
                             if   squirtle_hp < 1:
+                                true_1 = True
                                 water_done = True
-                                true_2 = True
                             elif pikachu_hp < 1:
+                                true_3 = True
                                 water_done = True
-                                true_6 = True
 
                         pikachu_lvl += random.randint(1, 2)
                         pikachu_critical += 0.1
-                        gym_battle_done = True
 
-                if not gym_battle_done: # enter the electric gym
+                if not electric_done: # enter the electric gym
+
                     if electric_gym[POS_X] == coordinate_x and electric_gym[POS_Y] == coordinate_y:
                         print (); system ("cls"); print ("You entered -Vermilion Electric Gym-\n")
 
@@ -397,17 +395,17 @@ while not true_0:
                                 time_battle_end (); system ("cls")
 
                             if   zapdos_hp < 1:
+                                true_1 = True
                                 electric_done = True
-                                true_3 = True
                             elif pikachu_hp < 1:
+                                true_3 = True
                                 electric_done = True
-                                true_6 = True
 
                         pikachu_lvl += random.randint(1, 3)
                         pikachu_critical += 0.1
-                        gym_battle_done = True
 
-                if not gym_battle_done: # enter the fighting
+                if not fighting_done: # enter the fighting
+
                     if fighting_gym[POS_X] == coordinate_x and fighting_gym[POS_Y] == coordinate_y:
                         print (); system ("cls"); print ("You entered -Cianwood Fighting Gym\n")
 
@@ -446,17 +444,14 @@ while not true_0:
                                 time_battle_end (); system ("cls")
 
                             if   hitmonchan_hp < 1:
+                                true_1 = True
                                 fighting_done = True
-                                true_4 = True
                             elif pikachu_hp < 1:
+                                true_3 = True
                                 fighting_done = True
-                                true_6 = True
 
                         pikachu_lvl += random.randint(2, 3)
                         pikachu_critical += 0.1
-                        gym_battle_done = True
-
-
 
             print ("{}".format(char_to_draw), end="") # printer
         print (" |") # right side
@@ -464,20 +459,19 @@ while not true_0:
     print ("-"* (MAP_WIDTH* 2 + 3)) # bottom
     # draw map finish
 
-    if true_1 or true_2 or true_3 or true_4:# Gym win
+    if true_1: # Gym win
         system ("cls"); print ("\nGym Cleared\nMove to Continue")
-        true_1 = False; true_2 = False; true_3 = False; true_4 = False
-    if true_5: # pikachu restoration
+        true_1 = False
+    if true_2: # pikachu restoration
         pikachu_hp = PIKACHU_LVL_BASED_HP
         print (); system ("cls"); print ("Pikachu's HP Restored\nMove to Continue")
-        true_5 = False
-    if true_6: # Gym lost
+        true_2 = False
+    if true_3: # Gym lost
         system ("cls"); print ("\nGym Fight Losed\n\nYou Lose")
         true_0 = True
     if rock_done and water_done and electric_done and fighting_done: # win conditions
         system ("cls"); print ("You win all battles, congratulations!")
         true_0 = True
-
 
     direction = readchar() # where he/she want to move
     new_position = None
