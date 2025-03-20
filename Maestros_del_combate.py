@@ -100,18 +100,34 @@ focus_punch = int(hitmonchan_damage * 12); focus_punch_range = 500; focus_punch_
 def intro():
     location = ""
     while location not in ["1", "2", "3", "4"]:
-        print(f"(i) Hospitals [H] restores HP\n\n(i) WASD to move\n\nPikachu {pikachu_hp} HP            LVL "
-            f"{pikachu_lvl}\n{life_indicator(pikachu_hp, PIKACHU_LVL_BASED_HP)}\n\n"
-            "Pikachu know 4 movements\n  Nuzlle\n  Thunder Shock\n  Quick Attack\n  Feint\n")
-        location = input("Where are you coming from:\n  North (1)\n  South (2)\n  East  (3)\n  West  (4)\n\n"); system(CLS)
-        if location == "1":
-            my_position = [random.randint(0, MAP_WIDTH -1), random.randint(0, round(MAP_HEIGHT -((MAP_HEIGHT - 1)/1.5)) )]
-        elif location == "2":
-            my_position = [random.randint(0, MAP_WIDTH -1), random.randint(round((MAP_HEIGHT + 1)/1.5), MAP_HEIGHT -1)]
-        elif location == "3":
-            my_position = [random.randint(round((MAP_WIDTH + 1)/1.5), MAP_WIDTH -1), random.randint(0, MAP_HEIGHT -1)]
-        elif location == "4":
-            my_position = [random.randint(0, round(MAP_WIDTH -((MAP_WIDTH - 1)/1.5)) ), random.randint(0, MAP_HEIGHT -1)]
+        print(
+            f"(i) Hospitals [H] restores HP\n\n(i) WASD to move\n\n"
+            f"Pikachu {pikachu_hp} HP            LVL {pikachu_lvl}\n"
+            f"{life_indicator(pikachu_hp, PIKACHU_LVL_BASED_HP)}\n\n"
+            "Pikachu know 4 movements\n  Nuzlle\n  Thunder Shock\n  Quick Attack\n  Feint\n"
+        )
+        location = input(
+            "Where are you coming from:\n  North (1)\n  South (2)\n  East  (3)\n  West  (4)\n\n"
+        )
+        system(CLS)
+
+        match location:
+            case "1":
+                my_position = [
+                    random.randint(0, MAP_WIDTH - 1), random.randint(0, round(MAP_HEIGHT - ((MAP_HEIGHT - 1) / 1.5))),
+                ]
+            case "2":
+                my_position = [
+                    random.randint(0, MAP_WIDTH - 1), random.randint(round((MAP_HEIGHT + 1) / 1.5), MAP_HEIGHT - 1),
+                ]
+            case "3":
+                my_position = [
+                    random.randint(round((MAP_WIDTH + 1) / 1.5), MAP_WIDTH - 1), random.randint(0, MAP_HEIGHT - 1),
+                ]
+            case "4":
+                my_position = [
+                    random.randint(0, round(MAP_WIDTH - ((MAP_WIDTH - 1) / 1.5))), random.randint(0, MAP_HEIGHT - 1),
+                ]
     return my_position
 
 def time_battle_end(): # time
@@ -141,11 +157,13 @@ def obstacles_creation():
     return obstacles
 
 def battle_starts(enemy_pokemon, enemy_pokemon_hp, enemy_LVL_BASED_HP):
-    print(f"{enemy_pokemon} {enemy_pokemon_hp} HP\n{life_indicator(enemy_pokemon_hp, enemy_LVL_BASED_HP)}\n\n"
-          f"Pikachu {pikachu_hp} HP\n{life_indicator(pikachu_hp, PIKACHU_LVL_BASED_HP)}\n\n"
-          f"Pikachu's LVL {pikachu_lvl}\n\n"
-          f"Pikachu's Critical: [ {pikachu_critical} ]\n\n"
-          f"Pikachu's Damage: [ {pikachu_damage} ]\n\n")
+    print(
+        f"{enemy_pokemon} {enemy_pokemon_hp} HP\n{life_indicator(enemy_pokemon_hp, enemy_LVL_BASED_HP)}\n\n"
+        f"Pikachu {pikachu_hp} HP\n{life_indicator(pikachu_hp, PIKACHU_LVL_BASED_HP)}\n\n"
+        f"Pikachu's LVL {pikachu_lvl}\n\n"
+        f"Pikachu's Critical: [ {pikachu_critical} ]\n\n"
+        f"Pikachu's Damage: [ {pikachu_damage} ]\n\n"
+    )
 
 def life_indicator(pokemon_hp, pokemon_LVL_BASED_HP): # Health Bar
     if pokemon_hp >= 0:
