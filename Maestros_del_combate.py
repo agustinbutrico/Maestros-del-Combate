@@ -36,7 +36,6 @@ MAP_WIDTH = 20
 MAP_HEIGHT = random.randint(MAP_WIDTH -5, MAP_WIDTH +10)
 POS_X = 0 # pos 1* of list
 POS_Y = 1 # pos 2* of list
-odds = [",,,", ",,", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
 
 pikachu_damage = random.randint(16, 23)
 pikachu_critical =(random.randint(14, 20))/10
@@ -98,44 +97,47 @@ mega_punch = int(hitmonchan_damage * 8); mega_punch_range = 235; mega_punch_posi
 focus_punch = int(hitmonchan_damage * 12); focus_punch_range = 500; focus_punch_posibility = 200         # damage(120, 144)    40% acurracy     8% critical
 
 # < VARIABLES
-def intro(loc):
-    while loc not in ["1", "2", "3", "4"]:
+def intro():
+    location = ""
+    while location not in ["1", "2", "3", "4"]:
         print(f"(i) Hospitals [H] restores HP\n\n(i) WASD to move\n\nPikachu {pikachu_hp} HP            LVL "
             f"{pikachu_lvl}\n{life_indicator(pikachu_hp, PIKACHU_LVL_BASED_HP)}\n\n"
             "Pikachu know 4 movements\n  Nuzlle\n  Thunder Shock\n  Quick Attack\n  Feint\n")
-        loc = input("Where you are coming from:\n  North (1)\n  South (2)\n  East  (3)\n  West  (4)\n\n"); system(CLS)
-        return loc
-
-def start_position():
-    loc = intro("")
-    if loc == "1":
-        my_position = [random.randint(0, MAP_WIDTH -1), random.randint(0, round(MAP_HEIGHT -((MAP_HEIGHT - 1)/1.5)) )]
-    elif loc == "2":
-        my_position = [random.randint(0, MAP_WIDTH -1), random.randint(round((MAP_HEIGHT + 1)/1.5), MAP_HEIGHT -1)]
-    elif loc == "3":
-        my_position = [random.randint(round((MAP_WIDTH + 1)/1.5), MAP_WIDTH -1), random.randint(0, MAP_HEIGHT -1)]
-    elif loc == "4":
-        my_position = [random.randint(0, round(MAP_WIDTH -((MAP_WIDTH - 1)/1.5)) ), random.randint(0, MAP_HEIGHT -1)]
+        location = input("Where are you coming from:\n  North (1)\n  South (2)\n  East  (3)\n  West  (4)\n\n"); system(CLS)
+        if location == "1":
+            my_position = [random.randint(0, MAP_WIDTH -1), random.randint(0, round(MAP_HEIGHT -((MAP_HEIGHT - 1)/1.5)) )]
+        elif location == "2":
+            my_position = [random.randint(0, MAP_WIDTH -1), random.randint(round((MAP_HEIGHT + 1)/1.5), MAP_HEIGHT -1)]
+        elif location == "3":
+            my_position = [random.randint(round((MAP_WIDTH + 1)/1.5), MAP_WIDTH -1), random.randint(0, MAP_HEIGHT -1)]
+        elif location == "4":
+            my_position = [random.randint(0, round(MAP_WIDTH -((MAP_WIDTH - 1)/1.5)) ), random.randint(0, MAP_HEIGHT -1)]
     return my_position
 
 def time_battle_end(): # time
     sleep(2)
 
-def obstacles_creation(): # Obstacle Colocation
-    obstacles = ""; obstacle = 0; limiter_h = 0; limiter_w = 0
-    while limiter_h < MAP_HEIGHT: # random map generator
-        while limiter_w < MAP_WIDTH:
-            obstacle = random.choice(odds)
-            if obstacle == " ":
-                limiter_w += 1
-            elif obstacle == ",,":
-                limiter_w += 2
-            elif obstacle == ",,,":
-                limiter_w += 3
-            obstacles += obstacle
-        obstacles += "."
-        limiter_h += 1; limiter_w = 0
-    obstacles = [list(row) for row in obstacles.split(".")]
+def obstacles_creation():
+    obstacles = []
+    for _ in range(MAP_HEIGHT):
+        current_row = ""
+        current_width = 0
+        while current_width < MAP_WIDTH:
+            possible_obstacles = [",,,", ",,", " "]
+            weights = [2, 3, 95]
+            obstacle = random.choices(possible_obstacles, weights=weights, k=1)[0]
+            
+            # Check if the obstacle fits in the remaining width
+            if current_width + len(obstacle) > MAP_WIDTH:
+                # If the obstacle doesn't fit, fill with a space
+                current_row += " "
+                current_width += 1
+            else:
+                current_row += obstacle
+                current_width += len(obstacle)
+        # Appends the current row to the grid
+        obstacles.append(list(current_row))
+    # returns the map with same dimentions with obstacles
     return obstacles
 
 def battle_starts(enemy_pokemon, enemy_pokemon_hp, enemy_LVL_BASED_HP):
@@ -171,7 +173,7 @@ def damages(pokemon_txt, pokemon_attack_txt, pokemon_attack, attack_range, attac
     return enemy_pokemon_hp
 
 obstacles = obstacles_creation()
-my_position = start_position()
+my_position = intro()
 
 while not locations_true: # Locations creation
     while 0 <= limiter <= 5: 
