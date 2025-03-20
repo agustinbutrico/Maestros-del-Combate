@@ -3,7 +3,8 @@ from time import sleep
 from os import system
 from readchar import readchar
 
-system("clear")
+CLS = "cls"
+system(CLS)
 
 # VARIABLES >
 
@@ -98,12 +99,12 @@ focus_punch = int(hitmonchan_damage * 12); focus_punch_range = 500; focus_punch_
 
 # < VARIABLES
 def intro(loc):
-    while loc != "1" and loc != "2" and loc != "3" and loc != "4":
+    while loc not in ["1", "2", "3", "4"]:
         print(f"(i) Hospitals [H] restores HP\n\n(i) WASD to move\n\nPikachu {pikachu_hp} HP            LVL "
             f"{pikachu_lvl}\n{life_indicator(pikachu_hp, PIKACHU_LVL_BASED_HP)}\n\n"
             "Pikachu know 4 movements\n  Nuzlle\n  Thunder Shock\n  Quick Attack\n  Feint\n")
-        loc = input("Where you are coming from:\n  North (1)\n  South (2)\n  East  (3)\n  West  (4)\n\n"); system("clear")
-    return loc
+        loc = input("Where you are coming from:\n  North (1)\n  South (2)\n  East  (3)\n  West  (4)\n\n"); system(CLS)
+        return loc
 
 def start_position():
     loc = intro("")
@@ -201,7 +202,7 @@ while not locations_true: # Locations creation
     true_1 = False; true_2 = False; true_3 = False; true_4 = False; true_5 = False; true_6 = False; limiter = 0
 
 while not game_true:
-    system("clear")
+    system(CLS)
     # DRAW MAP >
     print("-"*(MAP_WIDTH* 2 + 3)) # Top
 
@@ -239,19 +240,19 @@ while not game_true:
                 if not water_done: # Water Gym
 
                     if water_gym[POS_X] == coordinate_x and water_gym[POS_Y] == coordinate_y:
-                        print(); system("clear"); input("You entered -Cerulean Water Gym-\n\n"); system("clear")
+                        print(); system(CLS); input("You entered -Cerulean Water Gym-\n\n"); system(CLS)
 
                         while not water_done: # water gym fight
 
                             if pikachu_hp > 0:
                                 my_turn = None
-                                while my_turn != "1" and my_turn != "2" and my_turn != "3" and my_turn != "4" and my_turn != "exit":
+                                while my_turn not in ["1", "2", "3", "4", "exit"]:
                                     battle_starts("Squirtle", squirtle_hp, SQUIRTLE_LVL_BASED_HP)
                                     my_turn = input("Select your attack:\n\n"
                                                     f"1.Nuzzle\n    {nuzzle} damage\n    95 acurracy\n    33 critical chance\n\n"
                                                     f"2.Thunder Shock\n    {thunder_shock} damage\n    65 acurracy\n    18 critical chance\n\n"
                                                     f"3.Quick Attack\n    {quick_attack} damage\n    75 acurracy\n    20 critical chance\n\n"
-                                                    f"4.Feint\n    {feint} damage\n    85 acurracy \n    26 critical chance\n\n"); system("clear")
+                                                    f"4.Feint\n    {feint} damage\n    85 acurracy \n    26 critical chance\n\n"); system(CLS)
 
                                 if my_turn == "1":
                                     squirtle_hp = damages("Pikachu", "Nuzlle", nuzzle, nuzzle_range, nuzzle_posibility, pikachu_critical, 
@@ -267,7 +268,7 @@ while not game_true:
                                                             "Squirtle", squirtle_hp, SQUIRTLE_LVL_BASED_HP)
                                 elif my_turn == "exit":
                                     game_true = True; water_done = True; playing = False
-                                time_battle_end(); system("clear")
+                                time_battle_end(); system(CLS)
 
                             if playing:
                                 if squirtle_hp > 0:
@@ -288,7 +289,7 @@ while not game_true:
                                     elif turn == 5:
                                         pikachu_hp = damages("Squirtle", "Water Pulse", water_pulse, water_pulse_range, water_pulse_posibility, squirtle_critical, 
                                                                 "Pikachu", pikachu_hp, PIKACHU_LVL_BASED_HP)
-                                    time_battle_end(); system("clear")
+                                    time_battle_end(); system(CLS)
 
                             if squirtle_hp < 1:
                                 true_2 = True
@@ -308,19 +309,19 @@ while not game_true:
                 if not rock_done: # Rock Gym
 
                     if rock_gym[POS_X] == coordinate_x and rock_gym[POS_Y] == coordinate_y:
-                        print(); system("clear"); input("You entered -Pewter Rock Gym-\n\n"); system("clear")
+                        print(); system(CLS); input("You entered -Pewter Rock Gym-\n\n"); system(CLS)
 
                         while not rock_done: # rock gym fight
 
                             if pikachu_hp > 0:
                                 my_turn = None
-                                while my_turn != "1" and my_turn != "2" and my_turn != "3" and my_turn != "4" and my_turn != "exit":
+                                while my_turn not in ["1", "2", "3", "4", "exit"]:
                                     battle_starts("Lairon", lairon_hp, LAIRON_LVL_BASED_HP)
                                     my_turn = input("Select your attack:\n\n"
                                                     f"1.Nuzzle\n    {nuzzle} damage\n    95 acurracy\n    33 critical chance\n\n"
                                                     f"2.Thunder Shock\n    {thunder_shock} damage\n    65 acurracy\n    18 critical chance\n\n"
                                                     f"3.Quick Attack\n    {quick_attack} damage\n    75 acurracy\n    20 critical chance\n\n"
-                                                    f"4.Feint\n    {feint} damage\n    85 acurracy \n    26 critical chance\n\n"); system("clear")
+                                                    f"4.Feint\n    {feint} damage\n    85 acurracy \n    26 critical chance\n\n"); system(CLS)
 
                                 if my_turn == "1":
                                     lairon_hp = damages("Pikachu", "Nuzlle", nuzzle, nuzzle_range, nuzzle_posibility, pikachu_critical, 
@@ -336,7 +337,7 @@ while not game_true:
                                                         "Lairon", lairon_hp, LAIRON_LVL_BASED_HP)
                                 elif my_turn == "exit":
                                     game_true = True; rock_done = True; playing = False
-                                time_battle_end(); system("clear")
+                                time_battle_end(); system(CLS)
 
                             if playing:
                                 if lairon_hp > 0:
@@ -357,7 +358,7 @@ while not game_true:
                                     elif turn == 5:
                                         pikachu_hp = damages("Lairon", "Iron Tail", iron_tail, iron_tail_range, iron_tail_posibility, lairon_critical, 
                                                                 "Pikachu", pikachu_hp, PIKACHU_LVL_BASED_HP)
-                                    time_battle_end(); system("clear")
+                                    time_battle_end(); system(CLS)
 
                             if lairon_hp < 1:
                                 true_2 = True
@@ -377,19 +378,19 @@ while not game_true:
                 if not electric_done: # Electric Gym
 
                     if electric_gym[POS_X] == coordinate_x and electric_gym[POS_Y] == coordinate_y:
-                        print(); system("clear"); input("You entered -Vermilion Electric Gym-\n\n"); system("clear")
+                        print(); system(CLS); input("You entered -Vermilion Electric Gym-\n\n"); system(CLS)
 
                         while not electric_done: # electric gym fight
 
                             if pikachu_hp > 0:
                                 my_turn = None
-                                while my_turn != "1" and my_turn != "2" and my_turn != "3" and my_turn != "4" and my_turn != "exit":
+                                while my_turn not in ["1", "2", "3", "4", "exit"]:
                                     battle_starts("Zapdos", zapdos_hp, ZAPDOS_LVL_BASED_HP)
                                     my_turn = input("Select your attack:\n\n"
                                                     f"1.Nuzzle\n    {nuzzle} damage\n    95 acurracy\n    33 critical chance\n\n"
                                                     f"2.Thunder Shock\n    {thunder_shock} damage\n    65 acurracy\n    18 critical chance\n\n"
                                                     f"3.Quick Attack\n    {quick_attack} damage\n    75 acurracy\n    20 critical chance\n\n"
-                                                    f"4.Feint\n    {feint} damage\n    85 acurracy \n    26 critical chance\n\n"); system("clear")
+                                                    f"4.Feint\n    {feint} damage\n    85 acurracy \n    26 critical chance\n\n"); system(CLS)
 
                                 if my_turn == "1":
                                     zapdos_hp = damages("Pikachu", "Nuzlle", nuzzle, nuzzle_range, nuzzle_posibility, pikachu_critical, 
@@ -405,7 +406,7 @@ while not game_true:
                                                         "Zapdos", zapdos_hp, ZAPDOS_LVL_BASED_HP)
                                 elif my_turn == "exit":
                                     game_true = True; electric_done = True; playing = False
-                                time_battle_end(); system("clear")
+                                time_battle_end(); system(CLS)
 
                             if playing:
                                 if zapdos_hp > 0:
@@ -426,7 +427,7 @@ while not game_true:
                                     elif turn == 5:
                                         pikachu_hp = damages("Zapdos", "Zap Cannon", zap_cannon, zap_cannon_range, zap_cannon_posibility, zapdos_critical, 
                                                                 "Pikachu", pikachu_hp, PIKACHU_LVL_BASED_HP)
-                                    time_battle_end(); system("clear")
+                                    time_battle_end(); system(CLS)
 
                             if zapdos_hp < 1:
                                 true_2 = True
@@ -446,19 +447,19 @@ while not game_true:
                 if not fighting_done: # Fighting Gym
 
                     if fighting_gym[POS_X] == coordinate_x and fighting_gym[POS_Y] == coordinate_y:
-                        print(); system("clear"); input("You entered -Cianwood Fighting Gym\n\n"); system("clear")
+                        print(); system(CLS); input("You entered -Cianwood Fighting Gym\n\n"); system(CLS)
 
                         while not fighting_done: # fighting gym fight
 
                             if pikachu_hp > 0:
                                 my_turn = None
-                                while my_turn != "1" and my_turn != "2" and my_turn != "3" and my_turn != "4" and my_turn != "exit":
+                                while my_turn not in ["1", "2", "3", "4", "exit"]:
                                     battle_starts("Hitmonchan", hitmonchan_hp, HITMONCHAN_LVL_BASED_HP)
                                     my_turn = input("Select your attack:\n\n"
                                                     f"1.Nuzzle\n    {nuzzle} damage\n    95 acurracy\n    33 critical chance\n\n"
                                                     f"2.Thunder Shock\n    {thunder_shock} damage\n    65 acurracy\n    18 critical chance\n\n"
                                                     f"3.Quick Attack\n    {quick_attack} damage\n    75 acurracy\n    20 critical chance\n\n"
-                                                    f"4.Feint\n    {feint} damage\n    85 acurracy \n    26 critical chance\n\n"); system("clear")
+                                                    f"4.Feint\n    {feint} damage\n    85 acurracy \n    26 critical chance\n\n"); system(CLS)
 
                                 if my_turn == "1":
                                     hitmonchan_hp = damages("Pikachu", "Nuzlle", nuzzle, nuzzle_range, nuzzle_posibility, pikachu_critical, 
@@ -474,7 +475,7 @@ while not game_true:
                                                             "Hitmonchan", hitmonchan_hp, HITMONCHAN_LVL_BASED_HP)
                                 elif my_turn == "exit":
                                     game_true = True; fighting_done = True; playing = False
-                                time_battle_end(); system("clear")
+                                time_battle_end(); system(CLS)
 
                             if playing:
                                 if hitmonchan_hp > 0:
@@ -495,7 +496,7 @@ while not game_true:
                                     elif turn == 5:
                                         pikachu_hp = damages("Hitmonchan", "Focus_Punch", focus_punch, focus_punch_range, focus_punch_posibility, hitmonchan_critical, 
                                                                 "Pikachu", pikachu_hp, PIKACHU_LVL_BASED_HP)
-                                    time_battle_end(); system("clear")
+                                    time_battle_end(); system(CLS)
 
                             if hitmonchan_hp < 1:
                                 true_2 = True
@@ -532,23 +533,23 @@ while not game_true:
     # CONDITIONS >
     if true_1: # Hospital
         pikachu_hp = PIKACHU_LVL_BASED_HP
-        print(); system("clear")
+        print(); system(CLS)
         print("Pikachu's HP Restored\n\nMove to Continue\n")
         true_1 = False
     if true_2: # Gym win
-        system("clear"); print(f"Pikachu grew to LVL {pikachu_lvl - 2}!\n"
+        system(CLS); print(f"Pikachu grew to LVL {pikachu_lvl - 2}!\n"
                                f"Pikachu grew to LVL {pikachu_lvl - 1}!\n"
                                f"Pikachu grew to LVL {pikachu_lvl}!\n\n"
                                "Gym Cleared\n\nMove to Continue\n")
         true_2 = False
     if true_3: # Gym lost
-        system("clear"); print("Gym Fight Losed\n\nYou Lose\n")
+        system(CLS); print("Gym Fight Losed\n\nYou Lose\n")
         game_true = True
     if rock_done and water_done and electric_done and fighting_done: # win conditions
-        system("clear"); print("Congratulations! You win all battles!\n\nYou Win!\n")
+        system(CLS); print("Congratulations! You win all battles!\n\nYou Win!\n")
         game_true = True
     if not playing: # exit game
-        print(); system("clear")
+        print(); system(CLS)
     # < CONDITIONS
 
     if not game_true and not true_3:
