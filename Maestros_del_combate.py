@@ -37,64 +37,228 @@ MAP_HEIGHT = random.randint(MAP_WIDTH -5, MAP_WIDTH +10)
 POS_X = 0 # pos 1* of list
 POS_Y = 1 # pos 2* of list
 
-pikachu_damage = random.randint(16, 23)
-pikachu_critical =(random.randint(14, 20))/10
-pikachu_lvl = random.randint(30, 32)
-pikachu_base_hp = 51
-pikachu_hp = pikachu_base_hp + pikachu_lvl*3
-PIKACHU_LVL_BASED_HP = pikachu_hp
-nuzzle = int(pikachu_damage * 1.5); nuzzle_range = 260 ; nuzzle_posibility = 245                         # damage(24, 34)     95% acurracy     33% critical
-thunder_shock = int(pikachu_damage * 3); thunder_shock_range = 340; thunder_shock_posibility = 220       # damage(48, 69)     65% acurracy     18% critical
-quick_attack = int(pikachu_damage * 2.5); quick_attack_range = 294; quick_attack_posibility = 220        # damage(40, 57)     75% acurracy     20% critical
-feint = int(pikachu_damage * 2); feint_range = 270; feint_posibility = 230                               # damage(32, 46)     85% acurracy     26% critical
+pikachu = {
+    "name": "Pikachu",
+    "damage": random.randint(16, 23),
+    "level": random.randint(30, 32),
+    "base_hp": 51,
+}
+# Calculate max HP based on level
+pikachu["max_hp"] = pikachu["base_hp"] + pikachu["level"] * 3
+pikachu["hp"] = pikachu["max_hp"]  # Current HP starts at max
 
-squirtle_damage = random.randint(10, 12)
-squirtle_critical =(random.randint(11, 15))/10
-squirtle_lvl = random.randint(26, 30)
-squirtle_base_hp = 70
-squirtle_hp = squirtle_base_hp + squirtle_lvl*3
-SQUIRTLE_LVL_BASED_HP = squirtle_hp
-tackle = int(squirtle_damage * 4); tackle_range = 268; tackle_posibility = 200                           # damage(40, 48)     75% acurracy     15% critical
-water_gun = int(squirtle_damage * 4); water_gun_range = 268; water_gun_posibility = 200                  # damage(40, 48)     75% acurracy     15% critical
-rapid_spin = int(squirtle_damage * 5); rapid_spin_range = 310; rapid_spin_posibility = 200               # damage(50, 60)     65% acurracy     13% critical
-bite = int(squirtle_damage * 6); bite_range = 365; bite_posibility = 200                                 # damage(60, 72)     55% acurracy     11% critical
-water_pulse = int(squirtle_damage * 6); water_pulse_range = 336; water_pulse_posibility = 200            # damage(60, 72)     60% acurracy     12% critical
+nuzzle = {
+    "name": "Nuzzle",
+    "damage": int(pikachu["damage"] * 1.5),
+    "accuracy": 0.95,
+    "critical_chance": 0.33,
+    "critical_multiplier": (random.randint(14, 20))/10,
+}
+thunder_shock = {
+    "name": "Thunder shock",
+    "damage": int(pikachu["damage"] * 3),
+    "accuracy": 0.65,
+    "critical_chance": 0.18,
+    "critical_multiplier": (random.randint(14, 20))/10,
+}
+quick_attack = {
+    "name": "Quick attack",
+    "damage": int(pikachu["damage"] * 2.5),
+    "accuracy": 0.75,
+    "critical_chance": 0.20,
+    "critical_multiplier": (random.randint(14, 20))/10,
+}
+feint = {
+    "name": "Feint",
+    "damage": int(pikachu["damage"] * 2),
+    "accuracy": 0.85,
+    "critical_chance": 0.26,
+    "critical_multiplier": (random.randint(14, 20))/10,
+}
 
-lairon_damage = random.randint(10, 12)
-lairon_critical =(random.randint(11, 14))/10
-lairon_lvl = random.randint(29, 32)
-lairon_base_hp = 84
-lairon_hp = lairon_base_hp + lairon_lvl*3
-LAIRON_LVL_BASED_HP = lairon_hp
-metal_claw = int(lairon_damage * 5); metal_claw_range = 210; metal_claw_posibility = 200                 # damage(50, 60)     95%  acurracy    20% critical
-rock_tomb = int(lairon_damage * 6); rock_tomb_range = 210; rock_tomb_posibility = 200                    # damage(60, 72)     95%  acurracy    20% critical
-headbutt = int(lairon_damage * 7); headbutt_range = 200; headbutt_posibility = 200                       # damage(70, 84)     100% acurracy    20% critical
-rock_slide = int(lairon_damage * 7.5); rock_slide_range = 222; rock_slide_posibility = 200               # damage(75, 90)     90%  acurracy    18% critical
-iron_tail = int(lairon_damage * 8); iron_tail_range = 268; iron_tail_posibility = 200                    # damage(80, 96)     75%  acurracy    15% critical
+squirtle = {
+    "name": "Squirtle",
+    "damage": random.randint(10, 12),
+    "level": random.randint(26, 30),
+    "base_hp": 70,
+}
+# Calculate max HP based on level
+squirtle["max_hp"] = squirtle["base_hp"] + squirtle["level"] * 3
+squirtle["hp"] = squirtle["max_hp"]  # Current HP starts at max
 
-zapdos_damage = random.randint(10, 12)
-zapdos_critical =(random.randint(11, 12))/10
-zapdos_lvl = random.randint(32, 34)
-zapdos_base_hp = 70
-zapdos_hp = zapdos_base_hp + zapdos_lvl*3
-ZAPDOS_LVL_BASED_HP = zapdos_hp
-peck = int(zapdos_damage * 3.5); peck_range = 200; peck_posibility = 200                                 # damage(35, 42)     100% acurracy    20% critical
-pluck = int(zapdos_damage * 5); pluck_range = 200; pluck_posibility = 200                                # damage(50, 60)     100% acurracy    20% critical
-ancient_power = int(zapdos_damage * 6); ancient_power_range = 200; ancient_power_posibility = 200        # damage(60, 72)     100% acurracy    20% critical
-thunder = int(zapdos_damage * 9); thunder_range = 288; thunder_posibility = 200                          # damage(90, 108)     70% acurracy    14% critical
-zap_cannon = int(zapdos_damage * 10); zap_cannon_range = 400; zap_cannon_posibility = 200                # damage(100, 120)    50% acurracy    10% critical
+tackle = {
+    "name": "Tackle",
+    "damage": int(squirtle["damage"] * 4),
+    "accuracy": 0.75,
+    "critical_chance": 0.15,
+    "critical_multiplier": (random.randint(11, 15))/10,
+}
+water_gun = {
+    "name": "Water gun",
+    "damage": int(squirtle["damage"] * 4),
+    "accuracy": 0.75,
+    "critical_chance": 0.15,
+    "critical_multiplier": (random.randint(11, 15))/10,
+}
+rapid_spin = {
+    "name": "Rapid spin",
+    "damage": int(squirtle["damage"] * 5),
+    "accuracy": 0.65,
+    "critical_chance": 0.13,
+    "critical_multiplier": (random.randint(11, 15))/10,
+}
+bite = {
+    "name": "Bite",
+    "damage": int(squirtle["damage"] * 6),
+    "accuracy": 0.55,
+    "critical_chance": 0.11,
+    "critical_multiplier": (random.randint(11, 15))/10,
+}
+water_pulse = {
+    "name": "Water pulse",
+    "damage": int(squirtle["damage"] * 6),
+    "accuracy": 0.60,
+    "critical_chance": 0.12,
+    "critical_multiplier": (random.randint(11, 15))/10,
+}
 
-hitmonchan_damage = random.randint(10, 12)
-hitmonchan_critical =(random.randint(11, 13))/10
-hitmonchan_lvl = random.randint(33, 36)
-hitmonchan_base_hp = 74
-hitmonchan_hp = hitmonchan_base_hp + hitmonchan_lvl*3
-HITMONCHAN_LVL_BASED_HP = hitmonchan_hp
-drain_punch = int(hitmonchan_damage * 7.5); drain_punch_range = 200; drain_punch_posibility = 200        # damage(75, 90)     100% acurracy    20% critical
-power_up_punch = int(hitmonchan_damage * 4); power_up_punch_range = 200; power_up_punch_posibility = 200 # damage(40, 48)     100% acurracy    20% critical
-fire_punch = int(hitmonchan_damage * 7.5); fire_punch_range = 200; fire_punch_posibility = 200           # damage(75, 90)     100% acurracy    20% critical
-mega_punch = int(hitmonchan_damage * 8); mega_punch_range = 235; mega_punch_posibility = 200             # damage(80, 96)      85% acurracy    17% critical
-focus_punch = int(hitmonchan_damage * 12); focus_punch_range = 500; focus_punch_posibility = 200         # damage(120, 144)    40% acurracy     8% critical
+lairon = {
+    "name": "Lairon",
+    "damage": random.randint(10, 12),
+    "level": random.randint(29, 32),
+    "base_hp": 84,
+}
+# Calculate max HP based on level
+lairon["max_hp"] = lairon["base_hp"] + lairon["level"] * 3
+lairon["hp"] = lairon["max_hp"]  # Current HP starts at max
+
+metal_claw = {
+    "name": "Metal claw",
+    "damage": int(lairon["damage"] * 5),
+    "accuracy": 0.95,
+    "critical_chance": 0.20,
+    "critical_multiplier": (random.randint(11, 14))/10,
+}
+rock_tomb = {
+    "name": "Rock tomb",
+    "damage": int(lairon["damage"] * 6),
+    "accuracy": 0.95,
+    "critical_chance": 0.20,
+    "critical_multiplier": (random.randint(11, 14))/10,
+}
+headbutt = {
+    "name": "Headbutt",
+    "damage": int(lairon["damage"] * 7),
+    "accuracy": 1.00,
+    "critical_chance": 0.20,
+    "critical_multiplier": (random.randint(11, 14))/10,
+}
+rock_slide = {
+    "name": "Rock slide",
+    "damage": int(lairon["damage"] * 7.5),
+    "accuracy": 0.90,
+    "critical_chance": 0.18,
+    "critical_multiplier": (random.randint(11, 14))/10,
+}
+iron_tail = {
+    "name": "Iron tail",
+    "damage": int(lairon["damage"] * 8),
+    "accuracy": 0.75,
+    "critical_chance": 0.15,
+    "critical_multiplier": (random.randint(11, 14))/10,
+}
+
+zapdos = {
+    "name": "Zapdos",
+    "damage": random.randint(10, 12),
+    "level": random.randint(32, 34),
+    "base_hp": 70,
+}
+# Calculate max HP based on level
+zapdos["max_hp"] = zapdos["base_hp"] + zapdos["level"] * 3
+zapdos["hp"] = zapdos["max_hp"]  # Current HP starts at max
+
+peck = {
+    "name": "Peck",
+    "damage": int(zapdos["damage"] * 3.5),
+    "accuracy": 1.00,
+    "critical_chance": 0.20,
+    "critical_multiplier": (random.randint(11, 12))/10,
+}
+pluck = {
+    "name": "Pluck",
+    "damage": int(zapdos["damage"] * 5),
+    "accuracy": 1.00,
+    "critical_chance": 0.20,
+    "critical_multiplier": (random.randint(11, 12))/10,
+}
+ancient_power = {
+    "name": "Ancient power",
+    "damage": int(zapdos["damage"] * 6),
+    "accuracy": 1.00,
+    "critical_chance": 0.20,
+    "critical_multiplier": (random.randint(11, 12))/10,
+}
+thunder = {
+    "name": "Thunder",
+    "damage": int(zapdos["damage"] * 9),
+    "accuracy": 0.70,
+    "critical_chance": 0.14,
+    "critical_multiplier": (random.randint(11, 12))/10,
+}
+zap_cannon = {
+    "name": "Zap cannon",
+    "damage": int(zapdos["damage"] * 10),
+    "accuracy": 0.50,
+    "critical_chance": 0.10,
+    "critical_multiplier": (random.randint(11, 12))/10,
+}
+
+hitmonchan = {
+    "name": "Hitmonchan",
+    "damage": random.randint(10, 12),
+    "level": random.randint(33, 36),
+    "base_hp": 74,
+}
+# Calculate max HP based on level
+hitmonchan["max_hp"] = hitmonchan["base_hp"] + hitmonchan["level"] * 3
+hitmonchan["hp"] = hitmonchan["max_hp"]  # Current HP starts at max
+
+drain_punch = {
+    "name": "Drain punch",
+    "damage": int(hitmonchan["damage"] * 7.5),
+    "accuracy": 1.00,
+    "critical_chance": 0.20,
+    "critical_multiplier": (random.randint(11, 13))/10,
+}
+power_up_punch = {
+    "name": "Power up punch",
+    "damage": int(hitmonchan["damage"] * 4),
+    "accuracy": 1.00,
+    "critical_chance": 0.20,
+    "critical_multiplier": (random.randint(11, 13))/10,
+}
+fire_punch = {
+    "name": "Fire punch",
+    "damage": int(hitmonchan["damage"] * 7.5),
+    "accuracy": 1.00,
+    "critical_chance": 0.20,
+    "critical_multiplier": (random.randint(11, 13))/10,
+}
+mega_punch = {
+    "name": "Mega punch",
+    "damage": int(hitmonchan["damage"] * 8),
+    "accuracy": 0.85,
+    "critical_chance": 0.17,
+    "critical_multiplier": (random.randint(11, 13))/10,
+}
+focus_punch = {
+    "name": "Focus punch",
+    "damage": int(hitmonchan["damage"] * 12),
+    "accuracy": 0.40,
+    "critical_chance": 0.08,
+    "critical_multiplier": (random.randint(11, 13))/10,
+}
 
 # < VARIABLES
 def intro():
@@ -102,8 +266,8 @@ def intro():
     while location not in ["1", "2", "3", "4"]:
         print(
             f"(i) Hospitals [H] restores HP\n\n(i) WASD to move\n\n"
-            f"Pikachu {pikachu_hp} HP            LVL {pikachu_lvl}\n"
-            f"{life_indicator(pikachu_hp, PIKACHU_LVL_BASED_HP)}\n\n"
+            f"Pikachu {pikachu['hp']} HP            LVL {pikachu['level']}\n"
+            f"{life_indicator(pikachu)}\n\n"
             "Pikachu know 4 movements\n  Nuzlle\n  Thunder Shock\n  Quick Attack\n  Feint\n"
         )
         location = input(
@@ -156,39 +320,46 @@ def obstacles_creation():
     # returns the map with same dimentions with obstacles
     return obstacles
 
-def battle_starts(enemy_pokemon, enemy_pokemon_hp, enemy_LVL_BASED_HP):
+def battle_starts(enemy):
     print(
-        f"{enemy_pokemon} {enemy_pokemon_hp} HP\n{life_indicator(enemy_pokemon_hp, enemy_LVL_BASED_HP)}\n\n"
-        f"Pikachu {pikachu_hp} HP\n{life_indicator(pikachu_hp, PIKACHU_LVL_BASED_HP)}\n\n"
-        f"Pikachu's LVL {pikachu_lvl}\n\n"
-        f"Pikachu's Critical: [ {pikachu_critical} ]\n\n"
-        f"Pikachu's Damage: [ {pikachu_damage} ]\n\n"
+        f"{enemy['name']} {enemy['hp']} HP\n{life_indicator(enemy)}\n\n"
+        f"Pikachu {pikachu['hp']} HP\n{life_indicator(pikachu)}\n\n"
+        f"Pikachu's LVL {pikachu['level']}\n\n"
+        f"Pikachu's Damage: {pikachu['damage']}\n\n"
     )
 
-def life_indicator(pokemon_hp, pokemon_LVL_BASED_HP): # Health Bar
-    if pokemon_hp >= 0:
-        health_bar = int(pokemon_hp * 30 / pokemon_LVL_BASED_HP)
-        health_bar_print = "[{}{}]".format("#" * health_bar, " " *(30 - health_bar))
-        return health_bar_print
-    elif pokemon_hp < 0:
-        health_bar = int(-1 *(pokemon_hp * 30 / pokemon_LVL_BASED_HP))
-        health_bar_print = "[{}{}]".format(" " *(30 - health_bar), "/" * health_bar)
-        return health_bar_print
+def attack_selection():
+    message = ("Select your attack:\n\n"
+    f"1.Nuzzle\n    {nuzzle['damage']} damage\n    {round(nuzzle['accuracy'] * 100)} accuracy\n    {round(nuzzle['critical_chance'] * 100)} critical chance\n\n"
+    f"2.Thunder Shock\n    {thunder_shock['damage']} damage\n    {round(thunder_shock['accuracy'] * 100)} accuracy\n    {round(thunder_shock['critical_chance'] * 100)} critical chance\n\n"
+    f"3.Quick Attack\n    {quick_attack['damage']} damage\n    {round(quick_attack['accuracy'] * 100)} accuracy\n    {round(quick_attack['critical_chance'] * 100)} critical chance\n\n"
+    f"4.Feint\n    {feint['damage']} damage\n    {round(feint['accuracy'] * 100)} accuracy \n    {round(feint['critical_chance'] * 100)} critical chance\n\n")
+    return message
 
-def damages(pokemon_txt, pokemon_attack_txt, pokemon_attack, attack_range, attack_posibility, pokemon_critical, enemy_pokemon, enemy_pokemon_hp, enemy_LVL_BASED_HP):
-    print(f"{pokemon_txt} uses {pokemon_attack_txt}\n") # 'Pokemon uses attack'
-    attack = random.randint(0, attack_range); sleep(1)
-    if attack <= 160:
-        enemy_pokemon_hp -= pokemon_attack # normal damage
-        print(f"-{pokemon_attack}\n")
-    elif 160 < attack <= attack_posibility:
-        enemy_pokemon_hp -= int(pokemon_attack * pokemon_critical) # special damage
-        print(f"critical___ -{int(pokemon_attack * pokemon_critical)}\n")
-    elif attack_posibility < attack:
-        enemy_pokemon_hp -= 0 # miss
-        print("miss___\n")
-    print(f"{enemy_pokemon} {enemy_pokemon_hp} HP\n{life_indicator(enemy_pokemon_hp, enemy_LVL_BASED_HP)}\n")
-    return enemy_pokemon_hp
+def life_indicator(pokemon): # Health Bar
+    if pokemon["hp"] >= 0:
+        health_bar = int(pokemon["hp"] * 30 / pokemon["max_hp"])
+        health_bar_print = "[{}{}]".format("#" * health_bar, " " *(30 - health_bar))
+    elif pokemon["hp"] < 0:
+        health_bar = int(-1 *(pokemon["hp"] * 30 / pokemon["max_hp"]))
+        health_bar_print = "[{}{}]".format(" " *(30 - health_bar), "/" * health_bar)
+    return health_bar_print
+
+def damages(attacker, attack, enemy):
+    print(f"{attacker} uses {attack['name']}\n")
+    
+    if random.random() < attack["accuracy"]:
+        if random.random() < attack["critical_chance"]:
+            damage_dealt = int(attack["damage"] * attack["critical_multiplier"])
+            print(f"Critical hit! -{damage_dealt}\n")
+        else:
+            damage_dealt = attack["damage"]
+            print(f"-{damage_dealt}\n")
+        enemy["hp"] -= damage_dealt
+    else:
+        print("Miss___\n")
+        
+    print(f"{enemy['name']} {enemy['hp']} HP\n{life_indicator(enemy)}\n")
 
 obstacles = obstacles_creation()
 my_position = intro()
@@ -264,65 +435,54 @@ while not game_true:
 
                         while not water_done: # water gym fight
 
-                            if pikachu_hp > 0:
+                            if pikachu["hp"] > 0:
                                 my_turn = None
                                 while my_turn not in ["1", "2", "3", "4", "exit"]:
-                                    battle_starts("Squirtle", squirtle_hp, SQUIRTLE_LVL_BASED_HP)
-                                    my_turn = input("Select your attack:\n\n"
-                                                    f"1.Nuzzle\n    {nuzzle} damage\n    95 acurracy\n    33 critical chance\n\n"
-                                                    f"2.Thunder Shock\n    {thunder_shock} damage\n    65 acurracy\n    18 critical chance\n\n"
-                                                    f"3.Quick Attack\n    {quick_attack} damage\n    75 acurracy\n    20 critical chance\n\n"
-                                                    f"4.Feint\n    {feint} damage\n    85 acurracy \n    26 critical chance\n\n"); system(CLS)
+                                    battle_starts(squirtle)
+                                    my_turn = input(attack_selection()); system(CLS)
 
                                 if my_turn == "1":
-                                    squirtle_hp = damages("Pikachu", "Nuzlle", nuzzle, nuzzle_range, nuzzle_posibility, pikachu_critical, 
-                                                            "Squirtle", squirtle_hp, SQUIRTLE_LVL_BASED_HP)
+                                    damages(pikachu, nuzzle, squirtle)
                                 elif my_turn == "2":
-                                    squirtle_hp = damages("Pikachu", "Thunder Shock", thunder_shock, thunder_shock_range, thunder_shock_posibility, pikachu_critical, 
-                                                            "Squirtle", squirtle_hp, SQUIRTLE_LVL_BASED_HP)
+                                    damages(pikachu, thunder_shock, squirtle)
                                 elif my_turn == "3":
-                                    squirtle_hp = damages("Pikachu", "Quick Attack", quick_attack, quick_attack_range, quick_attack_posibility, pikachu_critical, 
-                                                            "Squirtle", squirtle_hp, SQUIRTLE_LVL_BASED_HP)
+                                    damages(pikachu, quick_attack, squirtle)
                                 elif my_turn == "4":
-                                    squirtle_hp = damages("Pikachu", "Feint", feint, feint_range, feint_posibility, pikachu_critical, 
-                                                            "Squirtle", squirtle_hp, SQUIRTLE_LVL_BASED_HP)
+                                    damages(pikachu, feint, squirtle)
                                 elif my_turn == "exit":
                                     game_true = True; water_done = True; playing = False
                                 time_battle_end(); system(CLS)
 
                             if playing:
-                                if squirtle_hp > 0:
+                                if squirtle["hp"] > 0:
                                     turn = random.randint(1, 5)
 
                                     if turn == 1:
-                                        pikachu_hp = damages("Squirtle", "Tackle", tackle, tackle_range, tackle_posibility, squirtle_critical, 
-                                                                "Pikachu", pikachu_hp, PIKACHU_LVL_BASED_HP)
+                                        damages(squirtle, tackle, pikachu)
                                     elif turn == 2:
-                                        pikachu_hp = damages("Squirtle", "Water Gun", water_gun, water_gun_range, water_gun_posibility, squirtle_critical, 
-                                                                "Pikachu", pikachu_hp, PIKACHU_LVL_BASED_HP)
+                                        damages(squirtle, water_gun, pikachu)
                                     elif turn == 3:
-                                        pikachu_hp = damages("Squirtle", "Rapid Spin", rapid_spin, rapid_spin_range, rapid_spin_posibility, squirtle_critical, 
-                                                                "Pikachu", pikachu_hp, PIKACHU_LVL_BASED_HP)
+                                        damages(squirtle, rapid_spin, pikachu)
                                     elif turn == 4:
-                                        pikachu_hp = damages("Squirtle", "Bite", bite, bite_range, bite_posibility, squirtle_critical, 
-                                                                "Pikachu", pikachu_hp, PIKACHU_LVL_BASED_HP)
+                                        damages(squirtle, bite, pikachu)
                                     elif turn == 5:
-                                        pikachu_hp = damages("Squirtle", "Water Pulse", water_pulse, water_pulse_range, water_pulse_posibility, squirtle_critical, 
-                                                                "Pikachu", pikachu_hp, PIKACHU_LVL_BASED_HP)
+                                        damages(squirtle, water_pulse, pikachu)
                                     time_battle_end(); system(CLS)
 
-                            if squirtle_hp < 1:
+                            if squirtle["hp"] < 1:
                                 true_2 = True
                                 water_done = True
-                                PIKACHU_LVL_BASED_HP += random.randint(6, 12)
-                                pikachu_critical = ((pikachu_critical * 10) + 1)/10
-                                pikachu_damage += 1
-                                nuzzle = int((pikachu_damage) * 2.5)
-                                thunder_shock = int((pikachu_damage) * 4.5)
-                                quick_attack = int((pikachu_damage) * 4)
-                                feint = int((pikachu_damage) * 3)
-                                pikachu_lvl += 3
-                            elif pikachu_hp < 1:
+
+                                pikachu["max_hp"] += random.randint(6, 12)
+                                pikachu["damage"] += 1
+                                pikachu["level"] += 3
+
+                                # pikachu_critical = ((pikachu_critical * 10) + 1)/10
+                                # nuzzle["damage"] = int((pikachu["damage"]) * 2.5)
+                                # thunder_shock["damage"] = int((pikachu["damage"]) * 4.5)
+                                # quick_attack["damage"] = int((pikachu["damage"]) * 4)
+                                # feint["damage"] = int((pikachu["damage"]) * 3)
+                            elif pikachu["hp"] < 1:
                                 true_3 = True
                                 water_done = True
 
@@ -333,65 +493,54 @@ while not game_true:
 
                         while not rock_done: # rock gym fight
 
-                            if pikachu_hp > 0:
+                            if pikachu["hp"] > 0:
                                 my_turn = None
                                 while my_turn not in ["1", "2", "3", "4", "exit"]:
-                                    battle_starts("Lairon", lairon_hp, LAIRON_LVL_BASED_HP)
-                                    my_turn = input("Select your attack:\n\n"
-                                                    f"1.Nuzzle\n    {nuzzle} damage\n    95 acurracy\n    33 critical chance\n\n"
-                                                    f"2.Thunder Shock\n    {thunder_shock} damage\n    65 acurracy\n    18 critical chance\n\n"
-                                                    f"3.Quick Attack\n    {quick_attack} damage\n    75 acurracy\n    20 critical chance\n\n"
-                                                    f"4.Feint\n    {feint} damage\n    85 acurracy \n    26 critical chance\n\n"); system(CLS)
+                                    battle_starts(lairon)
+                                    my_turn = input(attack_selection()); system(CLS)
 
                                 if my_turn == "1":
-                                    lairon_hp = damages("Pikachu", "Nuzlle", nuzzle, nuzzle_range, nuzzle_posibility, pikachu_critical, 
-                                                        "Lairon", lairon_hp, LAIRON_LVL_BASED_HP)
+                                    damages(pikachu, nuzzle, lairon)
                                 elif my_turn == "2":
-                                    lairon_hp = damages("Pikachu", "Thunder Shock", thunder_shock, thunder_shock_range, thunder_shock_posibility, pikachu_critical, 
-                                                        "Lairon", lairon_hp, LAIRON_LVL_BASED_HP)
+                                    damages(pikachu, thunder_shock, lairon)
                                 elif my_turn == "3":
-                                    lairon_hp = damages("Pikachu", "Quick Attack", quick_attack, quick_attack_range, quick_attack_posibility, pikachu_critical, 
-                                                        "Lairon", lairon_hp, LAIRON_LVL_BASED_HP)
+                                    damages(pikachu, quick_attack, lairon)
                                 elif my_turn == "4":
-                                    lairon_hp = damages("Pikachu", "Feint", feint, feint_range, feint_posibility, pikachu_critical, 
-                                                        "Lairon", lairon_hp, LAIRON_LVL_BASED_HP)
+                                    damages(pikachu, feint, lairon)
                                 elif my_turn == "exit":
                                     game_true = True; rock_done = True; playing = False
                                 time_battle_end(); system(CLS)
 
                             if playing:
-                                if lairon_hp > 0:
+                                if lairon["hp"] > 0:
                                     turn = random.randint(1, 5)
 
                                     if turn == 1:
-                                        pikachu_hp = damages("Lairon", "Metal Claw", metal_claw, metal_claw_range, metal_claw_posibility, lairon_critical, 
-                                                                "Pikachu", pikachu_hp, PIKACHU_LVL_BASED_HP)
+                                        damages(lairon, metal_claw, pikachu)
                                     elif turn == 2:
-                                        pikachu_hp = damages("Lairon", "Rock Tomb", rock_tomb, rock_tomb_range, rock_tomb_posibility, lairon_critical, 
-                                                                "Pikachu", pikachu_hp, PIKACHU_LVL_BASED_HP)
+                                        damages(lairon, rock_tomb, pikachu)
                                     elif turn == 3:
-                                        pikachu_hp = damages("Lairon", "Headbutt", headbutt, headbutt_range, headbutt_posibility, lairon_critical, 
-                                                                "Pikachu", pikachu_hp, PIKACHU_LVL_BASED_HP)
+                                        damages(lairon, headbutt, pikachu)
                                     elif turn == 4:
-                                        pikachu_hp = damages("Lairon", "Rock Slide", rock_slide, rock_slide_range, rock_slide_posibility, lairon_critical, 
-                                                                "Pikachu", pikachu_hp, PIKACHU_LVL_BASED_HP)
+                                        damages(lairon, rock_slide, pikachu)
                                     elif turn == 5:
-                                        pikachu_hp = damages("Lairon", "Iron Tail", iron_tail, iron_tail_range, iron_tail_posibility, lairon_critical, 
-                                                                "Pikachu", pikachu_hp, PIKACHU_LVL_BASED_HP)
+                                        damages(lairon, iron_tail, pikachu)
                                     time_battle_end(); system(CLS)
 
-                            if lairon_hp < 1:
+                            if lairon["hp"] < 1:
                                 true_2 = True
                                 rock_done = True
-                                PIKACHU_LVL_BASED_HP += random.randint(7, 13)
-                                pikachu_critical = ((pikachu_critical * 10) + 1)/10
-                                pikachu_damage += 1
-                                nuzzle = int((pikachu_damage) * 2.5)
-                                thunder_shock = int((pikachu_damage) * 4.5)
-                                quick_attack = int((pikachu_damage) * 4)
-                                feint = int((pikachu_damage) * 3)
-                                pikachu_lvl += 3
-                            elif pikachu_hp < 1:
+
+                                pikachu["max_hp"] += random.randint(7, 13)
+                                pikachu["damage"] += 1
+                                pikachu["level"] += 3
+
+                                # pikachu_critical = ((pikachu_critical * 10) + 1)/10
+                                # nuzzle["damage"] = int((pikachu["damage"]) * 2.5)
+                                # thunder_shock["damage"] = int((pikachu["damage"]) * 4.5)
+                                # quick_attack["damage"] = int((pikachu["damage"]) * 4)
+                                # feint["damage"] = int((pikachu["damage"]) * 3)
+                            elif pikachu["hp"] < 1:
                                 true_3 = True
                                 rock_done = True
 
@@ -402,65 +551,54 @@ while not game_true:
 
                         while not electric_done: # electric gym fight
 
-                            if pikachu_hp > 0:
+                            if pikachu["hp"] > 0:
                                 my_turn = None
                                 while my_turn not in ["1", "2", "3", "4", "exit"]:
-                                    battle_starts("Zapdos", zapdos_hp, ZAPDOS_LVL_BASED_HP)
-                                    my_turn = input("Select your attack:\n\n"
-                                                    f"1.Nuzzle\n    {nuzzle} damage\n    95 acurracy\n    33 critical chance\n\n"
-                                                    f"2.Thunder Shock\n    {thunder_shock} damage\n    65 acurracy\n    18 critical chance\n\n"
-                                                    f"3.Quick Attack\n    {quick_attack} damage\n    75 acurracy\n    20 critical chance\n\n"
-                                                    f"4.Feint\n    {feint} damage\n    85 acurracy \n    26 critical chance\n\n"); system(CLS)
+                                    battle_starts(zapdos)
+                                    my_turn = input(attack_selection()); system(CLS)
 
                                 if my_turn == "1":
-                                    zapdos_hp = damages("Pikachu", "Nuzlle", nuzzle, nuzzle_range, nuzzle_posibility, pikachu_critical, 
-                                                        "Zapdos", zapdos_hp, ZAPDOS_LVL_BASED_HP)
+                                    damages(pikachu, nuzzle, zapdos)
                                 elif my_turn == "2":
-                                    zapdos_hp = damages("Pikachu", "Thunder Shock", thunder_shock, thunder_shock_range, thunder_shock_posibility, pikachu_critical, 
-                                                        "Zapdos", zapdos_hp, ZAPDOS_LVL_BASED_HP)
+                                    damages(pikachu, thunder_shock, zapdos)
                                 elif my_turn == "3":
-                                    zapdos_hp = damages("Pikachu", "Quick Attack", quick_attack, quick_attack_range, quick_attack_posibility, pikachu_critical, 
-                                                        "Zapdos", zapdos_hp, ZAPDOS_LVL_BASED_HP)
+                                    damages(pikachu, quick_attack, zapdos)
                                 elif my_turn == "4":
-                                    zapdos_hp = damages("Pikachu", "Feint", feint, feint_range, feint_posibility, pikachu_critical, 
-                                                        "Zapdos", zapdos_hp, ZAPDOS_LVL_BASED_HP)
+                                    damages(pikachu, feint, zapdos)
                                 elif my_turn == "exit":
                                     game_true = True; electric_done = True; playing = False
                                 time_battle_end(); system(CLS)
 
                             if playing:
-                                if zapdos_hp > 0:
+                                if zapdos["hp"] > 0:
                                     turn = random.randint(1, 5)
 
                                     if turn == 1:
-                                        pikachu_hp = damages("Zapdos", "Peck", peck, peck_range, peck_posibility, zapdos_critical, 
-                                                                "Pikachu", pikachu_hp, PIKACHU_LVL_BASED_HP)
+                                        damages(zapdos, peck, pikachu)
                                     elif turn == 2:
-                                        pikachu_hp = damages("Zapdos", "Pluck", pluck, pluck_range, pluck_posibility, zapdos_critical, 
-                                                                "Pikachu", pikachu_hp, PIKACHU_LVL_BASED_HP)
+                                        damages(zapdos, pluck, pikachu)
                                     elif turn == 3:
-                                        pikachu_hp = damages("Zapdos", "Ancient Power", ancient_power, ancient_power_range, ancient_power_posibility, zapdos_critical, 
-                                                                "Pikachu", pikachu_hp, PIKACHU_LVL_BASED_HP)
+                                        damages(zapdos, ancient_power, pikachu)
                                     elif turn == 4:
-                                        pikachu_hp = damages("Zapdos", "Thunder", thunder, thunder_range, thunder_posibility, zapdos_critical, 
-                                                                "Pikachu", pikachu_hp, PIKACHU_LVL_BASED_HP)
+                                        damages(zapdos, thunder, pikachu)
                                     elif turn == 5:
-                                        pikachu_hp = damages("Zapdos", "Zap Cannon", zap_cannon, zap_cannon_range, zap_cannon_posibility, zapdos_critical, 
-                                                                "Pikachu", pikachu_hp, PIKACHU_LVL_BASED_HP)
+                                        damages(zapdos, zap_cannon, pikachu)
                                     time_battle_end(); system(CLS)
 
-                            if zapdos_hp < 1:
+                            if zapdos["hp"] < 1:
                                 true_2 = True
                                 electric_done = True
-                                PIKACHU_LVL_BASED_HP += random.randint(8, 14)
-                                pikachu_critical = ((pikachu_critical * 10) + 2)/10
-                                pikachu_damage += 2
-                                nuzzle = int((pikachu_damage) * 2.5)
-                                thunder_shock = int((pikachu_damage) * 4.5)
-                                quick_attack = int((pikachu_damage) * 4)
-                                feint = int((pikachu_damage) * 3)
-                                pikachu_lvl += 3
-                            elif pikachu_hp < 1:
+
+                                pikachu["max_hp"] += random.randint(8, 14)
+                                pikachu["damage"] += 2
+                                pikachu["level"] += 3
+
+                                # pikachu_critical = ((pikachu_critical * 10) + 1)/10
+                                # nuzzle["damage"] = int((pikachu["damage"]) * 2.5)
+                                # thunder_shock["damage"] = int((pikachu["damage"]) * 4.5)
+                                # quick_attack["damage"] = int((pikachu["damage"]) * 4)
+                                # feint["damage"] = int((pikachu["damage"]) * 3)
+                            elif pikachu["hp"] < 1:
                                 true_3 = True
                                 electric_done = True
 
@@ -471,65 +609,54 @@ while not game_true:
 
                         while not fighting_done: # fighting gym fight
 
-                            if pikachu_hp > 0:
+                            if pikachu["hp"] > 0:
                                 my_turn = None
                                 while my_turn not in ["1", "2", "3", "4", "exit"]:
-                                    battle_starts("Hitmonchan", hitmonchan_hp, HITMONCHAN_LVL_BASED_HP)
-                                    my_turn = input("Select your attack:\n\n"
-                                                    f"1.Nuzzle\n    {nuzzle} damage\n    95 acurracy\n    33 critical chance\n\n"
-                                                    f"2.Thunder Shock\n    {thunder_shock} damage\n    65 acurracy\n    18 critical chance\n\n"
-                                                    f"3.Quick Attack\n    {quick_attack} damage\n    75 acurracy\n    20 critical chance\n\n"
-                                                    f"4.Feint\n    {feint} damage\n    85 acurracy \n    26 critical chance\n\n"); system(CLS)
+                                    battle_starts(hitmonchan)
+                                    my_turn = input(attack_selection()); system(CLS)
 
                                 if my_turn == "1":
-                                    hitmonchan_hp = damages("Pikachu", "Nuzlle", nuzzle, nuzzle_range, nuzzle_posibility, pikachu_critical, 
-                                                            "Hitmonchan", hitmonchan_hp, HITMONCHAN_LVL_BASED_HP)
+                                    damages(pikachu, nuzzle, hitmonchan)
                                 elif my_turn == "2":
-                                    hitmonchan_hp = damages("Pikachu", "Thunder Shock", thunder_shock, thunder_shock_range, thunder_shock_posibility, pikachu_critical, 
-                                                            "Hitmonchan", hitmonchan_hp, HITMONCHAN_LVL_BASED_HP)
+                                    damages(pikachu, thunder_shock, hitmonchan)
                                 elif my_turn == "3":
-                                    hitmonchan_hp = damages("Pikachu", "Quick Attack", quick_attack, quick_attack_range, quick_attack_posibility, pikachu_critical, 
-                                                            "Hitmonchan", hitmonchan_hp, HITMONCHAN_LVL_BASED_HP)
+                                    damages(pikachu, quick_attack, hitmonchan)
                                 elif my_turn == "4":
-                                    hitmonchan_hp = damages("Pikachu", "Feint", feint, feint_range, feint_posibility, pikachu_critical, 
-                                                            "Hitmonchan", hitmonchan_hp, HITMONCHAN_LVL_BASED_HP)
+                                    damages(pikachu, feint, hitmonchan)
                                 elif my_turn == "exit":
                                     game_true = True; fighting_done = True; playing = False
                                 time_battle_end(); system(CLS)
 
                             if playing:
-                                if hitmonchan_hp > 0:
+                                if hitmonchan["hp"] > 0:
                                     turn = random.randint(1, 5)
 
                                     if turn == 1:
-                                        pikachu_hp = damages("Hitmonchan", "Drain Punch", drain_punch, drain_punch_range, drain_punch_posibility, hitmonchan_critical, 
-                                                                "Pikachu", pikachu_hp, PIKACHU_LVL_BASED_HP)
+                                        damages(hitmonchan, drain_punch, pikachu)
                                     elif turn == 2:
-                                        pikachu_hp = damages("Hitmonchan", "Power-Up Punch", power_up_punch, power_up_punch_range, power_up_punch_posibility, hitmonchan_critical, 
-                                                                "Pikachu", pikachu_hp, PIKACHU_LVL_BASED_HP)
+                                        damages(hitmonchan, power_up_punch, pikachu)
                                     elif turn == 3:
-                                        pikachu_hp = damages("Hitmonchan", "Fire Punch", fire_punch, fire_punch_range, fire_punch_posibility, hitmonchan_critical, 
-                                                                "Pikachu", pikachu_hp, PIKACHU_LVL_BASED_HP)
+                                        damages(hitmonchan, fire_punch, pikachu)
                                     elif turn == 4:
-                                        pikachu_hp = damages("Hitmonchan", "Mega Punch", mega_punch, mega_punch_range, mega_punch_posibility, hitmonchan_critical, 
-                                                                "Pikachu", pikachu_hp, PIKACHU_LVL_BASED_HP)
+                                        damages(hitmonchan, mega_punch, pikachu)
                                     elif turn == 5:
-                                        pikachu_hp = damages("Hitmonchan", "Focus_Punch", focus_punch, focus_punch_range, focus_punch_posibility, hitmonchan_critical, 
-                                                                "Pikachu", pikachu_hp, PIKACHU_LVL_BASED_HP)
+                                        damages(hitmonchan, focus_punch, pikachu)
                                     time_battle_end(); system(CLS)
 
-                            if hitmonchan_hp < 1:
+                            if hitmonchan["hp"] < 1:
                                 true_2 = True
                                 fighting_done = True
-                                PIKACHU_LVL_BASED_HP += random.randint(10, 16)
-                                pikachu_critical = ((pikachu_critical * 10) + 2)/10
-                                pikachu_damage += 2
-                                nuzzle = int((pikachu_damage) * 2.5)
-                                thunder_shock = int((pikachu_damage) * 4.5)
-                                quick_attack = int((pikachu_damage) * 4)
-                                feint = int((pikachu_damage) * 3)
-                                pikachu_lvl += 3
-                            elif pikachu_hp < 1:
+
+                                pikachu["max_hp"] += random.randint(10, 16)
+                                pikachu["damage"] += 2
+                                pikachu["level"] += 3
+
+                                # pikachu_critical = ((pikachu_critical * 10) + 1)/10
+                                # nuzzle["damage"] = int((pikachu["damage"]) * 2.5)
+                                # thunder_shock["damage"] = int((pikachu["damage"]) * 4.5)
+                                # quick_attack["damage"] = int((pikachu["damage"]) * 4)
+                                # feint["damage"] = int((pikachu["damage"]) * 3)
+                            elif pikachu["hp"] < 1:
                                 true_3 = True
                                 fighting_done = True
       
@@ -552,14 +679,14 @@ while not game_true:
 
     # CONDITIONS >
     if true_1: # Hospital
-        pikachu_hp = PIKACHU_LVL_BASED_HP
+        pikachu["hp"] = pikachu["max_hp"]
         print(); system(CLS)
         print("Pikachu's HP Restored\n\nMove to Continue\n")
         true_1 = False
     if true_2: # Gym win
-        system(CLS); print(f"Pikachu grew to LVL {pikachu_lvl - 2}!\n"
-                               f"Pikachu grew to LVL {pikachu_lvl - 1}!\n"
-                               f"Pikachu grew to LVL {pikachu_lvl}!\n\n"
+        system(CLS); print(f"Pikachu grew to LVL {pikachu['level'] - 2}!\n"
+                               f"Pikachu grew to LVL {pikachu['level'] - 1}!\n"
+                               f"Pikachu grew to LVL {pikachu['level']}!\n\n"
                                "Gym Cleared\n\nMove to Continue\n")
         true_2 = False
     if true_3: # Gym lost
