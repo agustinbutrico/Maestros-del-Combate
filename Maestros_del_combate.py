@@ -1,11 +1,7 @@
+import os
 import random
 from time import sleep
-from os import system
 from readchar import readchar
-
-CLS = "cls"
-system(CLS)
-
 # VARIABLES >
 
 rock_done = False
@@ -261,6 +257,12 @@ focus_punch = {
 }
 
 # < VARIABLES
+def limpiar_pantalla():
+    if os.name == 'nt':  # Windows
+        os.system('cls')
+    else:  # Linux, macOS, etc.
+        os.system('clear')
+
 def intro():
     location = ""
     while location not in ["1", "2", "3", "4"]:
@@ -273,7 +275,7 @@ def intro():
         location = input(
             "Where are you coming from:\n  North (1)\n  South (2)\n  East  (3)\n  West  (4)\n\n"
         )
-        system(CLS)
+        limpiar_pantalla()
 
         match location:
             case "1":
@@ -361,372 +363,373 @@ def damages(attacker, attack, enemy):
         
     print(f"{enemy['name']} {enemy['hp']} HP\n{life_indicator(enemy)}\n")
 
-obstacles = obstacles_creation()
-my_position = intro()
+if __name__ == '__main__':
+    obstacles = obstacles_creation()
+    my_position = intro()
 
-while not locations_true: # Locations creation
-    while 0 <= limiter <= 5: 
-        new_location = [random.randint(0, MAP_WIDTH -1), random.randint(0, MAP_HEIGHT -1)]
-        if new_location not in locations and new_location != my_position and obstacles[new_location[POS_Y]][new_location[POS_X]] != ",":
-            locations.append(new_location)
-            if limiter == 0: # Rock Gym
-                water_gym = new_location
-                true_1 = True
-            elif limiter == 1: # Water Gym
-                rock_gym = new_location
-                true_2 = True
-            elif limiter == 2: # Electric Gym
-                electric_gym = new_location
-                true_3 = True
-            elif limiter == 3: # Fighting Gym
-                fighting_gym = new_location
-                true_4 = True
-            elif limiter == 4: # Hospital 1
-                hospital_1 = new_location
-                true_5 = True
-            elif limiter == 5: # Hospital 2
-                hospital_2 = new_location
-                true_6 = True
-            limiter += 1
-        if true_1 and true_2 and true_3 and true_4 and true_5 and true_6:
-            locations_true = True
-    true_1 = False; true_2 = False; true_3 = False; true_4 = False; true_5 = False; true_6 = False; limiter = 0
-
-while not game_true:
-    system(CLS)
-    # DRAW MAP >
-    print("-"*(MAP_WIDTH* 2 + 3)) # Top
-
-    for coordinate_y in range(MAP_HEIGHT): # Map and Fights
-        print("|", end="") # left side
-
-        for coordinate_x in range(MAP_WIDTH):
-            char_to_draw = "  "
-
-            # LOCATIONS PRINT >
-            if rock_gym[POS_X] == coordinate_x and rock_gym[POS_Y] == coordinate_y: # rock gym print
-                char_to_draw = " R"
-            if water_gym[POS_X] == coordinate_x and water_gym[POS_Y] == coordinate_y: # water gym print
-                char_to_draw = " W"
-            if electric_gym[POS_X] == coordinate_x and electric_gym[POS_Y] == coordinate_y: # electric gym print
-                char_to_draw = " E"
-            if fighting_gym[POS_X] == coordinate_x and fighting_gym[POS_Y] == coordinate_y: # fighting gym print
-                char_to_draw = " F"
-            if hospital_1[POS_X] == coordinate_x and hospital_1[POS_Y] == coordinate_y: # hospital 1 print
-                char_to_draw = " H"
-            if hospital_2[POS_X] == coordinate_x and hospital_2[POS_Y] == coordinate_y: # hospital 2 print
-                char_to_draw = " H"
-            # < LOCATIONS PRINT
-
-            # YOU >
-            if my_position[POS_X] == coordinate_x and my_position[POS_Y] == coordinate_y: # your position
-                char_to_draw = " @" # you
-
-                if hospital_1[POS_X] == coordinate_x and hospital_1[POS_Y] == coordinate_y: # enter hospital 1
+    while not locations_true: # Locations creation
+        while 0 <= limiter <= 5: 
+            new_location = [random.randint(0, MAP_WIDTH -1), random.randint(0, MAP_HEIGHT -1)]
+            if new_location not in locations and new_location != my_position and obstacles[new_location[POS_Y]][new_location[POS_X]] != ",":
+                locations.append(new_location)
+                if limiter == 0: # Rock Gym
+                    water_gym = new_location
                     true_1 = True
-                if hospital_2[POS_X] == coordinate_x and hospital_2[POS_Y] == coordinate_y: # enter hospital 2
-                    true_1 = True
+                elif limiter == 1: # Water Gym
+                    rock_gym = new_location
+                    true_2 = True
+                elif limiter == 2: # Electric Gym
+                    electric_gym = new_location
+                    true_3 = True
+                elif limiter == 3: # Fighting Gym
+                    fighting_gym = new_location
+                    true_4 = True
+                elif limiter == 4: # Hospital 1
+                    hospital_1 = new_location
+                    true_5 = True
+                elif limiter == 5: # Hospital 2
+                    hospital_2 = new_location
+                    true_6 = True
+                limiter += 1
+            if true_1 and true_2 and true_3 and true_4 and true_5 and true_6:
+                locations_true = True
+        true_1 = False; true_2 = False; true_3 = False; true_4 = False; true_5 = False; true_6 = False; limiter = 0
 
-                # GYMS FIGHTS >
-                if not water_done: # Water Gym
+    while not game_true:
+        limpiar_pantalla()
+        # DRAW MAP >
+        print("-"*(MAP_WIDTH* 2 + 3)) # Top
 
-                    if water_gym[POS_X] == coordinate_x and water_gym[POS_Y] == coordinate_y:
-                        print(); system(CLS); input("You entered -Cerulean Water Gym-\n\n"); system(CLS)
+        for coordinate_y in range(MAP_HEIGHT): # Map and Fights
+            print("|", end="") # left side
 
-                        while not water_done: # water gym fight
+            for coordinate_x in range(MAP_WIDTH):
+                char_to_draw = "  "
 
-                            if pikachu["hp"] > 0:
-                                my_turn = None
-                                while my_turn not in ["1", "2", "3", "4", "exit"]:
-                                    battle_starts(squirtle)
-                                    my_turn = input(attack_selection()); system(CLS)
+                # LOCATIONS PRINT >
+                if rock_gym[POS_X] == coordinate_x and rock_gym[POS_Y] == coordinate_y: # rock gym print
+                    char_to_draw = " R"
+                if water_gym[POS_X] == coordinate_x and water_gym[POS_Y] == coordinate_y: # water gym print
+                    char_to_draw = " W"
+                if electric_gym[POS_X] == coordinate_x and electric_gym[POS_Y] == coordinate_y: # electric gym print
+                    char_to_draw = " E"
+                if fighting_gym[POS_X] == coordinate_x and fighting_gym[POS_Y] == coordinate_y: # fighting gym print
+                    char_to_draw = " F"
+                if hospital_1[POS_X] == coordinate_x and hospital_1[POS_Y] == coordinate_y: # hospital 1 print
+                    char_to_draw = " H"
+                if hospital_2[POS_X] == coordinate_x and hospital_2[POS_Y] == coordinate_y: # hospital 2 print
+                    char_to_draw = " H"
+                # < LOCATIONS PRINT
 
-                                if my_turn == "1":
-                                    damages(pikachu, nuzzle, squirtle)
-                                elif my_turn == "2":
-                                    damages(pikachu, thunder_shock, squirtle)
-                                elif my_turn == "3":
-                                    damages(pikachu, quick_attack, squirtle)
-                                elif my_turn == "4":
-                                    damages(pikachu, feint, squirtle)
-                                elif my_turn == "exit":
-                                    game_true = True; water_done = True; playing = False
-                                time_battle_end(); system(CLS)
+                # YOU >
+                if my_position[POS_X] == coordinate_x and my_position[POS_Y] == coordinate_y: # your position
+                    char_to_draw = " @" # you
 
-                            if playing:
-                                if squirtle["hp"] > 0:
-                                    turn = random.randint(1, 5)
+                    if hospital_1[POS_X] == coordinate_x and hospital_1[POS_Y] == coordinate_y: # enter hospital 1
+                        true_1 = True
+                    if hospital_2[POS_X] == coordinate_x and hospital_2[POS_Y] == coordinate_y: # enter hospital 2
+                        true_1 = True
 
-                                    if turn == 1:
-                                        damages(squirtle, tackle, pikachu)
-                                    elif turn == 2:
-                                        damages(squirtle, water_gun, pikachu)
-                                    elif turn == 3:
-                                        damages(squirtle, rapid_spin, pikachu)
-                                    elif turn == 4:
-                                        damages(squirtle, bite, pikachu)
-                                    elif turn == 5:
-                                        damages(squirtle, water_pulse, pikachu)
-                                    time_battle_end(); system(CLS)
+                    # GYMS FIGHTS >
+                    if not water_done: # Water Gym
 
-                            if squirtle["hp"] < 1:
-                                true_2 = True
-                                water_done = True
+                        if water_gym[POS_X] == coordinate_x and water_gym[POS_Y] == coordinate_y:
+                            print(); limpiar_pantalla(); input("You entered -Cerulean Water Gym-\n\n"); limpiar_pantalla()
 
-                                pikachu["max_hp"] += random.randint(6, 12)
-                                pikachu["damage"] += 1
-                                pikachu["level"] += 3
+                            while not water_done: # water gym fight
 
-                                # pikachu_critical = ((pikachu_critical * 10) + 1)/10
-                                # nuzzle["damage"] = int((pikachu["damage"]) * 2.5)
-                                # thunder_shock["damage"] = int((pikachu["damage"]) * 4.5)
-                                # quick_attack["damage"] = int((pikachu["damage"]) * 4)
-                                # feint["damage"] = int((pikachu["damage"]) * 3)
-                            elif pikachu["hp"] < 1:
-                                true_3 = True
-                                water_done = True
+                                if pikachu["hp"] > 0:
+                                    my_turn = None
+                                    while my_turn not in ["1", "2", "3", "4", "exit"]:
+                                        battle_starts(squirtle)
+                                        my_turn = input(attack_selection()); limpiar_pantalla()
 
-                if not rock_done: # Rock Gym
+                                    if my_turn == "1":
+                                        damages(pikachu, nuzzle, squirtle)
+                                    elif my_turn == "2":
+                                        damages(pikachu, thunder_shock, squirtle)
+                                    elif my_turn == "3":
+                                        damages(pikachu, quick_attack, squirtle)
+                                    elif my_turn == "4":
+                                        damages(pikachu, feint, squirtle)
+                                    elif my_turn == "exit":
+                                        game_true = True; water_done = True; playing = False
+                                    time_battle_end(); limpiar_pantalla()
 
-                    if rock_gym[POS_X] == coordinate_x and rock_gym[POS_Y] == coordinate_y:
-                        print(); system(CLS); input("You entered -Pewter Rock Gym-\n\n"); system(CLS)
+                                if playing:
+                                    if squirtle["hp"] > 0:
+                                        turn = random.randint(1, 5)
 
-                        while not rock_done: # rock gym fight
+                                        if turn == 1:
+                                            damages(squirtle, tackle, pikachu)
+                                        elif turn == 2:
+                                            damages(squirtle, water_gun, pikachu)
+                                        elif turn == 3:
+                                            damages(squirtle, rapid_spin, pikachu)
+                                        elif turn == 4:
+                                            damages(squirtle, bite, pikachu)
+                                        elif turn == 5:
+                                            damages(squirtle, water_pulse, pikachu)
+                                        time_battle_end(); limpiar_pantalla()
 
-                            if pikachu["hp"] > 0:
-                                my_turn = None
-                                while my_turn not in ["1", "2", "3", "4", "exit"]:
-                                    battle_starts(lairon)
-                                    my_turn = input(attack_selection()); system(CLS)
+                                if squirtle["hp"] < 1:
+                                    true_2 = True
+                                    water_done = True
 
-                                if my_turn == "1":
-                                    damages(pikachu, nuzzle, lairon)
-                                elif my_turn == "2":
-                                    damages(pikachu, thunder_shock, lairon)
-                                elif my_turn == "3":
-                                    damages(pikachu, quick_attack, lairon)
-                                elif my_turn == "4":
-                                    damages(pikachu, feint, lairon)
-                                elif my_turn == "exit":
-                                    game_true = True; rock_done = True; playing = False
-                                time_battle_end(); system(CLS)
+                                    pikachu["max_hp"] += random.randint(6, 12)
+                                    pikachu["damage"] += 1
+                                    pikachu["level"] += 3
 
-                            if playing:
-                                if lairon["hp"] > 0:
-                                    turn = random.randint(1, 5)
+                                    # pikachu_critical = ((pikachu_critical * 10) + 1)/10
+                                    # nuzzle["damage"] = int((pikachu["damage"]) * 2.5)
+                                    # thunder_shock["damage"] = int((pikachu["damage"]) * 4.5)
+                                    # quick_attack["damage"] = int((pikachu["damage"]) * 4)
+                                    # feint["damage"] = int((pikachu["damage"]) * 3)
+                                elif pikachu["hp"] < 1:
+                                    true_3 = True
+                                    water_done = True
 
-                                    if turn == 1:
-                                        damages(lairon, metal_claw, pikachu)
-                                    elif turn == 2:
-                                        damages(lairon, rock_tomb, pikachu)
-                                    elif turn == 3:
-                                        damages(lairon, headbutt, pikachu)
-                                    elif turn == 4:
-                                        damages(lairon, rock_slide, pikachu)
-                                    elif turn == 5:
-                                        damages(lairon, iron_tail, pikachu)
-                                    time_battle_end(); system(CLS)
+                    if not rock_done: # Rock Gym
 
-                            if lairon["hp"] < 1:
-                                true_2 = True
-                                rock_done = True
+                        if rock_gym[POS_X] == coordinate_x and rock_gym[POS_Y] == coordinate_y:
+                            print(); limpiar_pantalla(); input("You entered -Pewter Rock Gym-\n\n"); limpiar_pantalla()
 
-                                pikachu["max_hp"] += random.randint(7, 13)
-                                pikachu["damage"] += 1
-                                pikachu["level"] += 3
+                            while not rock_done: # rock gym fight
 
-                                # pikachu_critical = ((pikachu_critical * 10) + 1)/10
-                                # nuzzle["damage"] = int((pikachu["damage"]) * 2.5)
-                                # thunder_shock["damage"] = int((pikachu["damage"]) * 4.5)
-                                # quick_attack["damage"] = int((pikachu["damage"]) * 4)
-                                # feint["damage"] = int((pikachu["damage"]) * 3)
-                            elif pikachu["hp"] < 1:
-                                true_3 = True
-                                rock_done = True
+                                if pikachu["hp"] > 0:
+                                    my_turn = None
+                                    while my_turn not in ["1", "2", "3", "4", "exit"]:
+                                        battle_starts(lairon)
+                                        my_turn = input(attack_selection()); limpiar_pantalla()
 
-                if not electric_done: # Electric Gym
+                                    if my_turn == "1":
+                                        damages(pikachu, nuzzle, lairon)
+                                    elif my_turn == "2":
+                                        damages(pikachu, thunder_shock, lairon)
+                                    elif my_turn == "3":
+                                        damages(pikachu, quick_attack, lairon)
+                                    elif my_turn == "4":
+                                        damages(pikachu, feint, lairon)
+                                    elif my_turn == "exit":
+                                        game_true = True; rock_done = True; playing = False
+                                    time_battle_end(); limpiar_pantalla()
 
-                    if electric_gym[POS_X] == coordinate_x and electric_gym[POS_Y] == coordinate_y:
-                        print(); system(CLS); input("You entered -Vermilion Electric Gym-\n\n"); system(CLS)
+                                if playing:
+                                    if lairon["hp"] > 0:
+                                        turn = random.randint(1, 5)
 
-                        while not electric_done: # electric gym fight
+                                        if turn == 1:
+                                            damages(lairon, metal_claw, pikachu)
+                                        elif turn == 2:
+                                            damages(lairon, rock_tomb, pikachu)
+                                        elif turn == 3:
+                                            damages(lairon, headbutt, pikachu)
+                                        elif turn == 4:
+                                            damages(lairon, rock_slide, pikachu)
+                                        elif turn == 5:
+                                            damages(lairon, iron_tail, pikachu)
+                                        time_battle_end(); limpiar_pantalla()
 
-                            if pikachu["hp"] > 0:
-                                my_turn = None
-                                while my_turn not in ["1", "2", "3", "4", "exit"]:
-                                    battle_starts(zapdos)
-                                    my_turn = input(attack_selection()); system(CLS)
+                                if lairon["hp"] < 1:
+                                    true_2 = True
+                                    rock_done = True
 
-                                if my_turn == "1":
-                                    damages(pikachu, nuzzle, zapdos)
-                                elif my_turn == "2":
-                                    damages(pikachu, thunder_shock, zapdos)
-                                elif my_turn == "3":
-                                    damages(pikachu, quick_attack, zapdos)
-                                elif my_turn == "4":
-                                    damages(pikachu, feint, zapdos)
-                                elif my_turn == "exit":
-                                    game_true = True; electric_done = True; playing = False
-                                time_battle_end(); system(CLS)
+                                    pikachu["max_hp"] += random.randint(7, 13)
+                                    pikachu["damage"] += 1
+                                    pikachu["level"] += 3
 
-                            if playing:
-                                if zapdos["hp"] > 0:
-                                    turn = random.randint(1, 5)
+                                    # pikachu_critical = ((pikachu_critical * 10) + 1)/10
+                                    # nuzzle["damage"] = int((pikachu["damage"]) * 2.5)
+                                    # thunder_shock["damage"] = int((pikachu["damage"]) * 4.5)
+                                    # quick_attack["damage"] = int((pikachu["damage"]) * 4)
+                                    # feint["damage"] = int((pikachu["damage"]) * 3)
+                                elif pikachu["hp"] < 1:
+                                    true_3 = True
+                                    rock_done = True
 
-                                    if turn == 1:
-                                        damages(zapdos, peck, pikachu)
-                                    elif turn == 2:
-                                        damages(zapdos, pluck, pikachu)
-                                    elif turn == 3:
-                                        damages(zapdos, ancient_power, pikachu)
-                                    elif turn == 4:
-                                        damages(zapdos, thunder, pikachu)
-                                    elif turn == 5:
-                                        damages(zapdos, zap_cannon, pikachu)
-                                    time_battle_end(); system(CLS)
+                    if not electric_done: # Electric Gym
 
-                            if zapdos["hp"] < 1:
-                                true_2 = True
-                                electric_done = True
+                        if electric_gym[POS_X] == coordinate_x and electric_gym[POS_Y] == coordinate_y:
+                            print(); limpiar_pantalla(); input("You entered -Vermilion Electric Gym-\n\n"); limpiar_pantalla()
 
-                                pikachu["max_hp"] += random.randint(8, 14)
-                                pikachu["damage"] += 2
-                                pikachu["level"] += 3
+                            while not electric_done: # electric gym fight
 
-                                # pikachu_critical = ((pikachu_critical * 10) + 1)/10
-                                # nuzzle["damage"] = int((pikachu["damage"]) * 2.5)
-                                # thunder_shock["damage"] = int((pikachu["damage"]) * 4.5)
-                                # quick_attack["damage"] = int((pikachu["damage"]) * 4)
-                                # feint["damage"] = int((pikachu["damage"]) * 3)
-                            elif pikachu["hp"] < 1:
-                                true_3 = True
-                                electric_done = True
+                                if pikachu["hp"] > 0:
+                                    my_turn = None
+                                    while my_turn not in ["1", "2", "3", "4", "exit"]:
+                                        battle_starts(zapdos)
+                                        my_turn = input(attack_selection()); limpiar_pantalla()
 
-                if not fighting_done: # Fighting Gym
+                                    if my_turn == "1":
+                                        damages(pikachu, nuzzle, zapdos)
+                                    elif my_turn == "2":
+                                        damages(pikachu, thunder_shock, zapdos)
+                                    elif my_turn == "3":
+                                        damages(pikachu, quick_attack, zapdos)
+                                    elif my_turn == "4":
+                                        damages(pikachu, feint, zapdos)
+                                    elif my_turn == "exit":
+                                        game_true = True; electric_done = True; playing = False
+                                    time_battle_end(); limpiar_pantalla()
 
-                    if fighting_gym[POS_X] == coordinate_x and fighting_gym[POS_Y] == coordinate_y:
-                        print(); system(CLS); input("You entered -Cianwood Fighting Gym\n\n"); system(CLS)
+                                if playing:
+                                    if zapdos["hp"] > 0:
+                                        turn = random.randint(1, 5)
 
-                        while not fighting_done: # fighting gym fight
+                                        if turn == 1:
+                                            damages(zapdos, peck, pikachu)
+                                        elif turn == 2:
+                                            damages(zapdos, pluck, pikachu)
+                                        elif turn == 3:
+                                            damages(zapdos, ancient_power, pikachu)
+                                        elif turn == 4:
+                                            damages(zapdos, thunder, pikachu)
+                                        elif turn == 5:
+                                            damages(zapdos, zap_cannon, pikachu)
+                                        time_battle_end(); limpiar_pantalla()
 
-                            if pikachu["hp"] > 0:
-                                my_turn = None
-                                while my_turn not in ["1", "2", "3", "4", "exit"]:
-                                    battle_starts(hitmonchan)
-                                    my_turn = input(attack_selection()); system(CLS)
+                                if zapdos["hp"] < 1:
+                                    true_2 = True
+                                    electric_done = True
 
-                                if my_turn == "1":
-                                    damages(pikachu, nuzzle, hitmonchan)
-                                elif my_turn == "2":
-                                    damages(pikachu, thunder_shock, hitmonchan)
-                                elif my_turn == "3":
-                                    damages(pikachu, quick_attack, hitmonchan)
-                                elif my_turn == "4":
-                                    damages(pikachu, feint, hitmonchan)
-                                elif my_turn == "exit":
-                                    game_true = True; fighting_done = True; playing = False
-                                time_battle_end(); system(CLS)
+                                    pikachu["max_hp"] += random.randint(8, 14)
+                                    pikachu["damage"] += 2
+                                    pikachu["level"] += 3
 
-                            if playing:
-                                if hitmonchan["hp"] > 0:
-                                    turn = random.randint(1, 5)
+                                    # pikachu_critical = ((pikachu_critical * 10) + 1)/10
+                                    # nuzzle["damage"] = int((pikachu["damage"]) * 2.5)
+                                    # thunder_shock["damage"] = int((pikachu["damage"]) * 4.5)
+                                    # quick_attack["damage"] = int((pikachu["damage"]) * 4)
+                                    # feint["damage"] = int((pikachu["damage"]) * 3)
+                                elif pikachu["hp"] < 1:
+                                    true_3 = True
+                                    electric_done = True
 
-                                    if turn == 1:
-                                        damages(hitmonchan, drain_punch, pikachu)
-                                    elif turn == 2:
-                                        damages(hitmonchan, power_up_punch, pikachu)
-                                    elif turn == 3:
-                                        damages(hitmonchan, fire_punch, pikachu)
-                                    elif turn == 4:
-                                        damages(hitmonchan, mega_punch, pikachu)
-                                    elif turn == 5:
-                                        damages(hitmonchan, focus_punch, pikachu)
-                                    time_battle_end(); system(CLS)
+                    if not fighting_done: # Fighting Gym
 
-                            if hitmonchan["hp"] < 1:
-                                true_2 = True
-                                fighting_done = True
+                        if fighting_gym[POS_X] == coordinate_x and fighting_gym[POS_Y] == coordinate_y:
+                            print(); limpiar_pantalla(); input("You entered -Cianwood Fighting Gym\n\n"); limpiar_pantalla()
 
-                                pikachu["max_hp"] += random.randint(10, 16)
-                                pikachu["damage"] += 2
-                                pikachu["level"] += 3
+                            while not fighting_done: # fighting gym fight
 
-                                # pikachu_critical = ((pikachu_critical * 10) + 1)/10
-                                # nuzzle["damage"] = int((pikachu["damage"]) * 2.5)
-                                # thunder_shock["damage"] = int((pikachu["damage"]) * 4.5)
-                                # quick_attack["damage"] = int((pikachu["damage"]) * 4)
-                                # feint["damage"] = int((pikachu["damage"]) * 3)
-                            elif pikachu["hp"] < 1:
-                                true_3 = True
-                                fighting_done = True
-      
-                # < GYMS FIGHTS
-            # < YOU
+                                if pikachu["hp"] > 0:
+                                    my_turn = None
+                                    while my_turn not in ["1", "2", "3", "4", "exit"]:
+                                        battle_starts(hitmonchan)
+                                        my_turn = input(attack_selection()); limpiar_pantalla()
 
-            # WALLS PRINT >
-            if obstacles[coordinate_y][coordinate_x] == ",": # Walls
-                if obstacles[my_position[POS_Y]][my_position[POS_X]] == ",": # don't draw walls on you
-                    obstacles[my_position[POS_Y]][my_position[POS_X]] = " "
-                if obstacles[my_position[POS_Y]][my_position[POS_X]] != ",": # walls print
-                    char_to_draw = " #"
-            # < WALLS PRINT
+                                    if my_turn == "1":
+                                        damages(pikachu, nuzzle, hitmonchan)
+                                    elif my_turn == "2":
+                                        damages(pikachu, thunder_shock, hitmonchan)
+                                    elif my_turn == "3":
+                                        damages(pikachu, quick_attack, hitmonchan)
+                                    elif my_turn == "4":
+                                        damages(pikachu, feint, hitmonchan)
+                                    elif my_turn == "exit":
+                                        game_true = True; fighting_done = True; playing = False
+                                    time_battle_end(); limpiar_pantalla()
 
-            print("{}".format(char_to_draw), end="") # Printer
-        print(" |") # right side
+                                if playing:
+                                    if hitmonchan["hp"] > 0:
+                                        turn = random.randint(1, 5)
 
-    print("-"*(MAP_WIDTH* 2 + 3)) # Bottom
-    # < DRAW MAP
+                                        if turn == 1:
+                                            damages(hitmonchan, drain_punch, pikachu)
+                                        elif turn == 2:
+                                            damages(hitmonchan, power_up_punch, pikachu)
+                                        elif turn == 3:
+                                            damages(hitmonchan, fire_punch, pikachu)
+                                        elif turn == 4:
+                                            damages(hitmonchan, mega_punch, pikachu)
+                                        elif turn == 5:
+                                            damages(hitmonchan, focus_punch, pikachu)
+                                        time_battle_end(); limpiar_pantalla()
 
-    # CONDITIONS >
-    if true_1: # Hospital
-        pikachu["hp"] = pikachu["max_hp"]
-        print(); system(CLS)
-        print("Pikachu's HP Restored\n\nMove to Continue\n")
-        true_1 = False
-    if true_2: # Gym win
-        system(CLS); print(f"Pikachu grew to LVL {pikachu['level'] - 2}!\n"
-                               f"Pikachu grew to LVL {pikachu['level'] - 1}!\n"
-                               f"Pikachu grew to LVL {pikachu['level']}!\n\n"
-                               "Gym Cleared\n\nMove to Continue\n")
-        true_2 = False
-    if true_3: # Gym lost
-        system(CLS); print("Gym Fight Losed\n\nYou Lose\n")
-        game_true = True
-    if rock_done and water_done and electric_done and fighting_done: # win conditions
-        system(CLS); print("Congratulations! You win all battles!\n\nYou Win!\n")
-        game_true = True
-    if not playing: # exit game
-        print(); system(CLS)
-    # < CONDITIONS
+                                if hitmonchan["hp"] < 1:
+                                    true_2 = True
+                                    fighting_done = True
 
-    if not game_true and not true_3:
-        direction = readchar() # where user want to move
+                                    pikachu["max_hp"] += random.randint(10, 16)
+                                    pikachu["damage"] += 2
+                                    pikachu["level"] += 3
 
-        if direction.upper() == "W" or direction.upper() == "5": # up movement
-            new_position = [my_position[POS_X], my_position[POS_Y] - 1]
-            if new_position[POS_Y] < 0:
-                new_position[POS_Y] = MAP_HEIGHT - 1
+                                    # pikachu_critical = ((pikachu_critical * 10) + 1)/10
+                                    # nuzzle["damage"] = int((pikachu["damage"]) * 2.5)
+                                    # thunder_shock["damage"] = int((pikachu["damage"]) * 4.5)
+                                    # quick_attack["damage"] = int((pikachu["damage"]) * 4)
+                                    # feint["damage"] = int((pikachu["damage"]) * 3)
+                                elif pikachu["hp"] < 1:
+                                    true_3 = True
+                                    fighting_done = True
+        
+                    # < GYMS FIGHTS
+                # < YOU
 
-        elif direction.upper() == "S" or direction.upper() == "2": # down movement
-            new_position = [my_position[POS_X], my_position[POS_Y] + 1]
-            if new_position[POS_Y] > MAP_HEIGHT - 1:
-                new_position[POS_Y] = 0
+                # WALLS PRINT >
+                if obstacles[coordinate_y][coordinate_x] == ",": # Walls
+                    if obstacles[my_position[POS_Y]][my_position[POS_X]] == ",": # don't draw walls on you
+                        obstacles[my_position[POS_Y]][my_position[POS_X]] = " "
+                    if obstacles[my_position[POS_Y]][my_position[POS_X]] != ",": # walls print
+                        char_to_draw = " #"
+                # < WALLS PRINT
 
-        elif direction.upper() == "A" or direction.upper() == "1": # left movement
-            new_position = [my_position[POS_X] - 1, my_position[POS_Y]]
-            if new_position[POS_X] < 0:
-                new_position[POS_X] = MAP_WIDTH - 1
+                print("{}".format(char_to_draw), end="") # Printer
+            print(" |") # right side
 
-        elif direction.upper() == "D" or direction.upper() == "3": # right movement
-            new_position = [my_position[POS_X] + 1, my_position[POS_Y]]
-            if new_position[POS_X] > MAP_WIDTH - 1:
-                new_position[POS_X] = 0
+        print("-"*(MAP_WIDTH* 2 + 3)) # Bottom
+        # < DRAW MAP
 
-        elif direction.upper() == "P": # right movement
+        # CONDITIONS >
+        if true_1: # Hospital
+            pikachu["hp"] = pikachu["max_hp"]
+            print(); limpiar_pantalla()
+            print("Pikachu's HP Restored\n\nMove to Continue\n")
+            true_1 = False
+        if true_2: # Gym win
+            limpiar_pantalla(); print(f"Pikachu grew to LVL {pikachu['level'] - 2}!\n"
+                                f"Pikachu grew to LVL {pikachu['level'] - 1}!\n"
+                                f"Pikachu grew to LVL {pikachu['level']}!\n\n"
+                                "Gym Cleared\n\nMove to Continue\n")
+            true_2 = False
+        if true_3: # Gym lost
+            limpiar_pantalla(); print("Gym Fight Losed\n\nYou Lose\n")
             game_true = True
+        if rock_done and water_done and electric_done and fighting_done: # win conditions
+            limpiar_pantalla(); print("Congratulations! You win all battles!\n\nYou Win!\n")
+            game_true = True
+        if not playing: # exit game
+            print(); limpiar_pantalla()
+        # < CONDITIONS
 
-        if new_position: # in-game movement
-            if obstacles[new_position[POS_Y]][new_position[POS_X]] != ",":
-                my_position = new_position
+        if not game_true and not true_3:
+            direction = readchar() # where user want to move
 
-# End
+            if direction.upper() == "W" or direction.upper() == "5": # up movement
+                new_position = [my_position[POS_X], my_position[POS_Y] - 1]
+                if new_position[POS_Y] < 0:
+                    new_position[POS_Y] = MAP_HEIGHT - 1
+
+            elif direction.upper() == "S" or direction.upper() == "2": # down movement
+                new_position = [my_position[POS_X], my_position[POS_Y] + 1]
+                if new_position[POS_Y] > MAP_HEIGHT - 1:
+                    new_position[POS_Y] = 0
+
+            elif direction.upper() == "A" or direction.upper() == "1": # left movement
+                new_position = [my_position[POS_X] - 1, my_position[POS_Y]]
+                if new_position[POS_X] < 0:
+                    new_position[POS_X] = MAP_WIDTH - 1
+
+            elif direction.upper() == "D" or direction.upper() == "3": # right movement
+                new_position = [my_position[POS_X] + 1, my_position[POS_Y]]
+                if new_position[POS_X] > MAP_WIDTH - 1:
+                    new_position[POS_X] = 0
+
+            elif direction.upper() == "P": # right movement
+                game_true = True
+
+            if new_position: # in-game movement
+                if obstacles[new_position[POS_Y]][new_position[POS_X]] != ",":
+                    my_position = new_position
+
+    # End
