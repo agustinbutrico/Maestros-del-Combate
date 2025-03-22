@@ -4,6 +4,7 @@ from time import sleep
 from readchar import readchar
 
 from data import game_state, load_data
+from core import utils
 
 # VARIABLES >
 rock_done = False
@@ -152,21 +153,6 @@ def battle_starts(attacker, enemy):
         f"{attacker.name}'s Damage: {attacker.damage}\n\n"
     )
 
-def attack_selection(pokemon):
-    """
-    Devuelve un mensaje con la lista de ataques del Pokémon,
-    mostrando el número, nombre, daño, precisión y probabilidad crítica.
-    """
-    message = "Select your attack:\n\n"
-    for index, attack in enumerate(pokemon.attacks, start=1):
-        message += (
-            f"{index}. {attack.name}\n"
-            f"    {attack.damage} damage\n"
-            f"    {round(attack.accuracy * 100)}% accuracy\n"
-            f"    {round(attack.critical_chance * 100)}% critical chance\n\n"
-        )
-    return message
-
 def time_battle_end(): # time
     sleep(2)
 
@@ -259,7 +245,7 @@ if __name__ == '__main__':
                                     my_turn = None
                                     while my_turn not in ["1", "2", "3", "4", "exit"]:
                                         battle_starts(player.pokemons[0], water_misty.pokemons[0])
-                                        my_turn = input(attack_selection(player.pokemons[0])); limpiar_pantalla()
+                                        my_turn = input(utils.message_pokemon_attacks(player.pokemons[0])); limpiar_pantalla()
 
                                     if my_turn == "1":
                                         damages(player.pokemons[0], player.pokemons[0].attacks[0], water_misty.pokemons[0])
@@ -315,7 +301,7 @@ if __name__ == '__main__':
                                     my_turn = None
                                     while my_turn not in ["1", "2", "3", "4", "exit"]:
                                         battle_starts(player.pokemons[0], rock_brock.pokemons[0])
-                                        my_turn = input(attack_selection(player.pokemons[0])); limpiar_pantalla()
+                                        my_turn = input(utils.message_pokemon_attacks(player.pokemons[0])); limpiar_pantalla()
 
                                     if my_turn == "1":
                                         damages(player.pokemons[0], player.pokemons[0].attacks[0], rock_brock.pokemons[0])
@@ -371,7 +357,7 @@ if __name__ == '__main__':
                                     my_turn = None
                                     while my_turn not in ["1", "2", "3", "4", "exit"]:
                                         battle_starts(player.pokemons[0], electric_lt_surge.pokemons[0])
-                                        my_turn = input(attack_selection(player.pokemons[0])); limpiar_pantalla()
+                                        my_turn = input(utils.message_pokemon_attacks(player.pokemons[0])); limpiar_pantalla()
 
                                     if my_turn == "1":
                                         damages(player.pokemons[0], player.pokemons[0].attacks[0], electric_lt_surge.pokemons[0])
@@ -427,7 +413,7 @@ if __name__ == '__main__':
                                     my_turn = None
                                     while my_turn not in ["1", "2", "3", "4", "exit"]:
                                         battle_starts(player.pokemons[0], fighting_sabrina.pokemons[0])
-                                        my_turn = input(attack_selection(player.pokemons[0])); limpiar_pantalla()
+                                        my_turn = input(utils.message_pokemon_attacks(player.pokemons[0])); limpiar_pantalla()
 
                                     if my_turn == "1":
                                         damages(player.pokemons[0], player.pokemons[0].attacks[0], fighting_sabrina.pokemons[0])
