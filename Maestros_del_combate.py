@@ -3,7 +3,8 @@ from time import sleep
 from readchar import readchar
 
 from data import game_state, load_data
-from core import utils, battle
+from core import utils, battle, map
+from data.game_state import MAP_HEIGHT, MAP_WIDTH
 
 # VARIABLES >
 rock_done = False
@@ -30,8 +31,6 @@ hospital_2 = None
 locations = []
 
 ## snake
-MAP_WIDTH = 20
-MAP_HEIGHT = random.randint(MAP_WIDTH -5, MAP_WIDTH +10)
 POS_X = 0 # pos 1* of list
 POS_Y = 1 # pos 2* of list
 
@@ -45,29 +44,6 @@ def get_trainer_by_name(name):
         if trainer.name.lower() == name.lower():
             return trainer
     return None
-
-def obstacles_creation():
-    obstacles = []
-    for _ in range(MAP_HEIGHT):
-        current_row = ""
-        current_width = 0
-        while current_width < MAP_WIDTH:
-            possible_obstacles = [",,,", ",,", " "]
-            weights = [2, 3, 95]
-            obstacle = random.choices(possible_obstacles, weights=weights, k=1)[0]
-            
-            # Check if the obstacle fits in the remaining width
-            if current_width + len(obstacle) > MAP_WIDTH:
-                # If the obstacle doesn't fit, fill with a space
-                current_row += " "
-                current_width += 1
-            else:
-                current_row += obstacle
-                current_width += len(obstacle)
-        # Appends the current row to the grid
-        obstacles.append(list(current_row))
-    # returns the map with same dimentions with obstacles
-    return obstacles
 
 def intro(pokemon):
     location = ""
@@ -122,7 +98,7 @@ if __name__ == '__main__':
     fighting_sabrina = get_trainer_by_name("Sabrina")
 
 
-    obstacles = obstacles_creation()
+    obstacles = map.obstacles_creation()
     my_position = intro(player.pokemons[0])
 
     while not locations_true: # Locations creation
