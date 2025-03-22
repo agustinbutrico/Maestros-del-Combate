@@ -45,48 +45,8 @@ def get_trainer_by_name(name):
             return trainer
     return None
 
-def intro(pokemon):
-    location = ""
-    while location not in ["1", "2", "3", "4"]:
-        print(
-            f"(i) Hospitals [H] restores HP\n"
-            f"(i) WASD to move\n\n"
-            f"{pokemon.name} {pokemon.hp} HP            LVL {pokemon.level}\n"
-            f"{utils.message_life_indicator(pokemon)}\n"
-        )
-
-        # Listamos los ataques dinámicamente
-        print(f"{pokemon.name} knows the following movements:")
-        for attack in pokemon.attacks:
-            print(f"  - {attack.name}")
-
-        location = input(
-            "Where are you coming from:\n  North (1)\n  South (2)\n  East  (3)\n  West  (4)\n\n"
-        )
-        utils.limpiar_pantalla()
-
-        match location:
-            case "1":
-                my_position = [
-                    random.randint(0, MAP_WIDTH - 1), random.randint(0, round(MAP_HEIGHT - ((MAP_HEIGHT - 1) / 1.5))),
-                ]
-            case "2":
-                my_position = [
-                    random.randint(0, MAP_WIDTH - 1), random.randint(round((MAP_HEIGHT + 1) / 1.5), MAP_HEIGHT - 1),
-                ]
-            case "3":
-                my_position = [
-                    random.randint(round((MAP_WIDTH + 1) / 1.5), MAP_WIDTH - 1), random.randint(0, MAP_HEIGHT - 1),
-                ]
-            case "4":
-                my_position = [
-                    random.randint(0, round(MAP_WIDTH - ((MAP_WIDTH - 1) / 1.5))), random.randint(0, MAP_HEIGHT - 1),
-                ]
-    return my_position
-
 def time_battle_end(): # time
     sleep(2)
-
 
 if __name__ == '__main__':
     load_data.load_data()
@@ -99,7 +59,7 @@ if __name__ == '__main__':
 
 
     obstacles = map.obstacles_creation()
-    my_position = intro(player.pokemons[0])
+    my_position = utils.intro(player.pokemons[0])
 
     while not locations_true: # Locations creation
         while 0 <= limiter <= 5: 
