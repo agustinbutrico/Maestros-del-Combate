@@ -22,6 +22,53 @@ def get_trainer_by_name(name):
 def time_battle_end(): # time
     sleep(2)
 
+def battle(player_pokemon, enemy_pokemon, gym_name):
+    """
+    Función de batalla general para enfrentar dos pokémons.
+    Retorna:
+      - "win" si el jugador gana,
+      - "lose" si el jugador pierde,
+      - "exit" si el jugador decide salir.
+    """
+    print()
+    core.utils.limpiar_pantalla()
+    input(f"You entered -{gym_name} Gym-\n\n")
+    core.utils.limpiar_pantalla()
+
+    while True:
+        # Turno del jugador
+        if player_pokemon.hp > 0:
+            my_turn = None
+            while my_turn not in ["1", "2", "3", "4", "exit"]:
+                core.utils.message_battle_starts(player_pokemon, enemy_pokemon)
+                my_turn = input(core.utils.message_pokemon_attacks(player_pokemon))
+                core.utils.limpiar_pantalla()
+
+            if my_turn == "exit":
+                return "exit"
+
+            attack_index = int(my_turn) - 1
+            core.battle.damages(player_pokemon, player_pokemon.attacks[attack_index], enemy_pokemon)
+            time_battle_end()
+            core.utils.limpiar_pantalla()
+        else:
+            return "lose"
+
+        # Verificar si el enemigo ha sido derrotado
+        if enemy_pokemon.hp < 1:
+            return "win"
+
+        # Turno del enemigo
+        if enemy_pokemon.hp > 0:
+            enemy_attack = random.randint(1, 4)
+            core.battle.damages(enemy_pokemon, enemy_pokemon.attacks[enemy_attack - 1], player_pokemon)
+            time_battle_end()
+            core.utils.limpiar_pantalla()
+
+        # Verificar si el jugador ha sido derrotado
+        if player_pokemon.hp < 1:
+            return "lose"
+
 if __name__ == '__main__':
     core.utils.limpiar_pantalla()
     load_data()
@@ -84,230 +131,74 @@ if __name__ == '__main__':
                                 true_1 = True
 
                     # GYMS FIGHTS >
-                    if not water_done: # Water Gym
+                    # Water Gym
+                    if water_gym.x == coordinate_x and water_gym.y == coordinate_y and not water_done:
+                        resultado = battle(player.pokemons[0], water_misty.pokemons[0], "Cerulean Water")
+                        if resultado == "win":
+                            player.pokemons[0].max_hp += random.randint(6, 12)
+                            player.pokemons[0].damage += 1
+                            player.pokemons[0].level += 3
+                            water_done = True
+                            true_2 = True
+                        elif resultado == "lose":
+                            true_3 = True
+                            water_done = True
+                        elif resultado == "exit":
+                            game_true = True
+                            water_done = True
+                            playing = False
+                    
+                    # Rock Gym
+                    if rock_gym.x == coordinate_x and rock_gym.y == coordinate_y and not rock_done:
+                        resultado = battle(player.pokemons[0], rock_brock.pokemons[0], "Pewter Rock")
+                        if resultado == "win":
+                            player.pokemons[0].max_hp += random.randint(7, 13)
+                            player.pokemons[0].damage += 1
+                            player.pokemons[0].level += 3
+                            rock_done = True
+                            true_2 = True
+                        elif resultado == "lose":
+                            true_3 = True
+                            rock_done = True
+                        elif resultado == "exit":
+                            game_true = True
+                            rock_done = True
+                            playing = False
 
-                        if water_gym.x == coordinate_x and water_gym.y == coordinate_y:
-                            print(); core.utils.limpiar_pantalla(); input("You entered -Cerulean Water Gym-\n\n"); core.utils.limpiar_pantalla()
+                    # Electric Gym
+                    if electric_gym.x == coordinate_x and electric_gym.y == coordinate_y and not electric_done:
+                        resultado = battle(player.pokemons[0], electric_lt_surge.pokemons[0], "Vermilion Electric")
+                        if resultado == "win":
+                            player.pokemons[0].max_hp += random.randint(8, 14)
+                            player.pokemons[0].damage += 2
+                            player.pokemons[0].level += 3
+                            electric_done = True
+                            true_2 = True
+                        elif resultado == "lose":
+                            true_3 = True
+                            electric_done = True
+                        elif resultado == "exit":
+                            game_true = True
+                            electric_done = True
+                            playing = False
 
-                            while not water_done: # water gym fight
+                    # Fighting Gym
+                    if fighting_gym.x == coordinate_x and fighting_gym.y == coordinate_y and not fighting_done:
+                        resultado = battle(player.pokemons[0], fighting_sabrina.pokemons[0], "Cianwood Fighting")
+                        if resultado == "win":
+                            player.pokemons[0].max_hp += random.randint(10, 16)
+                            player.pokemons[0].damage += 2
+                            player.pokemons[0].level += 3
+                            fighting_done = True
+                            true_2 = True
+                        elif resultado == "lose":
+                            true_3 = True
+                            fighting_done = True
+                        elif resultado == "exit":
+                            game_true = True
+                            fighting_done = True
+                            playing = False  
 
-                                if player.pokemons[0].hp > 0:
-                                    my_turn = None
-                                    while my_turn not in ["1", "2", "3", "4", "exit"]:
-                                        core.utils.message_battle_starts(player.pokemons[0], water_misty.pokemons[0])
-                                        my_turn = input(core.utils.message_pokemon_attacks(player.pokemons[0])); core.utils.limpiar_pantalla()
-
-                                    if my_turn == "1":
-                                        core.battle.damages(player.pokemons[0], player.pokemons[0].attacks[0], water_misty.pokemons[0])
-                                    elif my_turn == "2":
-                                        core.battle.damages(player.pokemons[0], player.pokemons[0].attacks[1], water_misty.pokemons[0])
-                                    elif my_turn == "3":
-                                        core.battle.damages(player.pokemons[0], player.pokemons[0].attacks[2], water_misty.pokemons[0])
-                                    elif my_turn == "4":
-                                        core.battle.damages(player.pokemons[0], player.pokemons[0].attacks[3], water_misty.pokemons[0])
-                                    elif my_turn == "exit":
-                                        game_true = True; water_done = True; playing = False
-                                    time_battle_end(); core.utils.limpiar_pantalla()
-
-                                if playing:
-                                    if water_misty.pokemons[0].hp > 0:
-                                        turn = random.randint(1, 4)
-
-                                        if turn == 1:
-                                            core.battle.damages(water_misty.pokemons[0], water_misty.pokemons[0].attacks[0], player.pokemons[0])
-                                        elif turn == 2:
-                                            core.battle.damages(water_misty.pokemons[0], water_misty.pokemons[0].attacks[1], player.pokemons[0])
-                                        elif turn == 3:
-                                            core.battle.damages(water_misty.pokemons[0], water_misty.pokemons[0].attacks[2], player.pokemons[0])
-                                        elif turn == 4:
-                                            core.battle.damages(water_misty.pokemons[0], water_misty.pokemons[0].attacks[3], player.pokemons[0])
-                                        time_battle_end(); core.utils.limpiar_pantalla()
-
-                                if water_misty.pokemons[0].hp < 1:
-                                    true_2 = True
-                                    water_done = True
-
-                                    player.pokemons[0].max_hp += random.randint(6, 12)
-                                    player.pokemons[0].damage += 1
-                                    player.pokemons[0].level += 3
-
-                                    # pikachu_critical = ((pikachu_critical * 10) + 1)/10
-                                    # nuzzle["damage"] = int((pikachu["damage"]) * 2.5)
-                                    # thunder_shock["damage"] = int((pikachu["damage"]) * 4.5)
-                                    # quick_attack["damage"] = int((pikachu["damage"]) * 4)
-                                    # feint["damage"] = int((pikachu["damage"]) * 3)
-                                elif player.pokemons[0].hp < 1:
-                                    true_3 = True
-                                    water_done = True
-
-                    if not rock_done: # Rock Gym
-
-                        if rock_gym.x == coordinate_x and rock_gym.y == coordinate_y:
-                            print(); core.utils.limpiar_pantalla(); input("You entered -Pewter Rock Gym-\n\n"); core.utils.limpiar_pantalla()
-
-                            while not rock_done: # rock gym fight
-
-                                if player.pokemons[0].hp > 0:
-                                    my_turn = None
-                                    while my_turn not in ["1", "2", "3", "4", "exit"]:
-                                        core.utils.message_battle_starts(player.pokemons[0], rock_brock.pokemons[0])
-                                        my_turn = input(core.utils.message_pokemon_attacks(player.pokemons[0])); core.utils.limpiar_pantalla()
-
-                                    if my_turn == "1":
-                                        core.battle.damages(player.pokemons[0], player.pokemons[0].attacks[0], rock_brock.pokemons[0])
-                                    elif my_turn == "2":
-                                        core.battle.damages(player.pokemons[0], player.pokemons[0].attacks[1], rock_brock.pokemons[0])
-                                    elif my_turn == "3":
-                                        core.battle.damages(player.pokemons[0], player.pokemons[0].attacks[2], rock_brock.pokemons[0])
-                                    elif my_turn == "4":
-                                        core.battle.damages(player.pokemons[0], player.pokemons[0].attacks[3], rock_brock.pokemons[0])
-                                    elif my_turn == "exit":
-                                        game_true = True; rock_done = True; playing = False
-                                    time_battle_end(); core.utils.limpiar_pantalla()
-
-                                if playing:
-                                    if rock_brock.pokemons[0].hp > 0:
-                                        turn = random.randint(1, 4)
-
-                                        if turn == 1:
-                                            core.battle.damages(rock_brock.pokemons[0], rock_brock.pokemons[0].attacks[0], player.pokemons[0])
-                                        elif turn == 2:
-                                            core.battle.damages(rock_brock.pokemons[0], rock_brock.pokemons[0].attacks[1], player.pokemons[0])
-                                        elif turn == 3:
-                                            core.battle.damages(rock_brock.pokemons[0], rock_brock.pokemons[0].attacks[2], player.pokemons[0])
-                                        elif turn == 4:
-                                            core.battle.damages(rock_brock.pokemons[0], rock_brock.pokemons[0].attacks[3], player.pokemons[0])
-                                        time_battle_end(); core.utils.limpiar_pantalla()
-
-                                if rock_brock.pokemons[0].hp < 1:
-                                    true_2 = True
-                                    rock_done = True
-
-                                    player.pokemons[0].max_hp += random.randint(7, 13)
-                                    player.pokemons[0].damage += 1
-                                    player.pokemons[0].level += 3
-
-                                    # pikachu_critical = ((pikachu_critical * 10) + 1)/10
-                                    # nuzzle["damage"] = int((pikachu["damage"]) * 2.5)
-                                    # thunder_shock["damage"] = int((pikachu["damage"]) * 4.5)
-                                    # quick_attack["damage"] = int((pikachu["damage"]) * 4)
-                                    # feint["damage"] = int((pikachu["damage"]) * 3)
-                                elif player.pokemons[0].hp < 1:
-                                    true_3 = True
-                                    rock_done = True
-
-                    if not electric_done: # Electric Gym
-
-                        if electric_gym.x == coordinate_x and electric_gym.y == coordinate_y:
-                            print(); core.utils.limpiar_pantalla(); input("You entered -Vermilion Electric Gym-\n\n"); core.utils.limpiar_pantalla()
-
-                            while not electric_done: # electric gym fight
-
-                                if player.pokemons[0].hp > 0:
-                                    my_turn = None
-                                    while my_turn not in ["1", "2", "3", "4", "exit"]:
-                                        core.utils.message_battle_starts(player.pokemons[0], electric_lt_surge.pokemons[0])
-                                        my_turn = input(core.utils.message_pokemon_attacks(player.pokemons[0])); core.utils.limpiar_pantalla()
-
-                                    if my_turn == "1":
-                                        core.battle.damages(player.pokemons[0], player.pokemons[0].attacks[0], electric_lt_surge.pokemons[0])
-                                    elif my_turn == "2":
-                                        core.battle.damages(player.pokemons[0], player.pokemons[0].attacks[1], electric_lt_surge.pokemons[0])
-                                    elif my_turn == "3":
-                                        core.battle.damages(player.pokemons[0], player.pokemons[0].attacks[2], electric_lt_surge.pokemons[0])
-                                    elif my_turn == "4":
-                                        core.battle.damages(player.pokemons[0], player.pokemons[0].attacks[3], electric_lt_surge.pokemons[0])
-                                    elif my_turn == "exit":
-                                        game_true = True; electric_done = True; playing = False
-                                    time_battle_end(); core.utils.limpiar_pantalla()
-
-                                if playing:
-                                    if electric_lt_surge.pokemons[0].hp > 0:
-                                        turn = random.randint(1, 4)
-
-                                        if turn == 1:
-                                            core.battle.damages(electric_lt_surge.pokemons[0], electric_lt_surge.pokemons[0].attacks[0], player.pokemons[0])
-                                        elif turn == 2:
-                                            core.battle.damages(electric_lt_surge.pokemons[0], electric_lt_surge.pokemons[0].attacks[1], player.pokemons[0])
-                                        elif turn == 3:
-                                            core.battle.damages(electric_lt_surge.pokemons[0], electric_lt_surge.pokemons[0].attacks[2], player.pokemons[0])
-                                        elif turn == 4:
-                                            core.battle.damages(electric_lt_surge.pokemons[0], electric_lt_surge.pokemons[0].attacks[3], player.pokemons[0])
-                                        time_battle_end(); core.utils.limpiar_pantalla()
-
-                                if electric_lt_surge.pokemons[0].hp < 1:
-                                    true_2 = True
-                                    electric_done = True
-
-                                    player.pokemons[0].max_hp += random.randint(8, 14)
-                                    player.pokemons[0].damage += 2
-                                    player.pokemons[0].level += 3
-
-                                    # pikachu_critical = ((pikachu_critical * 10) + 1)/10
-                                    # nuzzle["damage"] = int((pikachu["damage"]) * 2.5)
-                                    # thunder_shock["damage"] = int((pikachu["damage"]) * 4.5)
-                                    # quick_attack["damage"] = int((pikachu["damage"]) * 4)
-                                    # feint["damage"] = int((pikachu["damage"]) * 3)
-                                elif player.pokemons[0].hp < 1:
-                                    true_3 = True
-                                    electric_done = True
-
-                    if not fighting_done: # Fighting Gym
-
-                        if fighting_gym.x == coordinate_x and fighting_gym.y == coordinate_y:
-                            print(); core.utils.limpiar_pantalla(); input("You entered -Cianwood Fighting Gym\n\n"); core.utils.limpiar_pantalla()
-
-                            while not fighting_done: # fighting gym fight
-
-                                if player.pokemons[0].hp > 0:
-                                    my_turn = None
-                                    while my_turn not in ["1", "2", "3", "4", "exit"]:
-                                        core.utils.message_battle_starts(player.pokemons[0], fighting_sabrina.pokemons[0])
-                                        my_turn = input(core.utils.message_pokemon_attacks(player.pokemons[0])); core.utils.limpiar_pantalla()
-
-                                    if my_turn == "1":
-                                        core.battle.damages(player.pokemons[0], player.pokemons[0].attacks[0], fighting_sabrina.pokemons[0])
-                                    elif my_turn == "2":
-                                        core.battle.damages(player.pokemons[0], player.pokemons[0].attacks[1], fighting_sabrina.pokemons[0])
-                                    elif my_turn == "3":
-                                        core.battle.damages(player.pokemons[0], player.pokemons[0].attacks[2], fighting_sabrina.pokemons[0])
-                                    elif my_turn == "4":
-                                        core.battle.damages(player.pokemons[0], player.pokemons[0].attacks[3], fighting_sabrina.pokemons[0])
-                                    elif my_turn == "exit":
-                                        game_true = True; fighting_done = True; playing = False
-                                    time_battle_end(); core.utils.limpiar_pantalla()
-
-                                if playing:
-                                    if fighting_sabrina.pokemons[0].hp > 0:
-                                        turn = random.randint(1, 4)
-
-                                        if turn == 1:
-                                            core.battle.damages(fighting_sabrina.pokemons[0], fighting_sabrina.pokemons[0].attacks[0], player.pokemons[0])
-                                        elif turn == 2:
-                                            core.battle.damages(fighting_sabrina.pokemons[0], fighting_sabrina.pokemons[0].attacks[1], player.pokemons[0])
-                                        elif turn == 3:
-                                            core.battle.damages(fighting_sabrina.pokemons[0], fighting_sabrina.pokemons[0].attacks[2], player.pokemons[0])
-                                        elif turn == 4:
-                                            core.battle.damages(fighting_sabrina.pokemons[0], fighting_sabrina.pokemons[0].attacks[3], player.pokemons[0])
-                                        time_battle_end(); core.utils.limpiar_pantalla()
-
-                                if fighting_sabrina.pokemons[0].hp < 1:
-                                    true_2 = True
-                                    fighting_done = True
-
-                                    player.pokemons[0].max_hp += random.randint(10, 16)
-                                    player.pokemons[0].damage += 2
-                                    player.pokemons[0].level += 3
-
-                                    # pikachu_critical = ((pikachu_critical * 10) + 1)/10
-                                    # nuzzle["damage"] = int((pikachu["damage"]) * 2.5)
-                                    # thunder_shock["damage"] = int((pikachu["damage"]) * 4.5)
-                                    # quick_attack["damage"] = int((pikachu["damage"]) * 4)
-                                    # feint["damage"] = int((pikachu["damage"]) * 3)
-                                elif player.pokemons[0].hp < 1:
-                                    true_3 = True
-                                    fighting_done = True
-        
                     # < GYMS FIGHTS
                 # < YOU
 
