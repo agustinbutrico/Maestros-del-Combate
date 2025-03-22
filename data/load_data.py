@@ -1,7 +1,7 @@
 import random
 
 import data.game_state as gs
-import data.create_pokemons as cp
+import core.pokemons as cp
 import locations.base as loc
 from core import map
 from trainers.base import Trainer
