@@ -1,4 +1,3 @@
-import os
 import random
 from time import sleep
 from readchar import readchar
@@ -46,12 +45,6 @@ def get_trainer_by_name(name):
         if trainer.name.lower() == name.lower():
             return trainer
     return None
-
-def limpiar_pantalla():
-    if os.name == 'nt':  # Windows
-        os.system('cls')
-    else:  # Linux, macOS, etc.
-        os.system('clear')
 
 def obstacles_creation():
     obstacles = []
@@ -114,7 +107,7 @@ def intro(pokemon):
         location = input(
             "Where are you coming from:\n  North (1)\n  South (2)\n  East  (3)\n  West  (4)\n\n"
         )
-        limpiar_pantalla()
+        utils.limpiar_pantalla()
 
         match location:
             case "1":
@@ -181,7 +174,7 @@ if __name__ == '__main__':
         true_1 = False; true_2 = False; true_3 = False; true_4 = False; true_5 = False; true_6 = False; limiter = 0
 
     while not game_true:
-        limpiar_pantalla()
+        utils.limpiar_pantalla()
         # DRAW MAP >
         print("-"*(MAP_WIDTH* 2 + 3)) # Top
 
@@ -219,7 +212,7 @@ if __name__ == '__main__':
                     if not water_done: # Water Gym
 
                         if water_gym[POS_X] == coordinate_x and water_gym[POS_Y] == coordinate_y:
-                            print(); limpiar_pantalla(); input("You entered -Cerulean Water Gym-\n\n"); limpiar_pantalla()
+                            print(); utils.limpiar_pantalla(); input("You entered -Cerulean Water Gym-\n\n"); utils.limpiar_pantalla()
 
                             while not water_done: # water gym fight
 
@@ -227,7 +220,7 @@ if __name__ == '__main__':
                                     my_turn = None
                                     while my_turn not in ["1", "2", "3", "4", "exit"]:
                                         utils.message_battle_starts(player.pokemons[0], water_misty.pokemons[0])
-                                        my_turn = input(utils.message_pokemon_attacks(player.pokemons[0])); limpiar_pantalla()
+                                        my_turn = input(utils.message_pokemon_attacks(player.pokemons[0])); utils.limpiar_pantalla()
 
                                     if my_turn == "1":
                                         damages(player.pokemons[0], player.pokemons[0].attacks[0], water_misty.pokemons[0])
@@ -239,7 +232,7 @@ if __name__ == '__main__':
                                         damages(player.pokemons[0], player.pokemons[0].attacks[3], water_misty.pokemons[0])
                                     elif my_turn == "exit":
                                         game_true = True; water_done = True; playing = False
-                                    time_battle_end(); limpiar_pantalla()
+                                    time_battle_end(); utils.limpiar_pantalla()
 
                                 if playing:
                                     if water_misty.pokemons[0].hp > 0:
@@ -253,7 +246,7 @@ if __name__ == '__main__':
                                             damages(water_misty.pokemons[0], water_misty.pokemons[0].attacks[2], player.pokemons[0])
                                         elif turn == 4:
                                             damages(water_misty.pokemons[0], water_misty.pokemons[0].attacks[3], player.pokemons[0])
-                                        time_battle_end(); limpiar_pantalla()
+                                        time_battle_end(); utils.limpiar_pantalla()
 
                                 if water_misty.pokemons[0].hp < 1:
                                     true_2 = True
@@ -275,7 +268,7 @@ if __name__ == '__main__':
                     if not rock_done: # Rock Gym
 
                         if rock_gym[POS_X] == coordinate_x and rock_gym[POS_Y] == coordinate_y:
-                            print(); limpiar_pantalla(); input("You entered -Pewter Rock Gym-\n\n"); limpiar_pantalla()
+                            print(); utils.limpiar_pantalla(); input("You entered -Pewter Rock Gym-\n\n"); utils.limpiar_pantalla()
 
                             while not rock_done: # rock gym fight
 
@@ -283,7 +276,7 @@ if __name__ == '__main__':
                                     my_turn = None
                                     while my_turn not in ["1", "2", "3", "4", "exit"]:
                                         utils.message_battle_starts(player.pokemons[0], rock_brock.pokemons[0])
-                                        my_turn = input(utils.message_pokemon_attacks(player.pokemons[0])); limpiar_pantalla()
+                                        my_turn = input(utils.message_pokemon_attacks(player.pokemons[0])); utils.limpiar_pantalla()
 
                                     if my_turn == "1":
                                         damages(player.pokemons[0], player.pokemons[0].attacks[0], rock_brock.pokemons[0])
@@ -295,7 +288,7 @@ if __name__ == '__main__':
                                         damages(player.pokemons[0], player.pokemons[0].attacks[3], rock_brock.pokemons[0])
                                     elif my_turn == "exit":
                                         game_true = True; rock_done = True; playing = False
-                                    time_battle_end(); limpiar_pantalla()
+                                    time_battle_end(); utils.limpiar_pantalla()
 
                                 if playing:
                                     if rock_brock.pokemons[0].hp > 0:
@@ -309,7 +302,7 @@ if __name__ == '__main__':
                                             damages(rock_brock.pokemons[0], rock_brock.pokemons[0].attacks[2], player.pokemons[0])
                                         elif turn == 4:
                                             damages(rock_brock.pokemons[0], rock_brock.pokemons[0].attacks[3], player.pokemons[0])
-                                        time_battle_end(); limpiar_pantalla()
+                                        time_battle_end(); utils.limpiar_pantalla()
 
                                 if rock_brock.pokemons[0].hp < 1:
                                     true_2 = True
@@ -331,7 +324,7 @@ if __name__ == '__main__':
                     if not electric_done: # Electric Gym
 
                         if electric_gym[POS_X] == coordinate_x and electric_gym[POS_Y] == coordinate_y:
-                            print(); limpiar_pantalla(); input("You entered -Vermilion Electric Gym-\n\n"); limpiar_pantalla()
+                            print(); utils.limpiar_pantalla(); input("You entered -Vermilion Electric Gym-\n\n"); utils.limpiar_pantalla()
 
                             while not electric_done: # electric gym fight
 
@@ -339,7 +332,7 @@ if __name__ == '__main__':
                                     my_turn = None
                                     while my_turn not in ["1", "2", "3", "4", "exit"]:
                                         utils.message_battle_starts(player.pokemons[0], electric_lt_surge.pokemons[0])
-                                        my_turn = input(utils.message_pokemon_attacks(player.pokemons[0])); limpiar_pantalla()
+                                        my_turn = input(utils.message_pokemon_attacks(player.pokemons[0])); utils.limpiar_pantalla()
 
                                     if my_turn == "1":
                                         damages(player.pokemons[0], player.pokemons[0].attacks[0], electric_lt_surge.pokemons[0])
@@ -351,7 +344,7 @@ if __name__ == '__main__':
                                         damages(player.pokemons[0], player.pokemons[0].attacks[3], electric_lt_surge.pokemons[0])
                                     elif my_turn == "exit":
                                         game_true = True; electric_done = True; playing = False
-                                    time_battle_end(); limpiar_pantalla()
+                                    time_battle_end(); utils.limpiar_pantalla()
 
                                 if playing:
                                     if electric_lt_surge.pokemons[0].hp > 0:
@@ -365,7 +358,7 @@ if __name__ == '__main__':
                                             damages(electric_lt_surge.pokemons[0], electric_lt_surge.pokemons[0].attacks[2], player.pokemons[0])
                                         elif turn == 4:
                                             damages(electric_lt_surge.pokemons[0], electric_lt_surge.pokemons[0].attacks[3], player.pokemons[0])
-                                        time_battle_end(); limpiar_pantalla()
+                                        time_battle_end(); utils.limpiar_pantalla()
 
                                 if electric_lt_surge.pokemons[0].hp < 1:
                                     true_2 = True
@@ -387,7 +380,7 @@ if __name__ == '__main__':
                     if not fighting_done: # Fighting Gym
 
                         if fighting_gym[POS_X] == coordinate_x and fighting_gym[POS_Y] == coordinate_y:
-                            print(); limpiar_pantalla(); input("You entered -Cianwood Fighting Gym\n\n"); limpiar_pantalla()
+                            print(); utils.limpiar_pantalla(); input("You entered -Cianwood Fighting Gym\n\n"); utils.limpiar_pantalla()
 
                             while not fighting_done: # fighting gym fight
 
@@ -395,7 +388,7 @@ if __name__ == '__main__':
                                     my_turn = None
                                     while my_turn not in ["1", "2", "3", "4", "exit"]:
                                         utils.message_battle_starts(player.pokemons[0], fighting_sabrina.pokemons[0])
-                                        my_turn = input(utils.message_pokemon_attacks(player.pokemons[0])); limpiar_pantalla()
+                                        my_turn = input(utils.message_pokemon_attacks(player.pokemons[0])); utils.limpiar_pantalla()
 
                                     if my_turn == "1":
                                         damages(player.pokemons[0], player.pokemons[0].attacks[0], fighting_sabrina.pokemons[0])
@@ -407,7 +400,7 @@ if __name__ == '__main__':
                                         damages(player.pokemons[0], player.pokemons[0].attacks[3], fighting_sabrina.pokemons[0])
                                     elif my_turn == "exit":
                                         game_true = True; fighting_done = True; playing = False
-                                    time_battle_end(); limpiar_pantalla()
+                                    time_battle_end(); utils.limpiar_pantalla()
 
                                 if playing:
                                     if fighting_sabrina.pokemons[0].hp > 0:
@@ -421,7 +414,7 @@ if __name__ == '__main__':
                                             damages(fighting_sabrina.pokemons[0], fighting_sabrina.pokemons[0].attacks[2], player.pokemons[0])
                                         elif turn == 4:
                                             damages(fighting_sabrina.pokemons[0], fighting_sabrina.pokemons[0].attacks[3], player.pokemons[0])
-                                        time_battle_end(); limpiar_pantalla()
+                                        time_battle_end(); utils.limpiar_pantalla()
 
                                 if fighting_sabrina.pokemons[0].hp < 1:
                                     true_2 = True
@@ -460,23 +453,23 @@ if __name__ == '__main__':
         # CONDITIONS >
         if true_1: # Hospital
             player.pokemons[0].hp = player.pokemons[0].max_hp
-            print(); limpiar_pantalla()
+            print(); utils.limpiar_pantalla()
             print(f"{player.pokemons[0].name}'s HP Restored\n\nMove to Continue\n")
             true_1 = False
         if true_2: # Gym win
-            limpiar_pantalla(); print(f"{player.pokemons[0].name} grew to LVL {player.pokemons[0].level - 2}!\n"
+            utils.limpiar_pantalla(); print(f"{player.pokemons[0].name} grew to LVL {player.pokemons[0].level - 2}!\n"
                                 f"{player.pokemons[0].name} grew to LVL {player.pokemons[0].level - 1}!\n"
                                 f"{player.pokemons[0].name} grew to LVL {player.pokemons[0].level}!\n\n"
                                 "Gym Cleared\n\nMove to Continue\n")
             true_2 = False
         if true_3: # Gym lost
-            limpiar_pantalla(); print("Gym Fight Losed\n\nYou Lose\n")
+            utils.limpiar_pantalla(); print("Gym Fight Losed\n\nYou Lose\n")
             game_true = True
         if rock_done and water_done and electric_done and fighting_done: # win conditions
-            limpiar_pantalla(); print("Congratulations! You win all battles!\n\nYou Win!\n")
+            utils.limpiar_pantalla(); print("Congratulations! You win all battles!\n\nYou Win!\n")
             game_true = True
         if not playing: # exit game
-            print(); limpiar_pantalla()
+            print(); utils.limpiar_pantalla()
         # < CONDITIONS
 
         if not game_true and not true_3:

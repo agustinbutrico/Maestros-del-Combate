@@ -1,3 +1,11 @@
+import os
+
+def limpiar_pantalla():
+    if os.name == 'nt':  # Windows
+        os.system('cls')
+    else:  # Linux, macOS, etc.
+        os.system('clear')
+
 def message_pokemon_attacks(pokemon):
     """
     Devuelve un mensaje con la lista de ataques del Pokémon,
@@ -12,7 +20,6 @@ def message_pokemon_attacks(pokemon):
             f"    {round(attack.critical_chance * 100)}% critical chance\n\n"
         )
     return message
-
 
 def message_battle_starts(attacker, enemy):
     print(
