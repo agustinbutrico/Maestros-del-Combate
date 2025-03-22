@@ -1,7 +1,7 @@
 import random
+import data.game_state as gs
 import pokemons.base as pokemons
 import attacks.base as attacks
-from data import game_state
 
 def assign_attacks_to_pokemon(pokemon, num_attacks=4):
     """
@@ -81,7 +81,7 @@ def create_random_pokemon(preferred_type=None):
     assign_attacks_to_pokemon(pokemon, num_attacks=4)
     
     # Agregar el Pokémon a la lista global para que se "almacene"
-    game_state.pokemons.append(pokemon)
+    gs.pokemons.append(pokemon)
     return pokemon
 
 def create_pokemon_by_species(species):
@@ -106,5 +106,5 @@ def create_pokemon_by_species(species):
     assign_attacks_to_pokemon(pokemon, num_attacks=4)
 
     # Agregar el Pokémon a la lista global para que se "almacene"
-    game_state.pokemons.append(pokemon)
+    gs.pokemons.append(pokemon)
     return pokemon

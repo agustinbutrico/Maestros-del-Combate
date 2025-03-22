@@ -1,5 +1,5 @@
 import random
-import utils
+import core.utils
 
 def damages(attacker, attack, enemy):
     """
@@ -19,4 +19,4 @@ def damages(attacker, attack, enemy):
     else:
         print("Miss___\n")
         
-    print(f"{enemy.name} {enemy.hp} HP\n{utils.message_life_indicator(enemy)}\n")
+    print(f"{enemy.name} {enemy.hp} HP\n{core.utils.message_life_indicator(enemy)}\n")

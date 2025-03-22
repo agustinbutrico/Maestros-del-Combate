@@ -3,17 +3,17 @@ import attacks
 class Attack:
     def __init__(self, name, type_, damage, accuracy, critical_chance, critical_multiplier):
         self.name = name
-        self.type = type_
+        self.type_ = type_
         self.damage = damage
         self.accuracy = accuracy
         self.critical_chance = critical_chance
         self.critical_multiplier = critical_multiplier
 
     def is_compatible_with(self, pokemon_types):
-        return self.type in pokemon_types or self.type == "Normal"
+        return self.type_ in pokemon_types or self.type_ == "Normal"
 
     def __repr__(self):
-        return f"<Ataque {self.name} ({self.type})>"
+        return f"<Ataque {self.name} ({self.type_})>"
     
 class AttacksFactory:
     _attacks_data = {
