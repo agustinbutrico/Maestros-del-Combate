@@ -76,16 +76,6 @@ def obstacles_creation():
     # returns the map with same dimentions with obstacles
     return obstacles
 
-def life_indicator(pokemon): # Health Bar
-    """Retorna una barra de vida en formato texto basada en hp y max_hp."""
-    if pokemon.hp >= 0:
-        health_bar = int(pokemon.hp * 30 / pokemon.max_hp)
-        health_bar_print = "[{}{}]".format("#" * health_bar, " " *(30 - health_bar))
-    elif pokemon.hp < 0:
-        health_bar = int(-1 *(pokemon.hp * 30 / pokemon.max_hp))
-        health_bar_print = "[{}{}]".format(" " *(30 - health_bar), "/" * health_bar)
-    return health_bar_print
-
 def damages(attacker, attack, enemy):
     """
     Realiza un ataque de 'attacker' usando el objeto 'attack' contra 'enemy',
@@ -104,7 +94,7 @@ def damages(attacker, attack, enemy):
     else:
         print("Miss___\n")
         
-    print(f"{enemy.name} {enemy.hp} HP\n{life_indicator(enemy)}\n")
+    print(f"{enemy.name} {enemy.hp} HP\n{utils.message_life_indicator(enemy)}\n")
 
 def intro(pokemon):
     location = ""
@@ -113,7 +103,7 @@ def intro(pokemon):
             f"(i) Hospitals [H] restores HP\n"
             f"(i) WASD to move\n\n"
             f"{pokemon.name} {pokemon.hp} HP            LVL {pokemon.level}\n"
-            f"{life_indicator(pokemon)}\n"
+            f"{utils.message_life_indicator(pokemon)}\n"
         )
 
         # Listamos los ataques dinámicamente
@@ -144,14 +134,6 @@ def intro(pokemon):
                     random.randint(0, round(MAP_WIDTH - ((MAP_WIDTH - 1) / 1.5))), random.randint(0, MAP_HEIGHT - 1),
                 ]
     return my_position
-
-def battle_starts(attacker, enemy):
-    print(
-        f"{enemy.name} {enemy.hp} HP\n{life_indicator(enemy)}\n\n"
-        f"{attacker.name} {attacker.hp} HP\n{life_indicator(attacker)}\n\n"
-        f"{attacker.name}'s LVL {attacker.level}\n\n"
-        f"{attacker.name}'s Damage: {attacker.damage}\n\n"
-    )
 
 def time_battle_end(): # time
     sleep(2)
@@ -244,7 +226,7 @@ if __name__ == '__main__':
                                 if player.pokemons[0].hp > 0:
                                     my_turn = None
                                     while my_turn not in ["1", "2", "3", "4", "exit"]:
-                                        battle_starts(player.pokemons[0], water_misty.pokemons[0])
+                                        utils.message_battle_starts(player.pokemons[0], water_misty.pokemons[0])
                                         my_turn = input(utils.message_pokemon_attacks(player.pokemons[0])); limpiar_pantalla()
 
                                     if my_turn == "1":
@@ -300,7 +282,7 @@ if __name__ == '__main__':
                                 if player.pokemons[0].hp > 0:
                                     my_turn = None
                                     while my_turn not in ["1", "2", "3", "4", "exit"]:
-                                        battle_starts(player.pokemons[0], rock_brock.pokemons[0])
+                                        utils.message_battle_starts(player.pokemons[0], rock_brock.pokemons[0])
                                         my_turn = input(utils.message_pokemon_attacks(player.pokemons[0])); limpiar_pantalla()
 
                                     if my_turn == "1":
@@ -356,7 +338,7 @@ if __name__ == '__main__':
                                 if player.pokemons[0].hp > 0:
                                     my_turn = None
                                     while my_turn not in ["1", "2", "3", "4", "exit"]:
-                                        battle_starts(player.pokemons[0], electric_lt_surge.pokemons[0])
+                                        utils.message_battle_starts(player.pokemons[0], electric_lt_surge.pokemons[0])
                                         my_turn = input(utils.message_pokemon_attacks(player.pokemons[0])); limpiar_pantalla()
 
                                     if my_turn == "1":
@@ -412,7 +394,7 @@ if __name__ == '__main__':
                                 if player.pokemons[0].hp > 0:
                                     my_turn = None
                                     while my_turn not in ["1", "2", "3", "4", "exit"]:
-                                        battle_starts(player.pokemons[0], fighting_sabrina.pokemons[0])
+                                        utils.message_battle_starts(player.pokemons[0], fighting_sabrina.pokemons[0])
                                         my_turn = input(utils.message_pokemon_attacks(player.pokemons[0])); limpiar_pantalla()
 
                                     if my_turn == "1":
