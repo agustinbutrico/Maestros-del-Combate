@@ -3,7 +3,7 @@ from time import sleep
 from readchar import readchar
 
 from data import game_state, load_data
-from core import utils
+from core import utils, battle
 
 # VARIABLES >
 rock_done = False
@@ -68,26 +68,6 @@ def obstacles_creation():
         obstacles.append(list(current_row))
     # returns the map with same dimentions with obstacles
     return obstacles
-
-def damages(attacker, attack, enemy):
-    """
-    Realiza un ataque de 'attacker' usando el objeto 'attack' contra 'enemy',
-    calculando y aplicando el daño de forma crítica o normal.
-    """
-    print(f"{attacker.name} uses {attack.name}\n")
-    
-    if random.random() < attack.accuracy:
-        if random.random() < attack.critical_chance:
-            damage_dealt = int(attack.damage * attack.critical_multiplier)
-            print(f"Critical hit! -{damage_dealt}\n")
-        else:
-            damage_dealt = attack.damage
-            print(f"-{damage_dealt}\n")
-        enemy.hp -= damage_dealt
-    else:
-        print("Miss___\n")
-        
-    print(f"{enemy.name} {enemy.hp} HP\n{utils.message_life_indicator(enemy)}\n")
 
 def intro(pokemon):
     location = ""
@@ -223,13 +203,13 @@ if __name__ == '__main__':
                                         my_turn = input(utils.message_pokemon_attacks(player.pokemons[0])); utils.limpiar_pantalla()
 
                                     if my_turn == "1":
-                                        damages(player.pokemons[0], player.pokemons[0].attacks[0], water_misty.pokemons[0])
+                                        battle.damages(player.pokemons[0], player.pokemons[0].attacks[0], water_misty.pokemons[0])
                                     elif my_turn == "2":
-                                        damages(player.pokemons[0], player.pokemons[0].attacks[1], water_misty.pokemons[0])
+                                        battle.damages(player.pokemons[0], player.pokemons[0].attacks[1], water_misty.pokemons[0])
                                     elif my_turn == "3":
-                                        damages(player.pokemons[0], player.pokemons[0].attacks[2], water_misty.pokemons[0])
+                                        battle.damages(player.pokemons[0], player.pokemons[0].attacks[2], water_misty.pokemons[0])
                                     elif my_turn == "4":
-                                        damages(player.pokemons[0], player.pokemons[0].attacks[3], water_misty.pokemons[0])
+                                        battle.damages(player.pokemons[0], player.pokemons[0].attacks[3], water_misty.pokemons[0])
                                     elif my_turn == "exit":
                                         game_true = True; water_done = True; playing = False
                                     time_battle_end(); utils.limpiar_pantalla()
@@ -239,13 +219,13 @@ if __name__ == '__main__':
                                         turn = random.randint(1, 4)
 
                                         if turn == 1:
-                                            damages(water_misty.pokemons[0], water_misty.pokemons[0].attacks[0], player.pokemons[0])
+                                            battle.damages(water_misty.pokemons[0], water_misty.pokemons[0].attacks[0], player.pokemons[0])
                                         elif turn == 2:
-                                            damages(water_misty.pokemons[0], water_misty.pokemons[0].attacks[1], player.pokemons[0])
+                                            battle.damages(water_misty.pokemons[0], water_misty.pokemons[0].attacks[1], player.pokemons[0])
                                         elif turn == 3:
-                                            damages(water_misty.pokemons[0], water_misty.pokemons[0].attacks[2], player.pokemons[0])
+                                            battle.damages(water_misty.pokemons[0], water_misty.pokemons[0].attacks[2], player.pokemons[0])
                                         elif turn == 4:
-                                            damages(water_misty.pokemons[0], water_misty.pokemons[0].attacks[3], player.pokemons[0])
+                                            battle.damages(water_misty.pokemons[0], water_misty.pokemons[0].attacks[3], player.pokemons[0])
                                         time_battle_end(); utils.limpiar_pantalla()
 
                                 if water_misty.pokemons[0].hp < 1:
@@ -279,13 +259,13 @@ if __name__ == '__main__':
                                         my_turn = input(utils.message_pokemon_attacks(player.pokemons[0])); utils.limpiar_pantalla()
 
                                     if my_turn == "1":
-                                        damages(player.pokemons[0], player.pokemons[0].attacks[0], rock_brock.pokemons[0])
+                                        battle.damages(player.pokemons[0], player.pokemons[0].attacks[0], rock_brock.pokemons[0])
                                     elif my_turn == "2":
-                                        damages(player.pokemons[0], player.pokemons[0].attacks[1], rock_brock.pokemons[0])
+                                        battle.damages(player.pokemons[0], player.pokemons[0].attacks[1], rock_brock.pokemons[0])
                                     elif my_turn == "3":
-                                        damages(player.pokemons[0], player.pokemons[0].attacks[2], rock_brock.pokemons[0])
+                                        battle.damages(player.pokemons[0], player.pokemons[0].attacks[2], rock_brock.pokemons[0])
                                     elif my_turn == "4":
-                                        damages(player.pokemons[0], player.pokemons[0].attacks[3], rock_brock.pokemons[0])
+                                        battle.damages(player.pokemons[0], player.pokemons[0].attacks[3], rock_brock.pokemons[0])
                                     elif my_turn == "exit":
                                         game_true = True; rock_done = True; playing = False
                                     time_battle_end(); utils.limpiar_pantalla()
@@ -295,13 +275,13 @@ if __name__ == '__main__':
                                         turn = random.randint(1, 4)
 
                                         if turn == 1:
-                                            damages(rock_brock.pokemons[0], rock_brock.pokemons[0].attacks[0], player.pokemons[0])
+                                            battle.damages(rock_brock.pokemons[0], rock_brock.pokemons[0].attacks[0], player.pokemons[0])
                                         elif turn == 2:
-                                            damages(rock_brock.pokemons[0], rock_brock.pokemons[0].attacks[1], player.pokemons[0])
+                                            battle.damages(rock_brock.pokemons[0], rock_brock.pokemons[0].attacks[1], player.pokemons[0])
                                         elif turn == 3:
-                                            damages(rock_brock.pokemons[0], rock_brock.pokemons[0].attacks[2], player.pokemons[0])
+                                            battle.damages(rock_brock.pokemons[0], rock_brock.pokemons[0].attacks[2], player.pokemons[0])
                                         elif turn == 4:
-                                            damages(rock_brock.pokemons[0], rock_brock.pokemons[0].attacks[3], player.pokemons[0])
+                                            battle.damages(rock_brock.pokemons[0], rock_brock.pokemons[0].attacks[3], player.pokemons[0])
                                         time_battle_end(); utils.limpiar_pantalla()
 
                                 if rock_brock.pokemons[0].hp < 1:
@@ -335,13 +315,13 @@ if __name__ == '__main__':
                                         my_turn = input(utils.message_pokemon_attacks(player.pokemons[0])); utils.limpiar_pantalla()
 
                                     if my_turn == "1":
-                                        damages(player.pokemons[0], player.pokemons[0].attacks[0], electric_lt_surge.pokemons[0])
+                                        battle.damages(player.pokemons[0], player.pokemons[0].attacks[0], electric_lt_surge.pokemons[0])
                                     elif my_turn == "2":
-                                        damages(player.pokemons[0], player.pokemons[0].attacks[1], electric_lt_surge.pokemons[0])
+                                        battle.damages(player.pokemons[0], player.pokemons[0].attacks[1], electric_lt_surge.pokemons[0])
                                     elif my_turn == "3":
-                                        damages(player.pokemons[0], player.pokemons[0].attacks[2], electric_lt_surge.pokemons[0])
+                                        battle.damages(player.pokemons[0], player.pokemons[0].attacks[2], electric_lt_surge.pokemons[0])
                                     elif my_turn == "4":
-                                        damages(player.pokemons[0], player.pokemons[0].attacks[3], electric_lt_surge.pokemons[0])
+                                        battle.damages(player.pokemons[0], player.pokemons[0].attacks[3], electric_lt_surge.pokemons[0])
                                     elif my_turn == "exit":
                                         game_true = True; electric_done = True; playing = False
                                     time_battle_end(); utils.limpiar_pantalla()
@@ -351,13 +331,13 @@ if __name__ == '__main__':
                                         turn = random.randint(1, 4)
 
                                         if turn == 1:
-                                            damages(electric_lt_surge.pokemons[0], electric_lt_surge.pokemons[0].attacks[0], player.pokemons[0])
+                                            battle.damages(electric_lt_surge.pokemons[0], electric_lt_surge.pokemons[0].attacks[0], player.pokemons[0])
                                         elif turn == 2:
-                                            damages(electric_lt_surge.pokemons[0], electric_lt_surge.pokemons[0].attacks[1], player.pokemons[0])
+                                            battle.damages(electric_lt_surge.pokemons[0], electric_lt_surge.pokemons[0].attacks[1], player.pokemons[0])
                                         elif turn == 3:
-                                            damages(electric_lt_surge.pokemons[0], electric_lt_surge.pokemons[0].attacks[2], player.pokemons[0])
+                                            battle.damages(electric_lt_surge.pokemons[0], electric_lt_surge.pokemons[0].attacks[2], player.pokemons[0])
                                         elif turn == 4:
-                                            damages(electric_lt_surge.pokemons[0], electric_lt_surge.pokemons[0].attacks[3], player.pokemons[0])
+                                            battle.damages(electric_lt_surge.pokemons[0], electric_lt_surge.pokemons[0].attacks[3], player.pokemons[0])
                                         time_battle_end(); utils.limpiar_pantalla()
 
                                 if electric_lt_surge.pokemons[0].hp < 1:
@@ -391,13 +371,13 @@ if __name__ == '__main__':
                                         my_turn = input(utils.message_pokemon_attacks(player.pokemons[0])); utils.limpiar_pantalla()
 
                                     if my_turn == "1":
-                                        damages(player.pokemons[0], player.pokemons[0].attacks[0], fighting_sabrina.pokemons[0])
+                                        battle.damages(player.pokemons[0], player.pokemons[0].attacks[0], fighting_sabrina.pokemons[0])
                                     elif my_turn == "2":
-                                        damages(player.pokemons[0], player.pokemons[0].attacks[1], fighting_sabrina.pokemons[0])
+                                        battle.damages(player.pokemons[0], player.pokemons[0].attacks[1], fighting_sabrina.pokemons[0])
                                     elif my_turn == "3":
-                                        damages(player.pokemons[0], player.pokemons[0].attacks[2], fighting_sabrina.pokemons[0])
+                                        battle.damages(player.pokemons[0], player.pokemons[0].attacks[2], fighting_sabrina.pokemons[0])
                                     elif my_turn == "4":
-                                        damages(player.pokemons[0], player.pokemons[0].attacks[3], fighting_sabrina.pokemons[0])
+                                        battle.damages(player.pokemons[0], player.pokemons[0].attacks[3], fighting_sabrina.pokemons[0])
                                     elif my_turn == "exit":
                                         game_true = True; fighting_done = True; playing = False
                                     time_battle_end(); utils.limpiar_pantalla()
@@ -407,13 +387,13 @@ if __name__ == '__main__':
                                         turn = random.randint(1, 4)
 
                                         if turn == 1:
-                                            damages(fighting_sabrina.pokemons[0], fighting_sabrina.pokemons[0].attacks[0], player.pokemons[0])
+                                            battle.damages(fighting_sabrina.pokemons[0], fighting_sabrina.pokemons[0].attacks[0], player.pokemons[0])
                                         elif turn == 2:
-                                            damages(fighting_sabrina.pokemons[0], fighting_sabrina.pokemons[0].attacks[1], player.pokemons[0])
+                                            battle.damages(fighting_sabrina.pokemons[0], fighting_sabrina.pokemons[0].attacks[1], player.pokemons[0])
                                         elif turn == 3:
-                                            damages(fighting_sabrina.pokemons[0], fighting_sabrina.pokemons[0].attacks[2], player.pokemons[0])
+                                            battle.damages(fighting_sabrina.pokemons[0], fighting_sabrina.pokemons[0].attacks[2], player.pokemons[0])
                                         elif turn == 4:
-                                            damages(fighting_sabrina.pokemons[0], fighting_sabrina.pokemons[0].attacks[3], player.pokemons[0])
+                                            battle.damages(fighting_sabrina.pokemons[0], fighting_sabrina.pokemons[0].attacks[3], player.pokemons[0])
                                         time_battle_end(); utils.limpiar_pantalla()
 
                                 if fighting_sabrina.pokemons[0].hp < 1:
