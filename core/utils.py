@@ -1,5 +1,5 @@
 import os, random
-from data.game_state import MAP_HEIGHT, MAP_WIDTH
+import data.game_state as gs
 
 def limpiar_pantalla():
     if os.name == 'nt':  # Windows
@@ -43,6 +43,8 @@ def message_life_indicator(pokemon): # Health Bar
 def intro(pokemon):
     location = ""
     while location not in ["1", "2", "3", "4"]:
+        my_position = None
+
         print(
             f"(i) Hospitals [H] restores HP\n"
             f"(i) WASD to move\n\n"
@@ -63,18 +65,19 @@ def intro(pokemon):
         match location:
             case "1":
                 my_position = [
-                    random.randint(0, MAP_WIDTH - 1), random.randint(0, round(MAP_HEIGHT - ((MAP_HEIGHT - 1) / 1.5))),
+                    random.randint(0, gs.MAP_WIDTH - 1), random.randint(0, round(gs.MAP_HEIGHT - ((gs.MAP_HEIGHT - 1) / 1.5))),
                 ]
             case "2":
                 my_position = [
-                    random.randint(0, MAP_WIDTH - 1), random.randint(round((MAP_HEIGHT + 1) / 1.5), MAP_HEIGHT - 1),
+                    random.randint(0, gs.MAP_WIDTH - 1), random.randint(round((gs.MAP_HEIGHT + 1) / 1.5), gs.MAP_HEIGHT - 1),
                 ]
             case "3":
                 my_position = [
-                    random.randint(round((MAP_WIDTH + 1) / 1.5), MAP_WIDTH - 1), random.randint(0, MAP_HEIGHT - 1),
+                    random.randint(round((gs.MAP_WIDTH + 1) / 1.5), gs.MAP_WIDTH - 1), random.randint(0, gs.MAP_HEIGHT - 1),
                 ]
             case "4":
                 my_position = [
-                    random.randint(0, round(MAP_WIDTH - ((MAP_WIDTH - 1) / 1.5))), random.randint(0, MAP_HEIGHT - 1),
+                    random.randint(0, round(gs.MAP_WIDTH - ((gs.MAP_WIDTH - 1) / 1.5))), random.randint(0, gs.MAP_HEIGHT - 1),
                 ]
-    return my_position
+        if my_position is not None:
+            gs.user_position = my_position
