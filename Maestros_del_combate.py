@@ -1,5 +1,3 @@
-import random
-from time import sleep
 from readchar import readchar
 
 from data.load_data import load_data
@@ -18,56 +16,6 @@ def get_trainer_by_name(name):
         if trainer.name.lower() == name.lower():
             return trainer
     return None
-
-def time_battle_end(): # time
-    sleep(2)
-
-def battle(player_pokemon, enemy_pokemon, gym_name):
-    """
-    Función de batalla general para enfrentar dos pokémons.
-    Retorna:
-      - "win" si el jugador gana,
-      - "lose" si el jugador pierde,
-      - "exit" si el jugador decide salir.
-    """
-    print()
-    core.utils.limpiar_pantalla()
-    input(f"You entered -{gym_name} Gym-\n\n")
-    core.utils.limpiar_pantalla()
-
-    while True:
-        # Turno del jugador
-        if player_pokemon.hp > 0:
-            my_turn = None
-            while my_turn not in ["1", "2", "3", "4", "exit"]:
-                core.utils.message_battle_starts(player_pokemon, enemy_pokemon)
-                my_turn = input(core.utils.message_pokemon_attacks(player_pokemon))
-                core.utils.limpiar_pantalla()
-
-            if my_turn == "exit":
-                return "exit"
-
-            attack_index = int(my_turn) - 1
-            core.battle.damages(player_pokemon, player_pokemon.attacks[attack_index], enemy_pokemon)
-            time_battle_end()
-            core.utils.limpiar_pantalla()
-        else:
-            return "lose"
-
-        # Verificar si el enemigo ha sido derrotado
-        if enemy_pokemon.hp < 1:
-            return "win"
-
-        # Turno del enemigo
-        if enemy_pokemon.hp > 0:
-            enemy_attack = random.randint(1, 4)
-            core.battle.damages(enemy_pokemon, enemy_pokemon.attacks[enemy_attack - 1], player_pokemon)
-            time_battle_end()
-            core.utils.limpiar_pantalla()
-
-        # Verificar si el jugador ha sido derrotado
-        if player_pokemon.hp < 1:
-            return "lose"
 
 if __name__ == '__main__':
     core.utils.limpiar_pantalla()
@@ -90,19 +38,9 @@ if __name__ == '__main__':
     hospital_1   = next(h for h in gs.hospitals if h.id == 1)
     hospital_2   = next(h for h in gs.hospitals if h.id == 2)
 
-    rock_done = False
-    water_done = False
-    electric_done = False
-    fighting_done = False
-    locations_true = False
-    game_true = False
-    true_1 = False
-    true_2 = False
-    true_3 = False
-    playing = True
     new_position = None
 
-    while not game_true:
+    while not gs.game_over:
         core.utils.limpiar_pantalla()
         # DIBUJO DEL MAPA >
         print("-"*(gs.MAP_WIDTH* 2 + 3)) # Top
@@ -124,80 +62,44 @@ if __name__ == '__main__':
 
                     for hospital in gs.hospitals:
                         if hospital.x == coordinate_x and hospital.y == coordinate_y:
-                            # En el futuro se diferenciará entre hospitales
-                            if hospital.id == 1:
-                                true_1 = True
-                            elif hospital.id == 2:
-                                true_1 = True
+                            gs.message_flags["hospital_used"] = True
 
                     # GYMS FIGHTS >
                     # Water Gym
-                    if water_gym.x == coordinate_x and water_gym.y == coordinate_y and not water_done:
-                        resultado = battle(player.pokemons[0], water_misty.pokemons[0], "Cerulean Water")
-                        if resultado == "win":
-                            player.pokemons[0].max_hp += random.randint(6, 12)
-                            player.pokemons[0].damage += 1
-                            player.pokemons[0].level += 3
-                            water_done = True
-                            true_2 = True
-                        elif resultado == "lose":
-                            true_3 = True
-                            water_done = True
-                        elif resultado == "exit":
-                            game_true = True
-                            water_done = True
-                            playing = False
+                    resultado = core.battle.handle_gym_battle(player, water_gym, water_misty, "water_completed", "Cerulean Water", (6, 12), 1, 3)
+                    if resultado == "win":
+                        gs.message_flags["victory_shown"] = True
+                    elif resultado == "lose":
+                        gs.message_flags["defeat_shown"] = True
+                    elif resultado == "exit":
+                        gs.game_over = True
                     
                     # Rock Gym
-                    if rock_gym.x == coordinate_x and rock_gym.y == coordinate_y and not rock_done:
-                        resultado = battle(player.pokemons[0], rock_brock.pokemons[0], "Pewter Rock")
-                        if resultado == "win":
-                            player.pokemons[0].max_hp += random.randint(7, 13)
-                            player.pokemons[0].damage += 1
-                            player.pokemons[0].level += 3
-                            rock_done = True
-                            true_2 = True
-                        elif resultado == "lose":
-                            true_3 = True
-                            rock_done = True
-                        elif resultado == "exit":
-                            game_true = True
-                            rock_done = True
-                            playing = False
+                    resultado = core.battle.handle_gym_battle(player, rock_gym, rock_brock, "rock_completed", "Pewter Rock", (7, 13), 1, 3)
+                    if resultado == "win":
+                        gs.message_flags["victory_shown"] = True
+                    elif resultado == "lose":
+                        gs.message_flags["defeat_shown"] = True
+                    elif resultado == "exit":
+                        gs.game_over = True
 
                     # Electric Gym
-                    if electric_gym.x == coordinate_x and electric_gym.y == coordinate_y and not electric_done:
-                        resultado = battle(player.pokemons[0], electric_lt_surge.pokemons[0], "Vermilion Electric")
-                        if resultado == "win":
-                            player.pokemons[0].max_hp += random.randint(8, 14)
-                            player.pokemons[0].damage += 2
-                            player.pokemons[0].level += 3
-                            electric_done = True
-                            true_2 = True
-                        elif resultado == "lose":
-                            true_3 = True
-                            electric_done = True
-                        elif resultado == "exit":
-                            game_true = True
-                            electric_done = True
-                            playing = False
+                    resultado = core.battle.handle_gym_battle(player, electric_gym, electric_lt_surge, "electric_completed", "Vermilion Electric", (8, 14), 2, 3)
+                    if resultado == "win":
+                        gs.message_flags["victory_shown"] = True
+                    elif resultado == "lose":
+                        gs.message_flags["defeat_shown"] = True
+                    elif resultado == "exit":
+                        gs.game_over = True
 
                     # Fighting Gym
-                    if fighting_gym.x == coordinate_x and fighting_gym.y == coordinate_y and not fighting_done:
-                        resultado = battle(player.pokemons[0], fighting_sabrina.pokemons[0], "Cianwood Fighting")
-                        if resultado == "win":
-                            player.pokemons[0].max_hp += random.randint(10, 16)
-                            player.pokemons[0].damage += 2
-                            player.pokemons[0].level += 3
-                            fighting_done = True
-                            true_2 = True
-                        elif resultado == "lose":
-                            true_3 = True
-                            fighting_done = True
-                        elif resultado == "exit":
-                            game_true = True
-                            fighting_done = True
-                            playing = False  
+                    resultado = core.battle.handle_gym_battle(player, fighting_gym, fighting_sabrina, "fighting_completed", "Cianwood Fighting", (10, 16), 2, 3)
+                    if resultado == "win":
+                        gs.message_flags["victory_shown"] = True
+                    elif resultado == "lose":
+                        gs.message_flags["defeat_shown"] = True
+                    elif resultado == "exit":
+                        gs.game_over = True
 
                     # < GYMS FIGHTS
                 # < YOU
@@ -217,29 +119,37 @@ if __name__ == '__main__':
         # < DRAW MAP
 
         # CONDITIONS >
-        if true_1: # Hospital
+        if gs.message_flags["hospital_used"]: # Hospital
             player.pokemons[0].hp = player.pokemons[0].max_hp
             print(); core.utils.limpiar_pantalla()
             print(f"{player.pokemons[0].name}'s HP Restored\n\nMove to Continue\n")
-            true_1 = False
-        if true_2: # Gym win
-            core.utils.limpiar_pantalla(); print(f"{player.pokemons[0].name} grew to LVL {player.pokemons[0].level - 2}!\n"
-                                f"{player.pokemons[0].name} grew to LVL {player.pokemons[0].level - 1}!\n"
-                                f"{player.pokemons[0].name} grew to LVL {player.pokemons[0].level}!\n\n"
-                                "Gym Cleared\n\nMove to Continue\n")
-            true_2 = False
-        if true_3: # Gym lost
-            core.utils.limpiar_pantalla(); print("Gym Fight Losed\n\nYou Lose\n")
-            game_true = True
-        if rock_done and water_done and electric_done and fighting_done: # win conditions
-            core.utils.limpiar_pantalla(); print("Congratulations! You win all battles!\n\nYou Win!\n")
-            game_true = True
-        if not playing: # exit game
-            print(); core.utils.limpiar_pantalla()
+            gs.message_flags["hospital_used"] = False
+
+        if gs.message_flags["victory_shown"]: # Gym win
+            core.utils.limpiar_pantalla()
+            print(
+                f"{player.pokemons[0].name} grew to LVL {player.pokemons[0].level - 2}!\n"
+                f"{player.pokemons[0].name} grew to LVL {player.pokemons[0].level - 1}!\n"
+                f"{player.pokemons[0].name} grew to LVL {player.pokemons[0].level}!\n\n"
+                "Gym Cleared\n\nMove to Continue\n"
+            )
+            gs.message_flags["victory_shown"] = False
+
+        if gs.message_flags["defeat_shown"]: # Gym lost
+            core.utils.limpiar_pantalla()
+            print("Gym Fight Losed\n\nYou Lose\n")
+            gs.game_over = True
+
+        if (gs.gym_flags["rock_completed"] and gs.gym_flags["water_completed"] and 
+            gs.gym_flags["electric_completed"] and gs.gym_flags["fighting_completed"]):
+            core.utils.limpiar_pantalla()
+            print("Congratulations! You win all battles!\n\nYou Win!\n")
+            gs.game_over = True
         # < CONDITIONS
 
-        if not game_true and not true_3:
+        if not gs.game_over and not gs.message_flags["defeat_shown"]:
             direction = readchar() # where player want to move
+            new_position = None
 
             if direction.upper() == "W": # up movement
                 new_position = [gs.user_position[POS_X], gs.user_position[POS_Y] - 1]
@@ -262,7 +172,7 @@ if __name__ == '__main__':
                     new_position[POS_X] = 0
 
             elif direction.upper() == "P": # right movement
-                game_true = True
+                gs.game_over = True
 
             if new_position: # in-game movement
                 if gs.obstacles[new_position[POS_Y]][new_position[POS_X]] != ",":

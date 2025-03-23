@@ -1,5 +1,6 @@
 import os, random
 import data.game_state as gs
+from time import sleep
 
 def limpiar_pantalla():
     if os.name == 'nt':  # Windows
@@ -81,3 +82,6 @@ def intro(pokemon):
                 ]
         if my_position is not None:
             gs.user_position = my_position
+
+def time_battle_end(): # time
+    sleep(2)
