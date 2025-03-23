@@ -1,6 +1,7 @@
 import random
 import core.utils
 import data.game_state as gs
+import ui.messages as uim
 
 def damages(attacker, attack, enemy):
     """
@@ -40,8 +41,8 @@ def battle(player_pokemon, enemy_pokemon, gym_name):
         if player_pokemon.hp > 0:
             my_turn = None
             while my_turn not in ["1", "2", "3", "4", "exit"]:
-                core.utils.message_battle_starts(player_pokemon, enemy_pokemon)
-                my_turn = input(core.utils.message_pokemon_attacks(player_pokemon))
+                print(uim.message_battle_starts(player_pokemon, enemy_pokemon))
+                my_turn = input(uim.message_pokemon_attacks(player_pokemon))
                 core.utils.limpiar_pantalla()
 
             if my_turn == "exit":
