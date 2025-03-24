@@ -1,5 +1,6 @@
 import random
 import data.game_state as gs
+import ui.messages as uim
 
 def obstacles_creation():
     obstacles = []
@@ -65,3 +66,29 @@ def locations_creation(location_types):
                     continue
             
             limiter += 1
+
+def start_location_selection(trainer):
+    user_input = ""
+    while user_input not in ["1", "2", "3", "4"]:
+        user_start_position = ""
+        user_input = input(uim.message_start_location_selection())
+
+        match user_input:
+            case "1": # Norte
+                user_start_position = [
+                    random.randint(0, gs.MAP_WIDTH - 1), random.randint(0, round(gs.MAP_HEIGHT - ((gs.MAP_HEIGHT - 1) / 1.5))),
+                ]
+            case "2": # Sur
+                user_start_position = [
+                    random.randint(0, gs.MAP_WIDTH - 1), random.randint(round((gs.MAP_HEIGHT + 1) / 1.5), gs.MAP_HEIGHT - 1),
+                ]
+            case "3": # Este
+                user_start_position = [
+                    random.randint(round((gs.MAP_WIDTH + 1) / 1.5), gs.MAP_WIDTH - 1), random.randint(0, gs.MAP_HEIGHT - 1),
+                ]
+            case "4": # Oeste
+                user_start_position = [
+                    random.randint(0, round(gs.MAP_WIDTH - ((gs.MAP_WIDTH - 1) / 1.5))), random.randint(0, gs.MAP_HEIGHT - 1),
+                ]
+        if user_start_position is not None:
+            gs.user_position = user_start_position

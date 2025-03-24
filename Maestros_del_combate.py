@@ -2,6 +2,7 @@ from readchar import readchar
 
 from data.load_data import load_data
 import data.game_state as gs
+import ui.messages as uim
 import core.battle, core.map, core.utils
 
 POS_X = 0
@@ -27,7 +28,10 @@ if __name__ == '__main__':
     electric_lt_surge = get_trainer_by_name("Lt. Surge")
     fighting_sabrina = get_trainer_by_name("Sabrina")
 
-    core.utils.intro(player.pokemons[0])
+    print(uim.message_info_intro(player))
+    print(uim.message_pokemon_attacks(player))
+    input()
+    core.map.start_location_selection(player)
 
     # Extraer las ubicaciones usando atributos semánticos
     rock_gym     = next(g for g in gs.gyms if g.type_ == "Roca")

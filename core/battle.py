@@ -15,6 +15,8 @@ def attack_damage(attack, enemy):
     gs.battle_flags["move_critic"] = False
     gs.battle_flags["move_miss"] = False
 
+    enemy_pokemon = enemy.pokemons[0]
+
     if random.random() < attack.accuracy:
         if random.random() < attack.critical_chance:
             gs.battle_flags["move_critic"] = True
@@ -26,24 +28,24 @@ def attack_damage(attack, enemy):
         gs.battle_flags["move_miss"] = True
         damage_dealt = 0
 
-    enemy.hp -= damage_dealt # Se le quita la vida al enemigo
+    enemy_pokemon.hp -= damage_dealt # Se le quita la vida al enemigo
     return damage_dealt
 
-def player_turn(trainer):
+def player_turn(enemy):
     """
     Gestiona el turno del jugador: muestra los mensajes, solicita la elección y ejecuta el ataque.
     Retorna "exit" si el jugador decide salir o None para continuar la batalla.
     """
-    my_turn = None
-    while my_turn not in ["1", "2", "3", "4"]:
+    user_input = ""
+    while user_input not in ["1", "2", "3", "4"]:
         core.utils.limpiar_pantalla()
-        print(uim.message_battle_starts(trainer))
-        my_turn = input(uim.message_pokemon_attacks(gs.user))
+        print(uim.message_battle_starts(enemy))
+        user_input = input(uim.message_pokemon_attacks_detailed(gs.user))
 
-    pokemon_attack_index = int(my_turn) - 1
+    pokemon_attack_index = int(user_input) - 1
     pokemon_attack = gs.user.pokemons[0].attacks[pokemon_attack_index]
-    damage_dealt = attack_damage(pokemon_attack, trainer.pokemons[0])
-    uim.message_movement_damage(gs.user.pokemons[0], pokemon_attack, trainer.pokemons[0], damage_dealt)
+    damage_dealt = attack_damage(pokemon_attack, enemy)
+    print(uim.message_attack_damage(gs.user, pokemon_attack, enemy, damage_dealt))
     core.utils.time_battle_end()
 
 def enemy_turn(trainer):
@@ -52,8 +54,8 @@ def enemy_turn(trainer):
     """
     enemy_pokemon_attack = random.randint(1, 4)
     enemy_pokemon_attack = trainer.pokemons[0].attacks[enemy_pokemon_attack - 1]
-    damage_dealt = attack_damage(enemy_pokemon_attack, gs.user.pokemons[0])
-    uim.message_movement_damage(trainer.pokemons[0], enemy_pokemon_attack, gs.user.pokemons[0], damage_dealt)
+    damage_dealt = attack_damage(enemy_pokemon_attack, gs.user)
+    print(uim.message_attack_damage(trainer, enemy_pokemon_attack, gs.user, damage_dealt))
     core.utils.time_battle_end()
 
 def verify_battle_outcome(trainer):
@@ -79,7 +81,7 @@ def battle(gym, trainer, entry_message=None):
       - entry_message: Mensaje opcional para la entrada al gimnasio.
     """
     # Mostrar mensaje de entrada (ahora parametrizable)
-    uim.message_fight_entry(gym, entry_message)
+    input(uim.message_fight_entry(gym, entry_message))
     gs.battle_flags["battle_won"] = False
     gs.battle_flags["battle_lost"] = False
     gs.battle_flags["battle_ongoing"] = True
