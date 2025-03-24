@@ -51,10 +51,10 @@ def locations_creation(location_types):
             generated_coords.append(new_location)
             data = location_types[limiter]
             
-            if len(data) == 4:  # Caso para Gym: (name, icon, type_, Gym)
-                name, icon, gym_type, location_class = data
+            if len(data) == 5:  # Caso para Gym: (name, icon, type_, Gym)
+                name, icon, alias, gym_type, location_class = data
                 try:
-                    location_class(name, icon, pos_x, pos_y, gym_type)
+                    location_class(name, icon, pos_x, pos_y, alias, gym_type)
                 except ValueError as e:
                     continue
             else:  # Caso para Hospital: (name, icon, Hospital)

@@ -11,10 +11,10 @@ def load_obstacles():
 
 def load_locations():
     location_types = [
-        ("Rock Gym", " R", "Roca", loc.Gym),
-        ("Water Gym", " W", "Agua", loc.Gym),
-        ("Electric Gym", " E", "Electrico", loc.Gym),
-        ("Fighting Gym", " F", "Lucha", loc.Gym),
+        ("Rock Gym", " R", "Pewter Rock", "Roca", loc.Gym),
+        ("Water Gym", " W", "Cerulean Water", "Agua", loc.Gym),
+        ("Electric Gym", " E", "Vermilion Electric", "Electrico",loc.Gym),
+        ("Fighting Gym", " F", "Cianwood Fighting", "Lucha", loc.Gym),
         ("Hospital 1", " H", loc.Hospital),
         ("Hospital 2", " H", loc.Hospital),
     ]

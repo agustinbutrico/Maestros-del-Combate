@@ -17,8 +17,9 @@ class Location(ABC):
         return f"<Locaci'on {self.name} en ({self.x}, {self.y})>"
 
 class Gym(Location):
-    def __init__(self, name, icon, x, y, type_):
+    def __init__(self, name, icon, x, y, alias, type_):
         super().__init__(name, icon, x, y)
+        self.alias = alias
         self.type_ = type_
         self.trainers = []  # Lista de entrenadores
 

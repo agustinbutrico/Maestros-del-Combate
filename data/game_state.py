@@ -12,7 +12,16 @@ gym_flags = {
 message_flags = {
     "hospital_used": False,   # Si se ha activado la acción del hospital (restauración de HP)
     "victory_shown": False,   # Si se ha mostrado el mensaje de victoria en el gimnasio
-    "defeat_shown": False     # Si se ha mostrado el mensaje de derrota en el gimnasio
+    "defeat_shown": False,    # Si se ha mostrado el mensaje de derrota en el gimnasio
+}
+
+battle_flags = {
+    "battle_won": False,      # Si se ha ganado la batalla
+    "battle_lost": False,     # Si se ha perdido la batalla
+    "battle_ongoing": False,  # Si se la batalla sigue en curso
+    "move_normal": False, # Si el daño del movimiento fue normal
+    "move_critic": False, # Si el daño del movimiento fue crítico
+    "move_miss": False,   # Si el daño del movimiento fue nulo
 }
 
 # Otros estados globales

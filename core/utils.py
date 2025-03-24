@@ -4,8 +4,10 @@ from time import sleep
 
 def limpiar_pantalla():
     if os.name == 'nt':  # Windows
+        print()
         os.system('cls')
     else:  # Linux, macOS, etc.
+        print()
         os.system('clear')
 
 def message_life_indicator(pokemon): # Health Bar
@@ -36,7 +38,7 @@ def intro(pokemon):
             print(f"  - {attack.name}")
 
         location = input(
-            "Where are you coming from:\n  North (1)\n  South (2)\n  East  (3)\n  West  (4)\n\n"
+            "\nWhere are you coming from:\n  North (1)\n  South (2)\n  East  (3)\n  West  (4)\n\n"
         )
         limpiar_pantalla()
 
