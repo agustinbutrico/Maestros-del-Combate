@@ -5,23 +5,28 @@ import ui.messages as uim
 
 def damages(attacker, attack, enemy):
     """
-    Realiza un ataque de 'attacker' usando el objeto 'attack' contra 'enemy',
-    calculando y aplicando el daño de forma crítica o normal.
+    Realiza un ataque de 'attacker' usando el objeto 'attack' contra 'enemy'
+    y retorna una lista de mensajes sobre lo ocurrido (ataque crítico, daño, etc.).
     """
-    print(f"{attacker.name} uses {attack.name}\n")
+    mensajes = []
+    mensajes.append(f"{attacker.name} uses {attack.name}")
     
     if random.random() < attack.accuracy:
         if random.random() < attack.critical_chance:
             damage_dealt = int(attack.damage * attack.critical_multiplier)
-            print(f"Critical hit! -{damage_dealt}\n")
+            mensajes.append(f"Critical hit! -{damage_dealt}")
         else:
             damage_dealt = attack.damage
-            print(f"-{damage_dealt}\n")
+            mensajes.append(f"-{damage_dealt}")
         enemy.hp -= damage_dealt
     else:
-        print("Miss___\n")
+        mensajes.append("Miss___")
         
-    print(f"{enemy.name} {enemy.hp} HP\n{core.utils.message_life_indicator(enemy)}\n")
+    # Se asume que la función message_life_indicator está en core.utils y retorna un mensaje.
+    mensajes.append(f"{enemy.name} {enemy.hp} HP")
+    mensajes.append(core.utils.message_life_indicator(enemy))
+    
+    return mensajes
 
 def battle(player_pokemon, enemy_pokemon, gym_name):
     """
@@ -70,14 +75,14 @@ def battle(player_pokemon, enemy_pokemon, gym_name):
         if player_pokemon.hp < 1:
             return "lose"
         
-def handle_gym_battle(player, gym, trainer, flag_key, gym_name, hp_range, damage_incr, level_incr):
+def handle_gym_battle(player_pokemon, gym, trainer_pokemon, flag_key, gym_name, hp_range, damage_incr, level_incr):
     """
     Maneja la batalla de un gimnasio.
 
     Parámetros:
-      - player: el jugador (o su Pokémon) que participa.
+      - player_pokemon: el Pokémon del jugador que participa.
       - gym: objeto del gimnasio con atributos x e y.
-      - trainer: el entrenador enemigo asociado a este gimnasio.
+      - trainer_pokemon: el Pokémon del entrenador del gimnacio.
       - flag_key: clave del diccionario gs.gym_flags para identificar si ya se realizó la batalla.
       - gym_name: nombre del gimnasio (para mostrar en la batalla).
       - hp_range: tupla con el rango para aumentar max_hp en caso de victoria.
@@ -91,11 +96,11 @@ def handle_gym_battle(player, gym, trainer, flag_key, gym_name, hp_range, damage
     pos_y = 1
 
     if gym.x == gs.user_position[pos_x] and gym.y == gs.user_position[pos_y] and not gs.gym_flags[flag_key]:
-        resultado = battle(player.pokemons[0], trainer.pokemons[0], gym_name)
+        resultado = battle(player_pokemon, trainer_pokemon, gym_name)
         if resultado == "win":
-            player.pokemons[0].max_hp += random.randint(hp_range[0], hp_range[1])
-            player.pokemons[0].damage += damage_incr
-            player.pokemons[0].level += level_incr
+            player_pokemon.max_hp += random.randint(hp_range[0], hp_range[1])
+            player_pokemon.damage += damage_incr
+            player_pokemon.level += level_incr
             gs.gym_flags[flag_key] = True
             return "win"
         elif resultado == "lose":
