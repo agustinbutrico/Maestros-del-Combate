@@ -3,7 +3,7 @@ import core.utils
 import data.game_state as gs
 import ui.messages as uim
 
-def movement_damage(attack, enemy):
+def attack_damage(attack, enemy):
     """
     Verifica el tipo de daño realizado en el movimiento.
       - "move_normal" si el daño del movimiento fue normal,
@@ -42,7 +42,7 @@ def player_turn(trainer):
 
     pokemon_attack_index = int(my_turn) - 1
     pokemon_attack = gs.user.pokemons[0].attacks[pokemon_attack_index]
-    damage_dealt = movement_damage(pokemon_attack, trainer.pokemons[0])
+    damage_dealt = attack_damage(pokemon_attack, trainer.pokemons[0])
     uim.message_movement_damage(gs.user.pokemons[0], pokemon_attack, trainer.pokemons[0], damage_dealt)
     core.utils.time_battle_end()
 
@@ -52,7 +52,7 @@ def enemy_turn(trainer):
     """
     enemy_pokemon_attack = random.randint(1, 4)
     enemy_pokemon_attack = trainer.pokemons[0].attacks[enemy_pokemon_attack - 1]
-    damage_dealt = movement_damage(enemy_pokemon_attack, gs.user.pokemons[0])
+    damage_dealt = attack_damage(enemy_pokemon_attack, gs.user.pokemons[0])
     uim.message_movement_damage(trainer.pokemons[0], enemy_pokemon_attack, gs.user.pokemons[0], damage_dealt)
     core.utils.time_battle_end()
 
